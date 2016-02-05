@@ -1,7 +1,11 @@
-var express = require('express');
-var config  = require('./config');
+'use strict';
 
-var port = config.environment.port;
+var express = require('express');
+
+var logger = new (require('./../server/modules/logger'))('CLIENT');
+
+var config = require('./config');
+var port   = config.environment.port;
 
 var app     = express();
 var options = {
@@ -19,5 +23,5 @@ var options = {
 app.use(express.static('client/public', options));
 
 app.listen(port, function () {
-    console.log('[CLIENT] Listening on port ' + port);
+    logger.info('Listening on port ' + port);
 });
