@@ -101,6 +101,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('dev', ['concurrent:dev']);
-    grunt.registerTask('build', ['babel:client']);
+    grunt.registerTask('dist', ['babel:client']);
 
 }

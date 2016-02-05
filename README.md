@@ -1,5 +1,7 @@
 # Mooncraft
 
+Proof of concept using websockets and pub/sub model. 
+
 ## Development Installation
 
 * `npm install`
