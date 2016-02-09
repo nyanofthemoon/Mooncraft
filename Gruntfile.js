@@ -8,25 +8,11 @@ module.exports = function (grunt) {
                 options: {
                     logConcurrentOutput: true
                 },
-                tasks: ['watch:workers', 'watch:server', 'watch:babel_client', 'watch:sass']
+                tasks: ['watch:babel_client', 'watch:sass', 'watch:server', 'watch:workers']
             }
         },
 
         watch: {
-            server: {
-                files: ['server/**/*.js', '!server/workers/*.js'],
-                tasks: ['shell:server'],
-                options: {
-                    atBegin: true
-                }
-            },
-            workers: {
-                files: ['server/workers/*.js'],
-                tasks: ['shell:workers'],
-                options: {
-                    atBegin: true
-                }
-            },
             babel_client: {
                 files: ['client/**/*.es6'],
                 tasks: ['babel:client', 'shell:client'],
@@ -37,6 +23,20 @@ module.exports = function (grunt) {
             sass: {
                 files: 'client/public/assets/scss/**/*.scss',
                 tasks: ['sass:dev'],
+                options: {
+                    atBegin: true
+                }
+            },
+            server: {
+                files: ['server/**/*.js', '!server/workers/**/*.js'],
+                tasks: ['shell:server'],
+                options: {
+                    atBegin: true
+                }
+            },
+            workers: {
+                files: ['server/workers/**/*.js'],
+                tasks: ['shell:workers'],
                 options: {
                     atBegin: true
                 }
@@ -80,14 +80,14 @@ module.exports = function (grunt) {
         },
 
         shell: {
+            client: {
+                command: 'node client/main.js'
+            },
             server: {
                 command: 'node server/main.js'
             },
             workers: {
-                command: 'node workers/main.js'
-            },
-            client: {
-                command: 'node client/main.js'
+                command: 'node server/workers/main.js'
             }
         }
 
@@ -101,6 +101,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('dev', ['concurrent:dev']);
-    grunt.registerTask('dist', ['babel:client']);
+    grunt.registerTask('build', ['babel:client']);
 
 }

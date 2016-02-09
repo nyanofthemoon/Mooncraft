@@ -1,10 +1,15 @@
 'use strict';
 
+let util  = require('util');
 let chalk = require('chalk');
 
 class Logger {
 
     constructor(namespace, config) {
+        if (namespace.length < 21) {
+            namespace += ' '.repeat(21 - namespace.length);
+        }
+
         this.namespace = namespace;
         if (config && config.environment.verbose) {
             this.debug = true
@@ -13,30 +18,36 @@ class Logger {
         }
     }
 
-    log(color, message) {
+    _log(color, message) {
         console.log(chalk[color](chalk.bold(this.namespace) + ' ' + message));
     }
 
-    error(message) {
-        this.log('red', message);
+    error(message, error) {
+        this._log('red', message);
+        if (error) {
+            this._log('red', error);
+        }
     }
 
-    info(message) {
-        this.log('cyan', message);
+    info(message, object) {
+        this._log('cyan', message);
+        if (object && this.debug) {
+            this._log('grey', util.inspect(object));
+        }
     }
 
     success(message) {
-        this.log('green', message);
+        this._log('green', message);
     }
 
     verbose(message) {
         if (this.debug) {
-            this.log('grey', message);
+            this._log('grey', message);
         }
     }
 
     warning(message) {
-        this.log('yellow', message);
+        this._log('yellow', message);
     }
 
 };

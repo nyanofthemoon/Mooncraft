@@ -3,15 +3,14 @@
 let Promise = require('bluebird');
 
 let Logger = require('./../modules/logger');
-let Cycle  = require('./helpers/cycle');
 
-class Cycling {
+class Regeneration {
 
     constructor(config, store) {
-        this.logger    = new Logger('WORKER [CYCLING]', config);
+        this.logger    = new Logger('WORKER [REGENERATION]', config);
         this.store     = store;
-        this.namespace = 'cycling';
-        this.interval  = 5 * (60 * 1000); // Runs every 5 minutes
+        this.namespace = 'regeneration';
+        this.interval  = 1440 * (60 * 1000); // Runs every 1440 minutes
         this.last      = null;
     }
 
@@ -24,13 +23,11 @@ class Cycling {
     }
 
     _run() {
-        let cycle = Cycle.evaluate();
-        if (cycle != this.last) {
-            this.last = cycle;
-            this.publish({
-                cycle: cycle
-            });
-        }
+        this.last = {
+            'id'  : 1,  // @TODO Currently Hardcoded to Region 1
+            'data': {}  // @TODO Define region data
+        };
+        this.publish(this.last);
     }
 
     publish(data) {
@@ -52,9 +49,10 @@ class Cycling {
     }
 
     notify(socket, data) {
-        socket.emit('cycle', data);
+        socket.to(data.id).emit('query', data);
+        return data;
     }
 
 };
 
-module.exports = Cycling;
+module.exports = Regeneration;

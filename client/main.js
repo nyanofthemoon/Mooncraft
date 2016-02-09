@@ -1,14 +1,12 @@
 'use strict';
 
-var express = require('express');
+let express = require('express');
 
-var logger = new (require('./../server/modules/logger'))('CLIENT');
+let config = require('./config');
+let logger = new (require('./../server/modules/logger'))('SERVER [WEB]', config);
 
-var config = require('./config');
-var port   = config.environment.port;
-
-var app     = express();
-var options = {
+let app     = express();
+let options = {
     dotfiles  : 'ignore',
     etag      : false,
     extensions: ['htm', 'html'],
@@ -22,6 +20,8 @@ var options = {
 
 app.use(express.static('client/public', options));
 
-app.listen(port, function () {
-    logger.info('Listening on port ' + port);
+let port = config.environment.port;
+
+app.listen(port, function() {
+    logger.success('Listening on port ' + port);
 });

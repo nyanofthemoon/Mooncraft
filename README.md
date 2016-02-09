@@ -1,18 +1,14 @@
 # Mooncraft
 
-Proof of concept using websockets and pub/sub model. 
+Proof of concept using websockets, pub/sub model and ES6. 
 
-## Development Installation
+## Installation
 
 * `npm install`
-
-## Update Development Dependencies
-
-* `npm install -g npm-check-updates`
-* `npm-check-updates -u`
-* `npm shrinkwrap`
+* `./node_modules/.bin/npm-check-updates`
+* [Redis](http://redis.io/topics/quickstart)
 
 ## Grunt Commands
 
 * `./node_modules/.bin/grunt dev`
-* `./node_modules/.bin/grunt dist`
+* `./node_modules/.bin/grunt build`

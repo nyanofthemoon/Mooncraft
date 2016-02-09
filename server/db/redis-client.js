@@ -3,6 +3,9 @@
 let Promise = require('bluebird');
 let redis   = require('redis');
 
+Promise.promisifyAll(redis.RedisClient.prototype);
+Promise.promisifyAll(redis.Multi.prototype);
+
 let Logger = require('./../modules/logger');
 
 class RedisClient {
@@ -18,10 +21,10 @@ class RedisClient {
         return new Promise(function(resolve, reject) {
             try {
                 let client = redis.createClient(that.url, that.options);
-                that.logger.verbose('Connection established');
+                that.logger.info('Connection established');
                 resolve(client);
             } catch (e) {
-                that.logger.error('Could not establish connection ' + e);
+                that.logger.error('Could not establish connection', e);
                 reject(e);
             }
         });
