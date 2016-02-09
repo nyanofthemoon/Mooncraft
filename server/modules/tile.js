@@ -1,6 +1,6 @@
 'use strict';
 
-let fixtures = {
+const FIXTURES = {
     0: {
         "name"       : "Void",
         "icon"       : "tile/void",
@@ -36,7 +36,7 @@ class Tile {
     }
 
     static getTypeDefinition(id) {
-        return fixtures[id];
+        return FIXTURES[id];
     }
 
     isWalkable(x, y) {

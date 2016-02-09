@@ -1,7 +1,5 @@
 'use strict';
 
-let Promise = require('bluebird');
-
 let Logger = require('./logger');
 
 class Character {

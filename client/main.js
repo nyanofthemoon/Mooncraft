@@ -1,9 +1,10 @@
 'use strict';
 
+const CONFIG = require('./config');
+
 let express = require('express');
 
-let config = require('./config');
-let logger = new (require('./../server/modules/logger'))('SERVER [WEB]', config);
+let logger = new (require('./../server/modules/logger'))('SERVER [WEB]', CONFIG);
 
 let app     = express();
 let options = {
@@ -20,7 +21,7 @@ let options = {
 
 app.use(express.static('client/public', options));
 
-let port = config.environment.port;
+let port = CONFIG.environment.port;
 
 app.listen(port, function() {
     logger.success('Listening on port ' + port);

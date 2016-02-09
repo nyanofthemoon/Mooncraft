@@ -1,9 +1,9 @@
 'use strict';
 
-let MORNING   = 'morning';
-let AFTERNOON = 'afternoon';
-let EVENING   = 'evening';
-let NIGHT     = 'night';
+const MORNING   = 'morning';
+const AFTERNOON = 'afternoon';
+const EVENING   = 'evening';
+const NIGHT     = 'night';
 
 class Cycle {
 

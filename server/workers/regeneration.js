@@ -1,7 +1,5 @@
 'use strict';
 
-let Promise = require('bluebird');
-
 let Logger = require('./../modules/logger');
 
 class Regeneration {
@@ -17,9 +15,6 @@ class Regeneration {
     start() {
         var self = this;
         setInterval(function() { self._run.call(self); }, this.interval);
-        if (!this.last) {
-            this._run();
-        }
     }
 
     _run() {

@@ -1,6 +1,6 @@
 'use strict';
 
-let fixtures = {
+const FIXTURES = {
     0: {
         "name"         : "Unclaimed Space",
         "icon"         : "node/space",
@@ -78,7 +78,7 @@ class Node {
     }
 
     static getTypeDefinition(id) {
-        return fixtures[id];
+        return FIXTURES[id];
     }
 
     getName() {

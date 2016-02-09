@@ -1,6 +1,6 @@
 'use strict';
 
-let fixtures = {
+const FIXTURES = {
     0: {
         "name"       : {
             "singular": "Dust",
@@ -65,7 +65,7 @@ class Item {
     }
 
     static getTypeDefinition(id) {
-        return fixtures[id];
+        return FIXTURES[id];
     }
 
     getName() {

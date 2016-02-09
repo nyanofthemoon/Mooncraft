@@ -8,8 +8,6 @@ let RedisClient   = require('./../db/redis-client');
 let Cycling       = require('./../workers/cycling');
 let Regeneration  = require('./../workers/regeneration');
 
-let config = require('./../config');
-
 class World {
 
     constructor(config) {
@@ -35,7 +33,7 @@ class World {
         return this.data.regions[id] || null;
     };
 
-    static initialize(io) {
+    static initialize(io, config) {
         return new Promise(function(resolve, reject) {
             let world     = new World(config);
             world.sockets = io.sockets;

@@ -1,13 +1,14 @@
 'use strict';
 
-let io     = require('socket.io')();
+const CONFIG = require('./config');
+
+let io = require('socket.io')();
 
 let World  = require('./modules/world');
 let Player = require('./modules/player');
-let config = require('./config');
-let logger = new (require('./modules/logger'))('SERVER [WEBSOCKET]', config);
+let logger = new (require('./modules/logger'))('SERVER [WEBSOCKET]', CONFIG);
 
-World.initialize(io).then(function(world) {
+World.initialize(io, CONFIG).then(function(world) {
     io.sockets.on('connection', function(socket) {
         logger.info('Socket Connected', socket.id);
 
@@ -15,7 +16,7 @@ World.initialize(io).then(function(world) {
             let playerId = socket.handshake.query.name + '-' + socket.handshake.query.pass;
             let player   = world.getPlayer(playerId);
             if (!player) {
-                player = new Player(config);
+                player = new Player(CONFIG);
                 player.initialize(socket, world.source, {
                     'name': socket.handshake.query.name,
                     'pass': socket.handshake.query.pass
@@ -42,7 +43,7 @@ World.initialize(io).then(function(world) {
         });
     });
 
-    let port = config.environment.port;
+    let port = CONFIG.environment.port;
     try {
         io.listen(port);
         logger.success('Listening on port ' + port);

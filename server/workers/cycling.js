@@ -1,7 +1,5 @@
 'use strict';
 
-let Promise = require('bluebird');
-
 let Logger = require('./../modules/logger');
 let Cycle  = require('./helpers/cycle');
 
