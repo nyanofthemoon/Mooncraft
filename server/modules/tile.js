@@ -29,9 +29,7 @@ const FIXTURES = {
 
 class Tile {
 
-    constructor(x, y, id) {
-        this.x    = x;
-        this.y    = y;
+    constructor(id) {
         this.data = Tile.getTypeDefinition(id);
     }
 
@@ -39,7 +37,7 @@ class Tile {
         return FIXTURES[id];
     }
 
-    isWalkable(x, y) {
+    isWalkable() {
         return this.data.walkable;
     }
 

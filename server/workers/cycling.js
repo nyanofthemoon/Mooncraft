@@ -50,7 +50,7 @@ class Cycling {
     }
 
     notify(socket, data) {
-        socket.emit('cycle', data);
+        socket.emit(this.namespace, data);
     }
 
 };

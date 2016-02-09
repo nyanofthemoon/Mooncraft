@@ -1,6 +1,7 @@
 'use strict';
 
-var socket = io.connect("http://localhost:8888", { "query": { "name": "The Untitled", "pass": "qwerty" } });
+var random = new Date().getSeconds();
+var socket = io.connect("http://localhost:8888", { "query": { "name": "The Untitled" + random, "pass": "qwerty" } });
 
 function emitQuery(type, id) {
     socket.emit('query', { type: type, id: id });
@@ -8,6 +9,10 @@ function emitQuery(type, id) {
 
 function emitMove(id, x, y) {
     socket.emit('move', { id: id, x: x, y: y });
+}
+
+function emitSay(id, message) {
+    socket.emit('say', { id: id, message: message });
 }
 
 function emitEnter(id) {
@@ -31,9 +36,6 @@ function emitInvestigate(id, x, y) {
 }
 
 // Custom - Debug
-socket.on('cycle', function (data) {
-    console.log('Received event: cycle with data:', data);
-});
 socket.on('query', function (data) {
     console.log('Received event: query with data:', data);
 });
@@ -43,8 +45,18 @@ socket.on('enter', function (data) {
 socket.on('move', function (data) {
     console.log('Received event: move with data:', data);
 });
+socket.on('say', function (data) {
+    console.log('Received event: say with data:', data);
+});
 socket.on('leave', function (data) {
     console.log('Received event: leave with data:', data);
+});
+
+socket.on('cycling', function (data) {
+    console.log('Received event: cycling with data:', data);
+});
+socket.on('regeneration', function (data) {
+    console.log('Received event: regeneration with data:', data);
 });
 
 socket.on('verbose', function (data) {
@@ -60,14 +72,15 @@ socket.on('disconnect', function (data) {
 setTimeout(function () {
     emitQuery('player');
     setTimeout(function () {
-        emitEnter('0');
+        emitEnter('F0');
+        emitSay('F0', 'Hello');
+        emitQuery('map', 'F0');
         /*
-         emitQuery('map', 'test');
          setTimeout(function () {
-         emitMove('test', 1,1);
-         emitInvestigate('test', 1,1);
+         emitMove('F0', 1,1);
+         emitInvestigate('F0', 1,1);
          setTimeout(function () {
-         //emitLeave('2');
+         //emitLeave('F0');
          }, 1000);
          }, 1000);
          */

@@ -19,8 +19,8 @@ class Regeneration {
 
     _run() {
         this.last = {
-            'id'  : 1,  // @TODO Currently Hardcoded to Region 1
-            'data': {}  // @TODO Define region data
+            'id'  : 'F0', // @TODO Currently Hardcoded to Region F0
+            'data': {}    // @TODO Define region data
         };
         this.publish(this.last);
     }
@@ -43,9 +43,15 @@ class Regeneration {
         }
     }
 
-    notify(socket, data) {
-        socket.to(data.id).emit('query', data);
-        return data;
+    notify(socket, region) {
+        socket.to(region.getId()).emit(this.namespace, region.query());
+    }
+
+    say(region, message) {
+        region.socket.to(region.getId()).emit('say', {
+            name   : this.getName(),
+            message: message
+        });
     }
 
 };

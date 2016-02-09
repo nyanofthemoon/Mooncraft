@@ -13,7 +13,7 @@ World.initialize(io, CONFIG).then(function(world) {
         logger.info('Socket Connected', socket.id);
 
         if (socket.handshake.query.name && socket.handshake.query.pass) {
-            let playerId = socket.handshake.query.name + '-' + socket.handshake.query.pass;
+            let playerId = Player.getId(socket.handshake.query.name, socket.handshake.query.pass);
             let player   = world.getPlayer(playerId);
             if (!player) {
                 player = new Player(CONFIG);
@@ -22,7 +22,7 @@ World.initialize(io, CONFIG).then(function(world) {
                     'pass': socket.handshake.query.pass
                 });
                 world.addPlayer(player);
-                logger.info('Creating New Player ' + playerId, socket.id);
+                logger.info('Creating New Player: ' + player.getName(), socket.id);
             } else {
                 player.socket = socket;
             }
@@ -34,9 +34,14 @@ World.initialize(io, CONFIG).then(function(world) {
         socket.on('disconnect', function() {
             let player = world.getPlayerBySocketId(this.id);
             delete(world.data.sessions[this.id]);
-            if (player && player.isActive()) {
+            if (player.isActive()) {
                 player.resetActivity();
                 player.save();
+            }
+
+            if (player.data.region.id) {
+                let region = world.getRegion(player.data.region.id);
+                player.leave(region);
             }
 
             logger.info('Socket Disconnected', this.id);

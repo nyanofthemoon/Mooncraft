@@ -1,5 +1,7 @@
 'use strict';
 
+var htmlEscape = require('secure-filters').html;
+
 let Logger        = require('./logger');
 let Player        = require('./player');
 let Region        = require('./region');
@@ -36,7 +38,7 @@ class World {
     static initialize(io, config) {
         return new Promise(function(resolve, reject) {
             let world     = new World(config);
-            world.sockets = io.sockets;
+            world.sockets = io;
             new RedisClient(config).initialize()
                 .then(function(clientOne) {
 
@@ -48,21 +50,34 @@ class World {
 
                     // Handle Event Messages
                     clientOne.on('message', function(channel, message) {
-                        switch (channel) {
-                            case cycling.namespace:
-                                cycling.notify(world.sockets, message);
-                                break;
-                            case regeneration.namespace:
-                                let data = regeneration.notify(world.sockets, message);
-                                ///////////////////////////////////////////////////////////////////////
-                                // @TODO Implement worker functionality based on map schema.
-                                // @TODO Persist New Region Data : region.save
-                                // @TODO Update World Data       : world.data.regions[data.id] = region
-                                ///////////////////////////////////////////////////////////////////////
-                                break;
-                            default: break;
+                        try {
+                            message = JSON.parse(message);
+                            switch (channel) {
+                                case cycling.namespace:
+                                    // PUBLISH cycling '{"cycle":"evening"}'
+                                    cycling.notify(world.sockets, message);
+                                    break;
+                                case regeneration.namespace:
+                                    // PUBLISH regeneration '[{"id":"F0", "data":{"foo": "bar"}}]'
+                                    // HGETALL region
+                                    // DEL region
+                                    ///////////////////////////////////////////////////////////////////////
+                                    // @TODO Implement worker functionality based on map schema.
+                                    ///////////////////////////////////////////////////////////////////////
+                                    message.forEach(function(data) {
+                                        let region = world.getRegion(data.id);
+                                        region.initialize(world.sockets, world.source, data.data);
+                                        regeneration.notify(world.sockets, region);
+                                        region.save();
+                                    });
+                                    break;
+                                default:
+                                    break;
+                            }
+                            world.logger.info('Notification received from ' + channel, message);
+                        } catch (e) {
+                            world.logger.error('Notification error from ' + channel + ' with ' + message, e);
                         }
-                        world.logger.info('Notification received from ' + channel, message);
                     });
 
                     new RedisClient(config).initialize()
@@ -123,16 +138,17 @@ class World {
     bindSocketToModuleEvents(socket) {
         var that = this;
         try {
-            socket.on('error', function(data) { that.error(data, socket); });
-            socket.on('query', function(data) { that.query(data, socket); });
-            socket.on('enter', function(data) { that.enter(data, socket); });
-            socket.on('move',  function(data) { that.move(data, socket); });
-            socket.on('leave', function(data) { that.leave(data, socket); });
-            //socket.on('harvest', function(data) { that.harvest(data, socket); });
-            //socket.on('build', function(data) { that.build(data, socket); });
-            //socket.on('investigate', function(data) { that.investigate(data, socket); });
-            //socket.on('pickup', function(data) { that.pickup(data, socket); });
-            //socket.on('drop', function(data) { that.drop(data, socket); });
+            socket.on('error',       function(data) { that.error(data, socket); });
+            socket.on('query',       function(data) { that.query(data, socket); });
+            socket.on('enter',       function(data) { that.enter(data, socket); });
+            socket.on('say',         function(data) { that.say(data, socket); });
+            socket.on('move',        function(data) { that.move(data, socket); });
+            socket.on('leave',       function(data) { that.leave(data, socket); });
+            socket.on('harvest',     function(data) { that.harvest(data, socket); });
+            socket.on('build',       function(data) { that.build(data, socket); });
+            socket.on('investigate', function(data) { that.investigate(data, socket); });
+            socket.on('pickup',      function(data) { that.pickup(data, socket); });
+            socket.on('drop',        function(data) { that.drop(data, socket); });
         } catch (e) {
             this.logger.error('Socket ' + socket.id + ' not bound to events ', e);
         }
@@ -148,16 +164,13 @@ class World {
 
     query(data, socket) {
         try {
-            let info = {
-                'type': data.type,
-                'data': {}
-            };
+            let info = null;
             switch(data.type) {
                 case 'map':
-                    info.data = this.data.regions[data.id].query();
+                    info = this.data.regions[data.id].query();
                     break;
                 case 'player':
-                    info.data = this.getPlayerBySocketId(socket.id).query();
+                    info = this.getPlayerBySocketId(socket.id).query();
                     break;
 
                 default: break;
@@ -172,10 +185,9 @@ class World {
     enter(data, socket) {
         try {
             let player = this.getPlayerBySocketId(socket.id);
-            let region = this.getRegion[data.id];
+            let region = this.getRegion(data.id);
             if (player.canEnter(region)) {
-                //this.data.regions[data.id].enter(player);
-                //this.logger.verbose('[ENTER] ' + JSON.stringify(data));
+                player.enter(region);
             }
         } catch (e) {
             this.logger.error('[ENTER] ' + JSON.stringify(data) + ' ' + e);
@@ -185,38 +197,46 @@ class World {
     leave(data, socket) {
         try {
             let player = this.getPlayerBySocketId(socket.id);
-            let region = this.getRegion[data.id];
+            let region = this.getRegion(data.id);
             if (player.canLeave(region)) {
-                region.leave(player);
-                this.logger.verbose('[ENTER] ' + JSON.stringify(data));
+                player.leave(region);
             }
-            this.logger.verbose('[LEAVE] ' + JSON.stringify(data));
         } catch (e) {
             this.logger.error('[LEAVE] ' + JSON.stringify(data), e);
+        }
+    }
+
+    say(data, socket) {
+        try {
+            let player = this.getPlayerBySocketId(socket.id);
+            let region = this.getRegion(data.id);
+            if (player.canSay(region)) {
+                player.say(region, htmlEscape(data.message));
+            }
+        } catch (e) {
+            this.logger.error('[SAY] ' + JSON.stringify(data) + ' ' + e);
         }
     }
 
     move(data, socket) {
         try {
             let player = this.getPlayerBySocketId(socket.id);
-            let region = this.getRegion[data.id];
+            let region = this.getRegion(data.id);
             if (player.canMove(region, data.x, data.y)) {
-                region.move(player, data.x, data.y);
-                player.increaseActivity();
-                socket.emit('verbose', {event: 'move'});
-                this.logger.verbose('[MOVE] ' + JSON.stringify(data));
+                player.move(region, data.x, data.y);
             }
         } catch (e) {
             this.logger.error('[MOVE] ' + JSON.stringify(data), e);
         }
     }
 
-    /*
     harvest(data, socket) {
         try {
-            player.increaseActivity();
-            socket.emit('verbose', {event: 'harvest'});
-            this.logger.verbose('[HARVEST] ' + JSON.stringify(data));
+            let player = this.getPlayerBySocketId(socket.id);
+            let region = this.getRegion(data.id);
+            if (player.canHarvest(region, data.x, data.y)) {
+                player.harvest(region, data.x, data.y);
+            }
         } catch (e) {
             this.logger.error('[HARVEST] ' + JSON.stringify(data), e);
         }
@@ -224,9 +244,11 @@ class World {
 
     build(data, socket) {
         try {
-            player.increaseActivity();
-            socket.emit('verbose', {event: 'build'});
-            this.logger.verbose('[BUILD] ' + JSON.stringify(data));
+            let player = this.getPlayerBySocketId(socket.id);
+            let region = this.getRegion(data.id);
+            if (player.canBuild(region, data.x, data.y, data.id)) {
+                player.build(region, data.x, data.y, data.id);
+            }
         } catch (e) {
             this.logger.error('[BUILD] ' + JSON.stringify(data), e);
         }
@@ -234,8 +256,11 @@ class World {
 
     investigate(data, socket) {
         try {
-            socket.emit('verbose', {event: 'investigate'});
-            this.logger.verbose('[INVESTIGATE] ' + JSON.stringify(data));
+            let player = this.getPlayerBySocketId(socket.id);
+            let region = this.getRegion(data.id);
+            if (player.canInvestigate(region, data.x, data.y)) {
+                player.investigate(region, data.x, data.y);
+            }
         } catch (e) {
             this.logger.error('[INVESTIGATE] ' + JSON.stringify(data), e);
         }
@@ -243,9 +268,11 @@ class World {
 
     pickup(data, socket) {
         try {
-            player.increaseActivity();
-            socket.emit('verbose', {event: 'pickup'});
-            this.logger.verbose('[PICKUP] ' + JSON.stringify(data));
+            let player = this.getPlayerBySocketId(socket.id);
+            let region = this.getRegion(data.id);
+            if (player.canPickUp(region, data.x, data.y, data.id)) {
+                player.pickUp(region, data.x, data.y, data.id);
+            }
         } catch (e) {
             this.logger.error('[PICKUP] ' + JSON.stringify(data), e);
         }
@@ -253,14 +280,15 @@ class World {
 
     drop(data, socket) {
         try {
-            player.increaseActivity();
-            socket.emit('verbose', {event: 'drop'});
-            this.logger.verbose('[DROP] ' + JSON.stringify(data));
+            let player = this.getPlayerBySocketId(socket.id);
+            let region = this.getRegion(data.id);
+            if (player.canDrop(region, data.x, data.y, data.id)) {
+                player.drop(region, data.x, data.y, data.id);
+            }
         } catch (e) {
             this.logger.error('[DROP] ' + JSON.stringify(data), e);
         }
     }
-    */
 
 };
 

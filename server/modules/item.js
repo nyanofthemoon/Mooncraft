@@ -113,11 +113,15 @@ class Item {
     }
 
     isWalkable() {
-        if (this.data.walkable && this.data.walkable == true) {
-            return true;
-        } else {
-            return false;
+        if (this.data.walkable) {
+            if (this.isSingular()) {
+                return this.data.walkable.singular;
+            } else {
+                return this.data.walkable.plural;
+            }
         }
+
+        return false;
     }
 
     isPickable() {

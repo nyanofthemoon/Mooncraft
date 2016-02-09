@@ -1,5 +1,7 @@
 'use strict';
 
+let CryptoJS = require('crypto-js');
+
 let Logger = require('./logger');
 
 class Player {
@@ -46,8 +48,12 @@ class Player {
         return this.source.hsetAsync('player', this.getId(), JSON.stringify(this.data));
     }
 
+    static getId(name, pass) {
+        return CryptoJS.SHA3(name + '!pur1n+' + pass);
+    }
+
     getId() {
-        return this.data.name + '-' + this.data.pass;
+        return Player.getId(this.data.name, this.data.pass);
     }
 
     getName() {
@@ -68,10 +74,13 @@ class Player {
 
     query() {
         return {
-            'name'     : this.getName(),
-            'icon'     : this.getIcon(),
-            'region'   : this.getRegion(),
-            'inventory': this.getInventory()
+            'type': 'player',
+            'data': {
+                'name': this.getName(),
+                'icon': this.getIcon(),
+                'region': this.getRegion(),
+                'inventory': this.getInventory()
+            }
         };
     }
 
@@ -83,6 +92,14 @@ class Player {
         }
     }
 
+    enter(region) {
+        this.socket.join(region.getId());
+        this.data.region.id = region.getId();
+        this.data.region.x  = region.getXOrigin();
+        this.data.region.y  = region.getYOrigin();
+        region.socket.to(region.getId()).emit('enter', this.query());
+    }
+
     canLeave(region) {
         if (this.data.region.id && this.data.region.id == region.getId()) {
             return true;
@@ -91,9 +108,139 @@ class Player {
         }
     }
 
+    leave(region) {
+        this.socket.leave(region.getId());
+        region.socket.to(region.getId()).emit('leave', this.query());
+    }
+
+    canSay(region) {
+        // Can only say within the same region
+        return this._isInRegion(region);
+    }
+
+    say(region, message) {
+        region.socket.to(region.getId()).emit('say', {
+            name   : this.getName(),
+            message: message
+        });
+    }
+
     canMove(region, x, y) {
         // Can only move within the same region and to an adjacent tile.
-        if ((this.data.region.id && this.data.region.id == region.getId()) && (Math.abs(this.data.region.x - x) <= 1 && Math.abs(this.data.region.y - y) <= 1)) {
+        if (!this._isInRegion(region) || !this._isAdjacentTo(x, y)) {
+            return false
+        }
+
+        // Can only walk on "walkable" tiles
+        let tile = region.getTile(x, y);
+        if (!tile.isWalkable()) {
+            return false;
+        }
+
+        // Can only walk on "walkable" nodes
+        let node = region.getNode(x, y);
+        if (!node.isWalkable()) {
+            return false;
+        }
+
+        // Can only walk if all contained items are "walkable"
+        let canWalkOverAllItems = true;
+        let items               = region.getItems(x, y);
+        items.forEach(function(item) {
+            if (!item.isWalkable()) {
+                canWalkOverAllItems = false;
+                return;
+            }
+        });
+
+        return canWalkOverAllItems;
+    }
+
+    move(region, x, y) {
+        player.increaseActivity();
+        region.socket.to(region.getId()).emit('move', this.query());
+    }
+
+    canHarvest(region, x, y) {
+        // Can only harvest within the same region and to an adjacent tile.
+        if (!this._isInRegion(region) || !this._isAdjacentTo(x, y)) {
+            return false
+        }
+
+        // Can only harvest "harvestable" nodes
+        let node = region.getNode(x, y);
+        if (!node.isHarvestable()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    harvest(region, x, y) {
+        // @TODO
+    }
+
+    canBuild(region, x, y) {
+        // Can only build within the same region and to an adjacent tile.
+        if (!this._isInRegion(region) || !this._isAdjacentTo(x, y)) {
+            return false
+        }
+
+        // Can only build over "buildable" nodes
+        let node = region.getNode(x, y);
+        if (!node.isBuildable()) {
+            return false;
+        }
+
+        return true;
+    }
+
+    build() {
+        // @TODO
+    }
+
+    canPickUp(region, x, y) {
+        // @TODO Check if item can be picked up
+       return false;
+    }
+
+    pickup() {
+        // @TODO
+    }
+
+    canDrop(region, x, y) {
+        // @TODO Check if item can be dropped
+        return false;
+    }
+
+    drop() {
+        // @TODO
+    }
+
+    canInvestigate(region, x, y) {
+        // Can only investigate within the same region and to an adjacent tile.
+        if (!this._isInRegion(region) || !this._isAdjacentTo(x, y)) {
+            return false
+        }
+
+        return true;
+    }
+
+    investigate() {
+        // @TODO Give tile / node description
+        // @TODO Give description only for "visible" items
+    }
+
+    _isInRegion(region) {
+        if (this.data.region.id && this.data.region.id == region.getId()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    _isAdjacentTo(x, y) {
+        if (Math.abs(this.data.region.x - x) <= 1 && Math.abs(this.data.region.y - y) <= 1) {
             return true;
         } else {
             return false;
