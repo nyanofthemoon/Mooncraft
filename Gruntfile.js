@@ -8,14 +8,14 @@ module.exports = function (grunt) {
                 options: {
                     logConcurrentOutput: true
                 },
-                tasks: ['watch:babel_client', 'watch:sass', 'watch:server', 'watch:workers']
+                tasks: ['watch:sass', 'watch:babel_client', 'shell:client', 'shell:server', 'shell:workers']
             }
         },
 
         watch: {
             babel_client: {
-                files: ['client/**/*.es6'],
-                tasks: ['babel:client', 'shell:client'],
+                files: ['client/public/assets/js/**/*.es6'],
+                tasks: ['babel:client'],
                 options: {
                     atBegin: true
                 }
@@ -23,20 +23,6 @@ module.exports = function (grunt) {
             sass: {
                 files: 'client/public/assets/scss/**/*.scss',
                 tasks: ['sass:dev'],
-                options: {
-                    atBegin: true
-                }
-            },
-            server: {
-                files: ['server/**/*.js', '!server/workers/**/*.js'],
-                tasks: ['shell:server'],
-                options: {
-                    atBegin: true
-                }
-            },
-            workers: {
-                files: ['server/workers/**/*.js'],
-                tasks: ['shell:workers'],
                 options: {
                     atBegin: true
                 }
@@ -81,13 +67,13 @@ module.exports = function (grunt) {
 
         shell: {
             client: {
-                command: 'node client/main.js'
+                command: 'node_modules/.bin/nodemon --watch client --ignore client/public client/main.js'
             },
             server: {
-                command: 'node server/main.js'
+                command: 'node_modules/.bin/nodemon --watch server server/main.js'
             },
             workers: {
-                command: 'node server/workers/main.js'
+                command: 'node_modules/.bin/nodemon --watch server server/workers/main.js'
             }
         }
 

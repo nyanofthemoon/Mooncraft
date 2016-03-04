@@ -157,7 +157,9 @@ class Player {
     }
 
     move(region, x, y) {
-        player.increaseActivity();
+        this.increaseActivity();
+        this.data.region.x = x;
+        this.data.region.y = y;
         region.socket.to(region.getId()).emit('move', this.query());
     }
 

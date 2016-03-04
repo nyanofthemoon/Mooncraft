@@ -188,6 +188,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canEnter(region)) {
                 player.enter(region);
+            } else {
+                this.logger.verbose('[ENTER] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[ENTER] ' + JSON.stringify(data) + ' ' + e);
@@ -200,6 +202,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canLeave(region)) {
                 player.leave(region);
+            } else {
+                this.logger.verbose('[LEAVE] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[LEAVE] ' + JSON.stringify(data), e);
@@ -212,6 +216,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canSay(region)) {
                 player.say(region, htmlEscape(data.message));
+            } else {
+                this.logger.verbose('[SAY] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[SAY] ' + JSON.stringify(data) + ' ' + e);
@@ -224,6 +230,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canMove(region, data.x, data.y)) {
                 player.move(region, data.x, data.y);
+            } else {
+                this.logger.verbose('[MOVE] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[MOVE] ' + JSON.stringify(data), e);
@@ -236,6 +244,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canHarvest(region, data.x, data.y)) {
                 player.harvest(region, data.x, data.y);
+            } else {
+                this.logger.verbose('[HARVEST] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[HARVEST] ' + JSON.stringify(data), e);
@@ -248,6 +258,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canBuild(region, data.x, data.y, data.id)) {
                 player.build(region, data.x, data.y, data.id);
+            } else {
+                this.logger.verbose('[BUILD] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[BUILD] ' + JSON.stringify(data), e);
@@ -260,6 +272,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canInvestigate(region, data.x, data.y)) {
                 player.investigate(region, data.x, data.y);
+            } else {
+                this.logger.verbose('[INVESTIGATE] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[INVESTIGATE] ' + JSON.stringify(data), e);
@@ -272,6 +286,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canPickUp(region, data.x, data.y, data.id)) {
                 player.pickUp(region, data.x, data.y, data.id);
+            } else {
+                this.logger.verbose('[PICKUP] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[PICKUP] ' + JSON.stringify(data), e);
@@ -284,6 +300,8 @@ class World {
             let region = this.getRegion(data.id);
             if (player.canDrop(region, data.x, data.y, data.id)) {
                 player.drop(region, data.x, data.y, data.id);
+            } else {
+                this.logger.verbose('[DROP] Invalid ' + JSON.stringify(data));
             }
         } catch (e) {
             this.logger.error('[DROP] ' + JSON.stringify(data), e);

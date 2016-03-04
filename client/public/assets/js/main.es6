@@ -72,19 +72,21 @@ socket.on('disconnect', function (data) {
 setTimeout(function () {
     emitQuery('player');
     setTimeout(function () {
-        emitEnter('F0');
-        emitSay('F0', 'Hello');
-        emitQuery('map', 'F0');
-        /*
-         setTimeout(function () {
-         emitMove('F0', 1,1);
-         emitInvestigate('F0', 1,1);
-         setTimeout(function () {
-         //emitLeave('F0');
-         }, 1000);
-         }, 1000);
-         */
+        emitEnter('T0');
+        setTimeout(function () {
+            emitSay('T0', 'Hello World!');
+            emitMove('T0', 1, 2);
+            setTimeout(function () {
+                emitQuery('player');
+                emitLeave('T0');
+
+                //setTimeout(function () {
+                //}, 250);
+            }, 250);
+        }, 250);
     }, 1000);
 }, 1000);
+//# sourceMappingURL=main.transpiled.js.map
+//# sourceMappingURL=main.transpiled.js.map
 //# sourceMappingURL=main.transpiled.js.map
 //# sourceMappingURL=main.transpiled.js.map
