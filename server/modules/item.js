@@ -1,59 +1,7 @@
 'use strict';
 
-const FIXTURES = {
-    0: {
-        "name"       : {
-            "singular": "Dust",
-            "plural"  : "Dust"
-        },
-        "description": {
-            "singular": "Worth absolutely nothing.",
-            "plural"  : "A pile worth abosultely nothing."
-        },
-        "walkable"   : {
-            "singular": true,
-            "plural"  : false
-        },
-        "icon": {
-            "singular": "item/dust",
-            "plural"  : "item/pile-of-dust"
-        },
-        "price"      : 0,
-        "quantity"   : 1,
-        "weight"     : 1,
-        "pickable"   : true,
-        "droppable"  : true,
-        "consummable": false,
-        "containable": false,
-        "invisible"  : false
-    },
-    1: {
-        "name"       : {
-            "singular": "Log",
-            "plural"  : "Logs"
-        },
-        "description": {
-            "singular": "A simple wood log.",
-            "plural"  : "A pile of simple wood logs."
-        },
-        "walkable"   : {
-            "singular": true,
-            "plural"  : false
-        },
-        "icon": {
-            "singular": "item/log",
-            "plural"  : "item/pile-of-logs"
-        },
-        "price"      : 1,
-        "quantity"   : 1,
-        "weight"     : 10,
-        "pickable"   : true,
-        "droppable"  : true,
-        "consummable": false,
-        "containable": false,
-        "invisible"  : false
-    }
-};
+let FixtureClient = require('./../db/fixture/client');
+const FIXTURES    = FixtureClient.readItems();
 
 class Item {
 
@@ -172,6 +120,20 @@ class Item {
                 that.data[key] = data[key];
             });
         }
+    }
+
+    query() {
+        return {
+            'type': 'item',
+            'data': {
+                'id'         : this.data.id,
+                'name'       : this.data.name,
+                'description': this.data.description,
+                'icon'       : this.data.icon,
+                'price'      : this.data.price,
+                'quantity'   : this.data.quantity
+            }
+        };
     }
 
 };

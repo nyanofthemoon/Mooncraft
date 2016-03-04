@@ -179,7 +179,9 @@ class Player {
     }
 
     harvest(region, x, y) {
-        // @TODO
+        var item = region.getNode(x, y).harvest();
+        region.socket.to(region.getId()).emit('harvest', region.query());
+        this.socket.emit('harvest', item.query());
     }
 
     canBuild(region, x, y) {

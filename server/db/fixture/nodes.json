@@ -1,0 +1,104 @@
+{
+  "0": {
+    "name": "Purified Space",
+    "icon": "node/space",
+    "description": "An empty space.",
+    "walkable": true,
+    "harvestable": false,
+    "buildable": true,
+    "ownable": false,
+    "transportable": false
+  },
+  "1": {
+    "name": "Teleport",
+    "icon": "node/teleport",
+    "description": "A teleport to another region.",
+    "walkable": true,
+    "harvestable": false,
+    "buildable": false,
+    "ownable": false,
+    "transportable": {
+      "region": null,
+      "x": null,
+      "y": null
+    }
+  },
+  "100": {
+    "name": "Radiated Space",
+    "icon": "node/radiated-space",
+    "description": "Barren space. It needs to be purified.",
+    "walkable": true,
+    "buildable": false,
+    "ownable": false,
+    "harvestable": {
+      "transform": 0
+    }
+  },
+  "101": {
+    "name": "Radiated Space",
+    "icon": "node/radiated-space-bone",
+    "description": "Barren space containing remains. It needs to be purified.",
+    "walkable": true,
+    "buildable": false,
+    "ownable": false,
+    "harvestable": {
+      "item": 0,
+      "quantity": 1,
+      "transform": 100
+    }
+  },
+  "102": {
+    "name": "Radiated Space",
+    "icon": "node/radiated-space-bone-pile",
+    "description": "Barren space containing many remains. It needs to be purified.",
+    "walkable": false,
+    "buildable": false,
+    "ownable": false,
+    "harvestable": {
+      "item": 0,
+      "quantity": 2,
+      "transform": 101
+    }
+  },
+  "200": {
+    "name": "Tree",
+    "icon": "node/tree",
+    "description": "A tall tree.",
+    "walkable": false,
+    "harvestable": {
+      "item": 1,
+      "quantity": 2,
+      "transform": 201
+    },
+    "buildable": false,
+    "ownable": false,
+    "transportable": false
+  },
+  "201": {
+    "name": "Tree Stump",
+    "icon": "node/tree-stump",
+    "description": "What remains of a once proud tree.",
+    "walkable": false,
+    "harvestable": {
+      "item": 1,
+      "quantity": 1,
+      "transform": 0
+    },
+    "buildable": false,
+    "ownable": false,
+    "transportable": false
+  },
+  "300": {
+    "name": "Wood Fence",
+    "icon": "node/wood-fence",
+    "description": "A wooden fence built by someone.",
+    "walkable": false,
+    "harvestable": false,
+    "buildable": false,
+    "ownable": {
+      "owner": null,
+      "date": null
+    },
+    "transportable": false
+  }
+}
