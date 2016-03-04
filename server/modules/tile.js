@@ -8,15 +8,15 @@ const FIXTURES = {
         "walkable"   : false
     },
     1: {
-        "name"       : "Sand",
-        "icon"       : "tile/sand",
-        "description": "A patch of sand.",
-        "walkable"   : true
-    },
-    2: {
         "name"       : "Grass",
         "icon"       : "tile/grass",
         "description": "A patch of grass.",
+        "walkable"   : true
+    },
+    2: {
+        "name"       : "Sand",
+        "icon"       : "tile/sand",
+        "description": "A patch of sand.",
         "walkable"   : true
     },
     3: {

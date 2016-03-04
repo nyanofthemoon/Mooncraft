@@ -1,11 +1,11 @@
 {
-  "id": "CG",
-  "name": "The Garden",
-  "description": "The World's Last Safe Haven.",
+  "id": "W1",
+  "name": "The Western Region",
+  "description": "Western Region Connecting to The Garden.",
   "fixture": {
     "origin": {
-      "x": 5,
-      "y": 5
+      "x": 1,
+      "y": 1
     },
     "tiles": [
       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -112,12 +112,7 @@
   },
   "definition": {},
   "progress": {
-    "nodes": [
-      {"id": 1, "x":50, "y":1,  "transportable": {"region": "N1"}},
-      {"id": 1, "x":50, "y":98, "transportable": {"region": "S1"}},
-      {"id": 1, "x":98, "y":50, "transportable": {"region": "E1"}},
-      {"id": 1, "x":1,  "y":50, "transportable": {"region": "W1"}}
-    ],
+    "nodes": [],
     "items": []
   }
 }

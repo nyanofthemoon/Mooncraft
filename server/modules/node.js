@@ -1,8 +1,11 @@
 'use strict';
 
 const FIXTURES = {
+
+    // Basic Nodes //
+
     0: {
-        "name"         : "Unclaimed Space",
+        "name"         : "Purified Space",
         "icon"         : "node/space",
         "description"  : "An empty space.",
         "walkable"     : true,
@@ -25,7 +28,50 @@ const FIXTURES = {
             "y"     : null
         }
     },
-    2: {
+
+    // Radiated Nodes //
+
+    100: {
+        "name"         : "Radiated Space",
+        "icon"         : "node/radiated-space",
+        "description"  : "Barren space. It needs to be purified.",
+        "walkable"     : true,
+        "buildable"    : false,
+        "ownable"      : false,
+        "harvestable"  : {
+            "transform": 0
+        }
+    },
+    101: {
+        "name"         : "Radiated Space",
+        "icon"         : "node/radiated-space-bone",
+        "description"  : "Barren space containing remains. It needs to be purified.",
+        "walkable"     : true,
+        "buildable"    : false,
+        "ownable"      : false,
+        "harvestable"  : {
+            "item"     : 0,
+            "quantity" : 1,
+            "transform": 100
+        }
+    },
+    102: {
+        "name"         : "Radiated Space",
+        "icon"         : "node/radiated-space-bone-pile",
+        "description"  : "Barren space containing many remains. It needs to be purified.",
+        "walkable"     : false,
+        "buildable"    : false,
+        "ownable"      : false,
+        "harvestable"  : {
+            "item"     : 0,
+            "quantity" : 2,
+            "transform": 101
+        }
+    },
+
+    // Harvestable Nodes //
+
+    200: {
         "name"         : "Tree",
         "icon"         : "node/tree",
         "description"  : "A tall tree.",
@@ -33,13 +79,13 @@ const FIXTURES = {
         "harvestable"  : {
             "item"     : 1,
             "quantity" : 2,
-            "transform": 2
+            "transform": 201
         },
         "buildable"    : false,
         "ownable"      : false,
         "transportable": false
     },
-    3: {
+    201: {
         "name"         : "Tree Stump",
         "icon"         : "node/tree-stump",
         "description"  : "What remains of a once proud tree.",
@@ -53,7 +99,10 @@ const FIXTURES = {
         "ownable"      : false,
         "transportable": false
     },
-    4: {
+
+    // Built Nodes //
+
+    300: {
         "name"         : "Wood Fence",
         "icon"         : "node/wood-fence",
         "description"  : "A wooden fence built by someone.",
