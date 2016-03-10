@@ -121,7 +121,7 @@ class Region {
 
     query() {
         return {
-            'type': 'map',
+            'type': 'region',
             'data': {
                 'id'         : this.data.id,
                 'name'       : this.data.name,

@@ -2,6 +2,8 @@
 
 let CryptoJS = require('crypto-js');
 
+const CONFIG = require('./../config');
+
 let Logger = require('./logger');
 
 class Player {
@@ -11,16 +13,16 @@ class Player {
         this.socket   = null;
         this.source   = null;
         this.activity = 0;
-        this.data   = {
-            name:   'Unnamed',
-            pass:   '',
-            icon:   0,
+        this.data     = {
+            name: CONFIG.player.defaultName,
+            pass: '',
+            icon: CONFIG.player.defaultIcon,
             region: {
-                id: null,
-                x:  null,
-                y:  null
+                id: CONFIG.player.originRegionId,
+                x: CONFIG.player.originRegionX,
+                y: CONFIG.player.originRegionY
             },
-            inventory: []
+            inventory: CONFIG.player.defaultInventory
         };
     }
 
@@ -72,20 +74,42 @@ class Player {
         return this.data.inventory;
     }
 
-    query() {
-        return {
+    addItemToInventory(item) {
+        if (this.data.inventory[item.id]) {
+            this.data.inventory[item.id].quantity += item.quantity;
+        } else {
+            this.data.inventory[item.id] = item;
+        }
+    }
+
+    removeItemFromInventory(item) {
+        if (this.data.inventory[item.id]) {
+            this.data.inventory[item.id].quantity -= item.quantity;
+            if (this.data.inventory[item.id].quantity <= 0) {
+                delete this.data.inventory[item.id];
+            }
+        }
+    }
+
+    query(self) {
+        var struct = {
             'type': 'player',
             'data': {
                 'name': this.getName(),
                 'icon': this.getIcon(),
-                'region': this.getRegion(),
-                'inventory': this.getInventory()
+                'region': this.getRegion()
             }
         };
+
+        if (self) {
+            struct.data.inventory = this.getInventory();
+        }
+
+        return struct;
     }
 
     canEnter(region) {
-        if (!this.data.region.id || this.data.region.id != region.getId()) {
+        if ((!this.data.region.id && region.getId()) || (this.data.region.id != region.getId())) {
             return true;
         } else {
             return false;
@@ -97,7 +121,7 @@ class Player {
         this.data.region.id = region.getId();
         this.data.region.x  = region.getXOrigin();
         this.data.region.y  = region.getYOrigin();
-        region.socket.to(region.getId()).emit('enter', this.query());
+        region.socket.to(region.getId()).emit('enter', this.query(false));
     }
 
     canLeave(region) {
@@ -110,7 +134,7 @@ class Player {
 
     leave(region) {
         this.socket.leave(region.getId());
-        region.socket.to(region.getId()).emit('leave', this.query());
+        region.socket.to(region.getId()).emit('leave', this.query(false));
     }
 
     canSay(region) {
@@ -160,7 +184,7 @@ class Player {
         this.increaseActivity();
         this.data.region.x = x;
         this.data.region.y = y;
-        region.socket.to(region.getId()).emit('move', this.query());
+        region.socket.to(region.getId()).emit('move', this.query(false));
     }
 
     canHarvest(region, x, y) {
@@ -181,7 +205,8 @@ class Player {
     harvest(region, x, y) {
         var item = region.getNode(x, y).harvest();
         region.socket.to(region.getId()).emit('harvest', region.query());
-        this.socket.emit('harvest', item.query());
+        this.addItemToInventory(item);
+        this.socket.emit('query', this.query(true));
     }
 
     canBuild(region, x, y) {
@@ -236,7 +261,12 @@ class Player {
     }
 
     _isInRegion(region) {
-        if (this.data.region.id && this.data.region.id == region.getId()) {
+
+
+        console.log(this.data);
+
+
+        if (this.data.region.id == region.getId()) {
             return true;
         } else {
             return false;

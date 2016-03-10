@@ -1,7 +1,7 @@
 'use strict';
 
 var random = new Date().getSeconds();
-var socket = io.connect("http://localhost:8888", { "query": { "name": "The Untitled" + random, "pass": "qwerty" } });
+var socket = io.connect(document.location.origin + ":8888", { "query": { "name": "The Untitled" + random, "pass": "qwerty" } });
 
 function emitQuery(type, id) {
     socket.emit('query', { type: type, id: id });
@@ -69,24 +69,44 @@ socket.on('disconnect', function (data) {
     console.log('Received event: disconnect with data:', data);
 });
 
+// *** Login Flow *** //
+// Emit Event 'connect' with username/password
+// Await Event 'connect'
+//// Emit Event 'query' for 'player'
+//// Emit Event 'query' for 'region'
+//// Await Event 'query' for 'region' and 'player'
+////// Draw All The Things
+
 setTimeout(function () {
     emitQuery('player');
-    setTimeout(function () {
-        emitEnter('T0');
-        setTimeout(function () {
-            emitSay('T0', 'Hello World!');
-            emitMove('T0', 1, 2);
-            setTimeout(function () {
-                emitQuery('player');
-                emitLeave('T0');
+    emitQuery('region', 'CG');
+}, 100);
 
-                //setTimeout(function () {
-                //}, 250);
-            }, 250);
-        }, 250);
+// *** Move Flow *** //
+// Emit Event 'move'
+// Await Event 'move'
+//// If move is me then confirm location, if move is not me then move other player on map
+
+setTimeout(function () {
+    emitEnter('T0');
+    setTimeout(function () {
+        emitMove('T0', 1, 2);
     }, 1000);
 }, 1000);
-//# sourceMappingURL=main.transpiled.js.map
-//# sourceMappingURL=main.transpiled.js.map
-//# sourceMappingURL=main.transpiled.js.map
-//# sourceMappingURL=main.transpiled.js.map
+
+/*
+setTimeout(function () {
+    emitEnter('T0');
+    setTimeout(function () {
+        emitSay('T0', 'Hello World');
+        emitMove('T0', 1, 2);
+        setTimeout(function () {
+            emitQuery('region', 'T0');
+            emitLeave('T0');
+
+            //setTimeout(function () {
+            //}, 250);
+        }, 250);
+    }, 250);
+}, 1000);
+*/

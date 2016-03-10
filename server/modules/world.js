@@ -58,7 +58,7 @@ class World {
                                     cycling.notify(world.sockets, message);
                                     break;
                                 case regeneration.namespace:
-                                    // PUBLISH regeneration '[{"id":"F0", "data":{"foo": "bar"}}]'
+                                    // PUBLISH regeneration '[{"id":"T0", "data":{"foo": "bar"}}]'
                                     // HGETALL region
                                     // DEL region
                                     ///////////////////////////////////////////////////////////////////////
@@ -166,17 +166,17 @@ class World {
         try {
             let info = null;
             switch(data.type) {
-                case 'map':
+                case 'region':
                     info = this.data.regions[data.id].query();
                     break;
                 case 'player':
-                    info = this.getPlayerBySocketId(socket.id).query();
+                    info = this.getPlayerBySocketId(socket.id).query(true);
                     break;
 
                 default: break;
             }
             socket.emit('query', info);
-            this.logger.verbose('[QUERY] ' + JSON.stringify(info));
+            this.logger.verbose('[QUERY] ' + data.type);
         } catch (e) {
             this.logger.error('[QUERY] ' + JSON.stringify(info) + ' ' + e);
         }
