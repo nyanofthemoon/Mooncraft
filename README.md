@@ -12,6 +12,7 @@ They call themselves "Ents", live in "The Garden" and follow the teachings of th
 #### NPM Commands
 
 * `npm run dev`
+* `npm run dist`
 
 # Requests And Responses
 

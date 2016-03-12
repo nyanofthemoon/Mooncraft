@@ -2,11 +2,13 @@
   "name": "Mooncraft",
   "version": "0.1.0",
   "scripts": {
+    "postinstall": "npm run dist",
     "webpack-dev-server": "webpack-dev-server",
-    "sass": "sass --watch --sourcemap=auto --load-path node_modules client/src/scss/app.scss:client/public/css/app-bundle.css",
+    "sass": "sass --watch --sourcemap=file client/src/scss/app.scss:client/public/css/app-bundle.css",
     "server": "nodemon --watch server server/main.js",
     "workers": "nodemon --watch server server/workers/main.js",
-    "dev": "parallelshell 'npm run webpack-dev-server' 'npm run sass' 'npm run server' 'npm run workers'"
+    "dev": "parallelshell 'npm run webpack-dev-server' 'npm run sass' 'npm run server' 'npm run workers'",
+    "dist": "sass --update --sourcemap=file client/src/scss/app.scss:client/public/css/app-bundle.css && webpack --config webpack.dist.config.js"
   },
   "dependencies": {
     "bluebird": "^3.2.2",
