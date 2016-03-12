@@ -8,10 +8,10 @@ export default React.createClass({
     },
     render() {
         return (
-            <div>
-                Hello World
-                <input/>
-            </div>
-        )
+        <div>
+            <h1 className="title">MoonCraft</h1>
+            <button>Instructions</button><button>Play</button>
+        </div>
+        );
     }
 });

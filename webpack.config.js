@@ -11,6 +11,10 @@ module.exports = {
             test: /\.jsx?$/,
             exclude: /node_modules/,
             loader: 'react-hot!babel'
+        },{
+            test: /\.scss?$/,
+            exclude: /node_modules/,
+            loader: 'style!css!sass'
         }]
     },
     resolve: {
@@ -21,6 +25,7 @@ module.exports = {
         publicPath: '/js/',
         filename: 'app-bundle.js'
     },
+    devtool: 'cheap-eval-sourcemaps',
     devServer: {
         contentBase: './client/public',
         port: 8000,

@@ -2,9 +2,16 @@
 
 @import 'normalize';
 
+@import url('https://fonts.googleapis.com/css?family=Sail|Nova+Mono');
+
 html {
   box-sizing: border-box;
 }
 *, *:before, *:after {
   box-sizing: inherit;
 }
+
+h1.title { font-family: 'Sail', serif; font-weight: 400; font-size: 15vw; letter-spacing: 1vw; }
+button { font-family: 'Sail', serif; font-weight: 400; font-size: 3vw; }
+
+p.console { font-family: 'Nova Mono', serif; font-weight: 400;  font-size: 1.25vw; }

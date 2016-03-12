@@ -1,7 +1,5 @@
 .npm-debug.log
 .sass-cache
-bower_components
-client/public/css/app-bundle*
-client/public/js/app-bundle*
+client/public/js/*
 dump.rdb
 node_modules

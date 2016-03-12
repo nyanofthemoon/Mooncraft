@@ -1,7 +1,10 @@
 'use strict';
 
+require('./scss/app.scss');
+
 import React    from 'react';
 import ReactDOM from 'react-dom';
+import io from 'socket.io-client';
 
 import App from './jsx/App';
 
