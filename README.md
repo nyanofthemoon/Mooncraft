@@ -9,10 +9,9 @@ They call themselves "Ents", live in "The Garden" and follow the teachings of th
 * `npm install`
 * [Redis](http://redis.io/topics/quickstart)
 
-#### Grunt Commands
+#### NPM Commands
 
-* `node_modules/.bin/grunt dev`
-* `node_modules/.bin/grunt build`
+* `npm run dev`
 
 # Requests And Responses
 
