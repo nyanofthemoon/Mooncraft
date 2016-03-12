@@ -1,9 +1,6 @@
 .npm-debug.log
 .sass-cache
 bower_components
-client/**/*.css
 client/**/*.css.map
-client/**/*.transpiled.js
-client/**/*.transpiled.js.map
 dump.rdb
 node_modules
