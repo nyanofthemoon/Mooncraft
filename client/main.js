@@ -21,8 +21,10 @@ let options = {
 
 app.use(express.static('client/public', options));
 
-let port = CONFIG.environment.port;
+app.get('/*', function(req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
 
-app.listen(port, function() {
-    logger.success('Listening on port ' + port);
+app.listen(CONFIG.environment.port, function() {
+    logger.success('Listening on port ' + CONFIG.environment.port);
 });

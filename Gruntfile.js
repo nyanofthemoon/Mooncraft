@@ -8,40 +8,17 @@ module.exports = function (grunt) {
                 options: {
                     logConcurrentOutput: true
                 },
-                tasks: ['watch:sass', 'watch:babel_client', 'shell:client', 'shell:server', 'shell:workers']
+                tasks: ['watch:sass', 'shell:client', 'shell:server', 'shell:workers']
             }
         },
 
         watch: {
-            babel_client: {
-                files: ['client/public/assets/js/**/*.es6'],
-                tasks: ['babel:client'],
-                options: {
-                    atBegin: true
-                }
-            },
             sass: {
-                files: 'client/public/assets/scss/**/*.scss',
+                files: 'client/src/scss/**/*.scss',
                 tasks: ['sass:dev'],
                 options: {
                     atBegin: true
                 }
-            }
-        },
-
-        babel: {
-            options: {
-                sourceMap: true,
-                presets: ['es2015']
-            },
-            client: {
-                files: [{
-                    expand: true,
-                    cwd: 'client/public/assets/js',
-                    src: ['**/*.es6'],
-                    dest: 'client/public/assets/js',
-                    ext: '.transpiled.js'
-                }]
             }
         },
 
@@ -54,7 +31,7 @@ module.exports = function (grunt) {
                 },
                 files: [{
                     expand: true,
-                    cwd: 'client/public/assets/scss',
+                    cwd: 'client/src/scss',
                     src: ['*.scss'],
                     dest: 'client/public/assets/css',
                     ext: '.css'
@@ -67,7 +44,7 @@ module.exports = function (grunt) {
 
         shell: {
             client: {
-                command: 'node_modules/.bin/nodemon --watch client --ignore client/public client/main.js'
+                command: 'node_modules/.bin/webpack-dev-server'
             },
             server: {
                 command: 'node_modules/.bin/nodemon --watch server server/main.js'
@@ -87,6 +64,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-shell');
 
     grunt.registerTask('dev', ['concurrent:dev']);
-    grunt.registerTask('build', ['babel:client']);
+    grunt.registerTask('build', ['shell:webpack']);
 
 }

@@ -1,7 +1,16 @@
 'use strict';
 
+import React    from 'react';
+import ReactDOM from 'react-dom';
+
+import App from './jsx/App';
+
+ReactDOM.render(<App />, document.getElementById('app'));
+
+// test ....
+
 var random = new Date().getSeconds();
-var socket = io.connect(document.location.origin + ":8888", { "query": { "name": "The Untitled" + random, "pass": "qwerty" } });
+var socket = io.connect('//' + document.location.hostname + ":8888", { "query": { "name": "The Untitled" + random, "pass": "qwerty" } });
 
 function emitQuery(type, id) {
     socket.emit('query', { type: type, id: id });
@@ -69,6 +78,7 @@ socket.on('disconnect', function (data) {
     console.log('Received event: disconnect with data:', data);
 });
 
+
 // *** Login Flow *** //
 // Emit Event 'connect' with username/password
 // Await Event 'connect'
@@ -76,7 +86,6 @@ socket.on('disconnect', function (data) {
 //// Emit Event 'query' for 'region'
 //// Await Event 'query' for 'region' and 'player'
 ////// Draw All The Things
-
 setTimeout(function () {
     emitQuery('player');
     emitQuery('region', 'CG');
@@ -86,7 +95,6 @@ setTimeout(function () {
 // Emit Event 'move'
 // Await Event 'move'
 //// If move is me then confirm location, if move is not me then move other player on map
-
 setTimeout(function () {
     emitEnter('T0');
     setTimeout(function () {
@@ -95,18 +103,18 @@ setTimeout(function () {
 }, 1000);
 
 /*
-setTimeout(function () {
-    emitEnter('T0');
-    setTimeout(function () {
-        emitSay('T0', 'Hello World');
-        emitMove('T0', 1, 2);
-        setTimeout(function () {
-            emitQuery('region', 'T0');
-            emitLeave('T0');
+ setTimeout(function () {
+ emitEnter('T0');
+ setTimeout(function () {
+ emitSay('T0', 'Hello World');
+ emitMove('T0', 1, 2);
+ setTimeout(function () {
+ emitQuery('region', 'T0');
+ emitLeave('T0');
 
-            //setTimeout(function () {
-            //}, 250);
-        }, 250);
-    }, 250);
-}, 1000);
-*/
+ //setTimeout(function () {
+ //}, 250);
+ }, 250);
+ }, 250);
+ }, 1000);
+ */
