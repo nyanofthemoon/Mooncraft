@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "scripts": {
     "webpack-dev-server": "webpack-dev-server",
-    "sass": "sass --watch --sourcemap=auto client/src/scss/app.scss:client/public/css/app-bundle.css",
+    "sass": "sass --watch --sourcemap=auto --load-path node_modules client/src/scss/app.scss:client/public/css/app-bundle.css",
     "server": "nodemon --watch server server/main.js",
     "workers": "nodemon --watch server server/workers/main.js",
     "dev": "parallelshell 'npm run webpack-dev-server' 'npm run sass' 'npm run server' 'npm run workers'"

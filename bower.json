@@ -1,6 +1,0 @@
-{
-  "name": "Mooncraft",
-  "dependencies": {
-    "foundation": "zurb/bower-foundation"
-  }
-}
