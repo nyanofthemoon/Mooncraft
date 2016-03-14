@@ -1,9 +1,8 @@
 'use strict';
 
-let Item          = require('./item');
+let Item = require('./item');
 
-let FixtureClient = require('./../db/fixture/client');
-const FIXTURES    = FixtureClient.readNodes();
+const FIXTURES = require('./../db/fixture/nodes.json');
 
 class Node {
 

@@ -1,7 +1,7 @@
 {
   "0": {
     "name": "Purified Space",
-    "icon": "node/space",
+    "icon": "space",
     "description": "An empty space.",
     "walkable": true,
     "harvestable": false,
@@ -11,7 +11,7 @@
   },
   "1": {
     "name": "Teleport",
-    "icon": "node/teleport",
+    "icon": "teleport",
     "description": "A teleport to another region.",
     "walkable": true,
     "harvestable": false,
@@ -25,7 +25,7 @@
   },
   "100": {
     "name": "Radiated Space",
-    "icon": "node/radiated-space",
+    "icon": "radiated-space",
     "description": "Barren space. It needs to be purified.",
     "walkable": true,
     "buildable": false,
@@ -36,7 +36,7 @@
   },
   "101": {
     "name": "Radiated Space",
-    "icon": "node/radiated-space-bone",
+    "icon": "radiated-space-bone",
     "description": "Barren space containing remains. It needs to be purified.",
     "walkable": true,
     "buildable": false,
@@ -49,7 +49,7 @@
   },
   "102": {
     "name": "Radiated Space",
-    "icon": "node/radiated-space-bone-pile",
+    "icon": "radiated-space-bone-pile",
     "description": "Barren space containing many remains. It needs to be purified.",
     "walkable": false,
     "buildable": false,
@@ -62,7 +62,7 @@
   },
   "200": {
     "name": "Tree",
-    "icon": "node/tree",
+    "icon": "tree",
     "description": "A tall tree.",
     "walkable": false,
     "harvestable": {
@@ -76,7 +76,7 @@
   },
   "201": {
     "name": "Tree Stump",
-    "icon": "node/tree-stump",
+    "icon": "tree-stump",
     "description": "What remains of a once proud tree.",
     "walkable": false,
     "harvestable": {
@@ -90,7 +90,7 @@
   },
   "300": {
     "name": "Wood Fence",
-    "icon": "node/wood-fence",
+    "icon": "wood-fence",
     "description": "A wooden fence built by someone.",
     "walkable": false,
     "harvestable": false,

@@ -13,8 +13,8 @@
       "plural": false
     },
     "icon": {
-      "singular": "item/dust",
-      "plural": "item/pile-of-dust"
+      "singular": "dust",
+      "plural": "pile-of-dust"
     },
     "price": 0,
     "quantity": 1,
@@ -39,8 +39,8 @@
       "plural": false
     },
     "icon": {
-      "singular": "item/log",
-      "plural": "item/pile-of-logs"
+      "singular": "log",
+      "plural": "pile-of-logs"
     },
     "price": 1,
     "quantity": 1,
