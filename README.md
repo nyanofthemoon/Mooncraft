@@ -11,8 +11,8 @@ They call themselves "Ents", live in "The Garden" and follow the teachings of th
 
 #### NPM Commands
 
-* `npm run dev`
-* `npm run dist`
+* `npm run dev` starts a development environment using webpack-dev-server with hot reload
+* `npm run dist` creates a distribution package ready for production
 
 # Requests And Responses
 
