@@ -51,7 +51,7 @@ class Player {
     }
 
     static getId(name, pass) {
-        return CryptoJS.SHA3(name + '!pur1n+' + pass);
+        return CryptoJS.SHA3(pass + CONFIG.player.salt + [...name].reverse().join());
     }
 
     getId() {
@@ -261,11 +261,6 @@ class Player {
     }
 
     _isInRegion(region) {
-
-
-        console.log(this.data);
-
-
         if (this.data.region.id == region.getId()) {
             return true;
         } else {
