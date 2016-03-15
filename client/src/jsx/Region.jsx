@@ -9,7 +9,12 @@ export default React.createClass({
         };
     },
     handleUpdate(data) {
-        console.log('Region Update Data Received', data);
+        console.log('Region Query Data Received', data);
+        let newCoordinates = [];
+        // @TODO
+        this.setState({
+            coordinates: newCoordinates
+        });
     },
     render() {
         return <div className="region">
