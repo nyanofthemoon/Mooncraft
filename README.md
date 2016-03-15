@@ -146,7 +146,8 @@ They call themselves "Ents", live in "The Garden" and follow the teachings of th
 
 #### Credits
 
-Credits and relevant licenses for game art included in the ```credits``` directory. Thank you! :3
+Credits and relevant licenses for game art and music included in the ```credits``` directory. Thank you! :3
 * http://opengameart.org/content/lpc-tile-atlas
 * http://opengameart.org/content/lpc-tile-atlas2
 * http://opengameart.org/content/lpc-dungeon-elements
+* http://freemusicarchive.org/music/BoxCat_Games/
