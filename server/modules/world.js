@@ -16,6 +16,7 @@ class World {
         this.logger  = new Logger('WORLD', config);
         this.sockets = null;
         this.source  = null;
+        this.workers = {};
         this.data    = {
             players  : {},
             sessions : {},
@@ -45,6 +46,7 @@ class World {
                     // Subscribe to Events
                     let cycling = new Cycling(config);
                     cycling.subscribe(clientOne);
+                    world.workers.cycling = cycling;
                     let regeneration = new Regeneration(config);
                     regeneration.subscribe(clientOne);
 
@@ -55,7 +57,8 @@ class World {
                             switch (channel) {
                                 case cycling.namespace:
                                     // PUBLISH cycling '{"cycle":"evening"}'
-                                    cycling.notify(world.sockets, message);
+                                    cycling.initialize(message);
+                                    cycling.notify(world.sockets);
                                     break;
                                 case regeneration.namespace:
                                     // PUBLISH regeneration '[{"id":"T0", "data":{"foo": "bar"}}]'
@@ -172,7 +175,9 @@ class World {
                 case 'player':
                     info = this.getPlayerBySocketId(socket.id).query(true);
                     break;
-
+                case 'cycling':
+                    info = this.workers.cycling.query();
+                    break;
                 default: break;
             }
             socket.emit('query', info);

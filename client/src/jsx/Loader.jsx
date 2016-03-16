@@ -73,12 +73,12 @@ export default React.createClass({
                     image.src = '/img/' + GRAPHICAL_ASSETS[assetName][assetNameIndex];
 
                 // @ TODO Remove, temporary for testing. Loading is too fast.
-                },(2500*i + (250*assetNameIndex)));
+                },(1000*i + (100*assetNameIndex)));
 
             }
 
             // @ TODO Remove, temporary for testing. Loading is too fast.
-            },(2500*i));
+            },(2000*i));
 
         }
     },

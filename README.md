@@ -150,4 +150,4 @@ Credits and relevant licenses for game art and music included in the ```credits`
 * http://opengameart.org/content/lpc-tile-atlas
 * http://opengameart.org/content/lpc-tile-atlas2
 * http://opengameart.org/content/lpc-dungeon-elements
-* http://freemusicarchive.org/music/BoxCat_Games/
+* http://freemusicarchive.org/music/BoxCat_Games

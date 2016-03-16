@@ -1,4 +1,4 @@
 module.exports = {
-MUSIC: {"intro":"music/intro.mp3","theme":"music/theme.mp3"},
+MUSIC: {"intro":"music/intro.mp3","daytime":"music/daytime.mp3","nighttime":"music/nighttime.mp3"},
 SOUND: {}
 }

@@ -1,0 +1,7 @@
+http://freemusicarchive.org/music/BoxCat_Games
+http://box-cat.com/
+BoxCat Games is an independent video game developer. Our first title is called, "Nameless: the Hackers RPG" on the iOS.
+
+client/public/music/intro.mp3     -> Young Love  (2.44)
+client/public/music/daytime.mp3   -> Rolling     (3.22)
+client/public/music/nighttime.mp3 -> Assignement (1.04)

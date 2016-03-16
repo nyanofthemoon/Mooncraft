@@ -1,8 +1,6 @@
 import io from 'socket.io-client';
 import React from 'react';
 
-let Howler = require('howler').Howl;
-
 import Loader  from './Loader';
 import Console from './Console';
 import Player  from './Player';
@@ -30,19 +28,41 @@ export default React.createClass({
         });
         this._playMusic('intro');
     },
+    _handleCycling(struct) {
+        console.log('Cycling Query Data Received', struct);
+        switch (struct.data.cycle) {
+            default:
+            case 'morning':
+            case 'afternoon':
+                this._playMusic('daytime');
+                break;
+            case 'evening':
+            case 'night':
+                this._playMusic('nighttime');
+                break;
+        }
+    },
     _handlePlayerConnection(username, password) {
         var that = this;
         this.state.socket = io.connect('//' + document.location.hostname + ":8888", { "query": { "name": username, "pass": password } });
         this.state.socket.on('connect', function(data) {
             that.state.socket.on('query', function(data) {
-                if (data.type === 'player') {
-                    that.refs.Player.handleUpdate(data);
-                } else {
-                    that.refs.Region.handleUpdate(data);
+                switch(data.type) {
+                    case 'player':
+                        that.refs.Player.handleUpdate(data);
+                        break;
+                    case 'region':
+                        that.refs.Region.handleUpdate(data);
+                        break;
+                    case 'cycling':
+                        that._handleCycling(data);
+                        break;
+                    default:
+                        break;
                 }
             });
-            that._playMusic('theme');
             that.setState({ status: STATE_RUNNING });
+            that._emitSocketEvent('query', { type: 'cycling' });
             that._emitSocketEvent('query', { type: 'player' });
         });
     },
@@ -77,7 +97,7 @@ export default React.createClass({
                 );
             case STATE_RUNNING:
                 return (
-                    <div>
+                    <div className="centered">
                         <Player ref="Player" handleEventEmission={this._emitSocketEvent} handlePlaySound={this._playSound} />
                         <Region ref="Region" />
                         <Console ref="Console" />

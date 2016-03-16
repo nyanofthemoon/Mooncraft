@@ -14,7 +14,7 @@ html {
 h1.title { font-family: 'Sail', serif; font-weight: 400; font-size: 15vw; letter-spacing: 1vw; }
 
 .centered {
-  display: table;
+  display: table-cell;
   vertical-align: middle;
   text-align: center;
   width: 100%;
@@ -24,6 +24,7 @@ h1.title { font-family: 'Sail', serif; font-weight: 400; font-size: 15vw; letter
 div.progress_bar {
   height: 5vh;
   border: 1px solid black;
+  width: 50vw;
 }
 
 div.progress_bar > span {
