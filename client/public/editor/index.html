@@ -6,21 +6,179 @@
     <title>Mooncraft</title>
 </head>
 <body>
-    <h1>MoonCraft - Map Editor</h1>
+    <!--h1>MoonCraft - Map Editor</h1-->
 
     <style>
 
+        /* Temporary Helper Classes Below */
+
+        html, body {
+            margin: 0;
+        }
+
+        /*.row > div {
+            border: 1px solid white;
+        }*/
+
+        /* Game Classes Below */
+
+        .region {
+            display: flex;
+            flex-direction: column;
+            width: 100vmin;
+            height: 100vmin;
+            margin: auto;
+            background-color: black;
+        }
+
+        /* height et min ratio from x by y to get "squares"
+            4x3 grid would be
+            width: 100vmin;
+            height: 75vmin;
+        */
+
+        .row {
+            display: flex;
+            flex-direction: row;
+            flex: 1;
+        }
+
+        .tile {
+            flex: 1;
+            background: url(/img/tiles/void.gif);
+            background-size: cover;
+            position: relative;
+            z-index: 10;
+        }
+
+        .node, .character, #player {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .node {
+            background-image: url(/img/nodes/space.gif);
+            background-size: cover;
+            z-index: 100;
+        }
+
+        .character {
+            background-image: url(/img/characters/default.gif);
+            background-size: cover;
+            z-index: 1000;
+        }
+
+        #player {
+            background-image: url(/img/players/default.gif);
+            background-size: cover;
+            z-index: 10000;
+        }
+
     </style>
 
-    <section id="region">
 
 
+    <section class="region">
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+                <div class="character"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node" style="background-image: url(/img/nodes/radiated-space.gif);"></div>
+                <div id="player"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node" style="background-image: url(/img/nodes/radiated-space-bone-pile.gif);"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
 
     </section>
 
     <script>
         console.log('In Editor');
-
     </script>
 
 </body>
