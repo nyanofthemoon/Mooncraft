@@ -28,20 +28,6 @@ export default React.createClass({
         });
         this._playMusic('intro');
     },
-    _handleCycling(struct) {
-        console.log('Cycling Query Data Received', struct);
-        switch (struct.data.cycle) {
-            default:
-            case 'morning':
-            case 'afternoon':
-                this._playMusic('daytime');
-                break;
-            case 'evening':
-            case 'night':
-                this._playMusic('nighttime');
-                break;
-        }
-    },
     _handlePlayerConnection(username, password) {
         var that = this;
         this.state.socket = io.connect('//' + document.location.hostname + ":8888", { "query": { "name": username, "pass": password } });
@@ -55,7 +41,7 @@ export default React.createClass({
                         that.refs.Region.handleUpdate(data);
                         break;
                     case 'cycling':
-                        that._handleCycling(data);
+                        that.refs.Region.handleCycling(data);
                         break;
                     default:
                         break;
@@ -99,7 +85,7 @@ export default React.createClass({
                 return (
                     <div className="centered">
                         <Player ref="Player" handleEventEmission={this._emitSocketEvent} handlePlaySound={this._playSound} />
-                        <Region ref="Region" />
+                        <Region ref="Region" handlePlayMusic={this._playMusic} />
                         <Console ref="Console" />
                     </div>
                 );

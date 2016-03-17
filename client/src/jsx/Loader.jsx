@@ -33,10 +33,16 @@ export default React.createClass({
             sound: {}
         };
         for (let musicName in AUDIO_ASSETS.MUSIC) {
-            audio.music[musicName] = new Howler({urls: [AUDIO_ASSETS.MUSIC[musicName]], loop: true});
+            audio.music[musicName] = new Howler({
+                urls: [AUDIO_ASSETS.MUSIC[musicName]],
+                loop: true
+            });
         }
         for (let soundName in AUDIO_ASSETS.SOUND) {
-            audio.sound[soundName] = new Howler({urls: [AUDIO_ASSETS.SOUND[soundName]], loop: false});
+            audio.sound[soundName] = new Howler({
+                urls: [AUDIO_ASSETS.SOUND[soundName]],
+                loop: false
+            });
         }
 
         // @ TODO Remove, temporary for testing. Loading is too fast.

@@ -16,6 +16,20 @@ export default React.createClass({
             coordinates: newCoordinates
         });
     },
+    handleCycling(data) {
+        console.log('Cycling Query Data Received', data);
+        switch (data.data.cycle) {
+            default:
+            case 'morning':
+            case 'afternoon':
+                this.props.handlePlayMusic('daytime');
+                break;
+            case 'evening':
+            case 'night':
+                this.props.handlePlayMusic('nighttime');
+                break;
+        }
+    },
     render() {
         return <div className="region">
             {this.state.coordinates.map(function(coordinate) {
