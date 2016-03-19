@@ -1,6 +1,7 @@
 import io from 'socket.io-client';
 import React from 'react';
 
+import Config  from './../config'
 import Loader  from './Loader';
 import Console from './Console';
 import Player  from './Player';
@@ -30,7 +31,7 @@ export default React.createClass({
     },
     _handlePlayerConnection(username, password) {
         var that = this;
-        this.state.socket = io.connect('//' + document.location.hostname + ":8888", { "query": { "name": username, "pass": password } });
+        this.state.socket = io.connect('//' + Config.environment.host + Config.environment.port, { "query": { "name": username, "pass": password } });
         this.state.socket.on('connect', function(data) {
             that.state.socket.on('query', function(data) {
                 switch(data.type) {

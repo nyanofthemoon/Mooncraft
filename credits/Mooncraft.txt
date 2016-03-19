@@ -1,0 +1,11 @@
+Mooncraft project created and maintained by:
+
+Paule Lepage
+Fullstack Web Developer
+Montreal, QC, Canada
+nyanofthemoon@gmail.com
+
+https://protolicio.us
+https://github.com/nyanofthemoon/Mooncraft
+
+You are required to link to the original project and keeps references of the credits from the original project.

@@ -39,10 +39,18 @@ graphicalAssetStream.on('open', function(fileDescriptor) {
 });
 
 var audioAssetStream = fs.createWriteStream('./client/src/package/audio.js');
-audioAssetStream.on('open', function(fileDescriptor) {
+    audioAssetStream.on('open', function(fileDescriptor) {
     audioAssetStream.write('module.exports = {\n');
     audioAssetStream.write('MUSIC: ' + JSON.stringify(AUDIO.music) + ',\n');
     audioAssetStream.write('SOUND: ' + JSON.stringify(AUDIO.sound) + '\n');
     audioAssetStream.write('}');
     audioAssetStream.end();
+});
+
+var editorAssetStream = fs.createWriteStream('./client/public/editor/js/assets.js');
+    editorAssetStream.on('open', function(fileDescriptor) {
+    editorAssetStream.write('var TILES = ' + JSON.stringify(TILES) + ';\n');
+    editorAssetStream.write('var NODES = ' + JSON.stringify(NODES) + ';\n');
+    editorAssetStream.write('var ITEMS = ' + JSON.stringify(ITEMS) + ';');
+    editorAssetStream.end();
 });

@@ -1,12 +1,13 @@
 'use strict';
 
-const CONFIG = require('./config');
-
 let io = require('socket.io')();
 
-let World  = require('./modules/world');
-let Player = require('./modules/player');
-let logger = new (require('./modules/logger'))('SERVER [WEBSOCKET]', CONFIG);
+let app = require(__dirname + '/../client/main');
+
+const CONFIG = require('./config');
+let World    = require('./modules/world');
+let Player   = require('./modules/player');
+let logger   = new (require('./modules/logger'))('SERVER [WEBSOCKET]', CONFIG);
 
 World.initialize(io, CONFIG).then(function(world) {
     io.sockets.on('connection', function(socket) {
@@ -48,12 +49,15 @@ World.initialize(io, CONFIG).then(function(world) {
         });
     });
 
-    let port = CONFIG.environment.port;
     try {
-        io.listen(port);
-        logger.success('Listening on port ' + port);
+        var server = require('http').createServer(app.app);
+        io.listen(server);
+        server.listen(CONFIG.environment.port, function() {
+            app.logger.success('Listening on port ' + CONFIG.environment.port);
+            logger.success('Listening on port ' + CONFIG.environment.port);
+        });
     } catch (e) {
-        logger.error('Not listening on port ' + port, e);
+        logger.error('Not listening on port ' + CONFIG.environment.port, e);
     }
 
 })

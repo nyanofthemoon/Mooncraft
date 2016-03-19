@@ -39,6 +39,7 @@ app.get('/*', function(req, res) {
     res.sendFile(__dirname + '/public/not-found.html');
 });
 
-app.listen(CONFIG.environment.port, function() {
-    logger.success('Listening on port ' + CONFIG.environment.port);
-});
+module.exports = {
+    app: app,
+    logger: logger
+};

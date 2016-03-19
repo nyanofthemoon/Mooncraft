@@ -45,47 +45,27 @@ export default React.createClass({
             });
         }
 
-        // @ TODO Remove, temporary for testing. Loading is too fast.
-        var i = -1;
-
         for (let assetName in GRAPHICAL_ASSETS) {
-
-            // @ TODO Remove, temporary for testing. Loading is too fast.
-            setTimeout(function() {
-            i++;
-
             let assetNameQuantity = GRAPHICAL_ASSETS[assetName].length;
             for (let assetNameIndex in GRAPHICAL_ASSETS[assetName]) {
-
-                // @ TODO Remove, temporary for testing. Loading is too fast.
-                setTimeout(function() {
-
-                    let assetNameProgress = ((parseInt(assetNameIndex)+1) / assetNameQuantity) * 100;
-                    var image    = new Image();
-                    image.onload = function () {
-                        let remainingCount = that.getRemaining() - 1;
-                        that.setState({
-                            step     : assetName,
-                            progress : assetNameProgress,
-                            remaining: remainingCount
-                        });
-                        if (remainingCount == 0) {
-                            that.props.handleCompletion(audio);
-                        }
-                    };
-                    image.onerror = function () {
-                        console.log('[LOADER] Error loading ' + this.src);
-                    };
-                    image.src = '/img/' + GRAPHICAL_ASSETS[assetName][assetNameIndex];
-
-                // @ TODO Remove, temporary for testing. Loading is too fast.
-                },(1000*i + (100*assetNameIndex)));
-
+                let assetNameProgress = ((parseInt(assetNameIndex)+1) / assetNameQuantity) * 100;
+                var image    = new Image();
+                image.onload = function () {
+                    let remainingCount = that.getRemaining() - 1;
+                    that.setState({
+                        step     : assetName,
+                        progress : assetNameProgress,
+                        remaining: remainingCount
+                    });
+                    if (remainingCount == 0) {
+                        that.props.handleCompletion(audio);
+                    }
+                };
+                image.onerror = function () {
+                    console.log('[LOADER] Error loading ' + this.src);
+                };
+                image.src = '/img/' + GRAPHICAL_ASSETS[assetName][assetNameIndex];
             }
-
-            // @ TODO Remove, temporary for testing. Loading is too fast.
-            },(2000*i));
-
         }
     },
     render() {
