@@ -5,7 +5,7 @@ let verbose = false;
 
 if (host === 'localhost') {
     name    = 'development';
-    port    = ':8000';
+    port    = ':8888';
     verbose = true;
 }
 

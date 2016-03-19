@@ -10,7 +10,7 @@ import Region  from './Region';
 const STATE_LOADING = 'loading';
 const STATE_LOADED  = 'loaded';
 const STATE_RUNNING = 'running';
-
+console.log('hello')
 export default React.createClass({
     getInitialState() {
         return {
@@ -58,6 +58,7 @@ export default React.createClass({
     },
     _playMusic(name) {
         for (let musicName in this.state.audio.music) {
+            // @TODO Fix Me
             this.state.audio.music[musicName].stop();
         }
         this.state.audio.music[name].play();

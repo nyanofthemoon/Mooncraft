@@ -4,7 +4,7 @@ module.exports = {
 
     environment: {
         name:    process.env.NODE_ENV    || 'development',
-        port:    process.env.PORT        || 8000,
+        port:    process.env.PORT        || 8888,
         verbose: process.env.VERBOSE     || true
     },
 

@@ -50,12 +50,17 @@ World.initialize(io, CONFIG).then(function(world) {
     });
 
     try {
-        var server = require('http').createServer(app.app);
-        io.listen(server);
-        server.listen(CONFIG.environment.port, function() {
-            app.logger.success('Listening on port ' + CONFIG.environment.port);
+        if (CONFIG.environment.name === 'development') {
+            io.listen(CONFIG.environment.port);
             logger.success('Listening on port ' + CONFIG.environment.port);
-        });
+        } else {
+            var server = require('http').createServer(app.app);
+            io.listen(server);
+            server.listen(CONFIG.environment.port, function () {
+                app.logger.success('Listening on port ' + CONFIG.environment.port);
+                logger.success('Listening on port ' + CONFIG.environment.port);
+            });
+        }
     } catch (e) {
         logger.error('Not listening on port ' + CONFIG.environment.port, e);
     }
