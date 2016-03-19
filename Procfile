@@ -1,2 +1,2 @@
-web: forever start server/main.js
-workers: forever start server/workers/main.js
+web: pm2 start server/main.js
+workers: pm2 start server/workers/main.js
