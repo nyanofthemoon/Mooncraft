@@ -7,25 +7,25 @@ const NODES = require('./nodes.json');
 const ITEMS = require('./items.json');
 const AUDIO = require('./audio.json');
 
-var graphicalAssetStream = fs.createWriteStream('./client/src/package/assets.js');
+var graphicalAssetStream = fs.createWriteStream('./client/src/package/graphic.js');
 graphicalAssetStream.on('open', function(fileDescriptor) {
 
     graphicalAssetStream.write('let TILES = [];\n');
     for (let tileIndex in TILES) {
-        graphicalAssetStream.write('TILES.push("tiles/' + TILES[tileIndex].icon + '.gif");\n');
+        graphicalAssetStream.write('TILES.push({"id": "' + TILES[tileIndex].icon + '", "url": "tiles/' + TILES[tileIndex].icon + '.gif"});\n');
     }
     graphicalAssetStream.write('\n');
 
     graphicalAssetStream.write('let NODES = [];\n');
     for (let nodeIndex in NODES) {
-        graphicalAssetStream.write('NODES.push("nodes/' + NODES[nodeIndex].icon + '.gif");\n');
+        graphicalAssetStream.write('NODES.push({"id": "' + NODES[nodeIndex].icon + '", "url": "nodes/' + NODES[nodeIndex].icon + '.gif"});\n');
     }
     graphicalAssetStream.write('\n');
 
     graphicalAssetStream.write('let ITEMS = [];\n');
     for (let itemIndex in ITEMS) {
-        graphicalAssetStream.write('ITEMS.push("items/' + ITEMS[itemIndex].icon.singular + '.gif");\n');
-        graphicalAssetStream.write('ITEMS.push("items/' + ITEMS[itemIndex].icon.plural + '.gif");\n');
+        graphicalAssetStream.write('ITEMS.push({"id": "' + ITEMS[itemIndex].icon.singular + '", "url": "items/' + ITEMS[itemIndex].icon.singular + '.gif"});\n');
+        graphicalAssetStream.write('ITEMS.push({"id": "' + ITEMS[itemIndex].icon.plural + '", "url": "items/' + ITEMS[itemIndex].icon.plural + '.gif"});\n');
     }
     graphicalAssetStream.write('\n');
 
@@ -47,7 +47,7 @@ var audioAssetStream = fs.createWriteStream('./client/src/package/audio.js');
     audioAssetStream.end();
 });
 
-var editorAssetStream = fs.createWriteStream('./client/public/editor/js/assets.js');
+var editorAssetStream = fs.createWriteStream('./client/public/editor/js/graphic.js');
     editorAssetStream.on('open', function(fileDescriptor) {
     editorAssetStream.write('var TILES = ' + JSON.stringify(TILES) + ';\n');
     editorAssetStream.write('var NODES = ' + JSON.stringify(NODES) + ';\n');

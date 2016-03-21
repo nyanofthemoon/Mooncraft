@@ -1,4 +1,4 @@
 module.exports = {
-MUSIC: {"intro":"music/intro.mp3","daytime":"music/daytime.mp3","nighttime":"music/nighttime.mp3"},
-SOUND: {}
+MUSIC: [{"id":"intro","url":"music/intro.mp3","loop":true},{"id":"daytime","url":"music/daytime.mp3","loop":true},{"id":"nighttime","url":"music/nighttime.mp3","loop":true}],
+SOUND: []
 }

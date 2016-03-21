@@ -1,79 +1,89 @@
 import React from 'react';
 
-let Howler = require('howler').Howl;
+import {loadAllAudiosWithProgress} from '../helpers/audio';
+import {loadAllGraphicsWithProgress} from '../helpers/graphic';
 
-const GRAPHICAL_ASSETS = require('./../package/assets.js');
+const GRAPHICAL_ASSETS = require('./../package/graphic.js');
 const AUDIO_ASSETS     = require('./../package/audio.js');
 
 export default React.createClass({
     getInitialState() {
         return {
-            status   : '',
             step     : 'information',
-            remaining: 0,
+            musics   : {},
+            sounds   : {},
+            count    : 0,
             progress : 0
         };
     },
-    getRemaining() {
-        return this.state.remaining;
-    },
     componentWillMount() {
-        var totalAssets = 0;
-        for (let assetName in GRAPHICAL_ASSETS) {
-            totalAssets += GRAPHICAL_ASSETS[assetName].length;
-        }
+        var count  = 0;
+        var assets = {
+            audio: {},
+            graphic: {}
+        };
+        Object.keys(AUDIO_ASSETS).map(function(key) {
+            assets.audio[key] = Object.keys(AUDIO_ASSETS[key]).length;
+            count += assets.audio[key];
+        });
+        Object.keys(GRAPHICAL_ASSETS).map(function(key) {
+            assets.graphic[key] = GRAPHICAL_ASSETS[key].length;
+            count += assets.graphic[key];
+        });
         this.setState({
-            remaining: totalAssets
+            remaining: assets,
+            count: count
         });
     },
+
     componentDidMount() {
         var that  = this;
-        var audio = {
-            music: {},
-            sound: {}
-        };
-        for (let musicName in AUDIO_ASSETS.MUSIC) {
-            audio.music[musicName] = new Howler({
-                urls: [AUDIO_ASSETS.MUSIC[musicName]],
-                loop: true
+        function updateProgress() {
+            that.setState({
+                progress: (that.state.progress + 1)
             });
         }
-        for (let soundName in AUDIO_ASSETS.SOUND) {
-            audio.sound[soundName] = new Howler({
-                urls: [AUDIO_ASSETS.SOUND[soundName]],
-                loop: false
-            });
-        }
-
-        for (let assetName in GRAPHICAL_ASSETS) {
-            let assetNameQuantity = GRAPHICAL_ASSETS[assetName].length;
-            for (let assetNameIndex in GRAPHICAL_ASSETS[assetName]) {
-                let assetNameProgress = ((parseInt(assetNameIndex)+1) / assetNameQuantity) * 100;
-                var image    = new Image();
-                image.onload = function () {
-                    let remainingCount = that.getRemaining() - 1;
-                    that.setState({
-                        step     : assetName,
-                        progress : assetNameProgress,
-                        remaining: remainingCount
-                    });
-                    if (remainingCount == 0) {
-                        that.props.handleCompletion(audio);
-                    }
-                };
-                image.onerror = function () {
-                    console.log('[LOADER] Error loading ' + this.src);
-                };
-                image.src = '/img/' + GRAPHICAL_ASSETS[assetName][assetNameIndex];
+        this.setState({ step: 'music' });
+        loadAllAudiosWithProgress(AUDIO_ASSETS.MUSIC, updateProgress)
+        .then(
+            function(musicTracks) {
+                that.setState({
+                    step: 'sounds',
+                    musics: musicTracks
+                });
+                return loadAllAudiosWithProgress(AUDIO_ASSETS.MUSIC, updateProgress);
             }
-        }
+        ).then(
+            function(soundTracks) {
+                that.setState({
+                    step: 'tiles',
+                    sounds: soundTracks
+                });
+                return loadAllGraphicsWithProgress(GRAPHICAL_ASSETS.TILES, updateProgress);
+            }
+        ).then(
+            function(tileGraphics) {
+                that.setState({ step: 'nodes' });
+                return loadAllGraphicsWithProgress(GRAPHICAL_ASSETS.NODES, updateProgress);
+            }
+        ).then(
+            function(nodeGraphics) {
+                that.setState({ step: 'items' });
+                return loadAllGraphicsWithProgress(GRAPHICAL_ASSETS.ITEMS, updateProgress);
+            }
+        ).then(
+            function(itemGraphics) {
+                that.props.handleCompletion(that.state.musics, that.state.sounds);
+            }
+        );
     },
     render() {
+        let percentage = Math.ceil((this.state.progress / this.state.count) * 100);
         return (
             <div>
                 <h3>Loading {this.state.step.toLowerCase()}</h3>
                 <div className="progress_bar">
-                    <span style={{width:this.state.progress + '%'}} />
+                    <span style={{width:percentage + '%'}} />
                 </div>
             </div>
         );

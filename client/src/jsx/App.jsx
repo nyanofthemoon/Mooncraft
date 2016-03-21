@@ -10,19 +10,23 @@ import Region  from './Region';
 const STATE_LOADING = 'loading';
 const STATE_LOADED  = 'loaded';
 const STATE_RUNNING = 'running';
-console.log('hello')
+
 export default React.createClass({
     getInitialState() {
         return {
             status: STATE_LOADING,
             socket: null,
             audio : {
-                music: {},
-                sound: {}
+                music: [],
+                sound: []
             }
         };
     },
-    _handleLoaderCompletion(audio) {
+    _handleLoaderCompletion(musics, sounds) {
+        let audio = {
+            music : musics,
+            sounds: sounds
+        };
         this.setState({
             audio : audio,
             status: STATE_LOADED
@@ -56,15 +60,22 @@ export default React.createClass({
     _emitSocketEvent(type, data) {
         this.state.socket.emit(type, data);
     },
-    _playMusic(name) {
-        for (let musicName in this.state.audio.music) {
-            // @TODO Fix Me
-            this.state.audio.music[musicName].stop();
-        }
-        this.state.audio.music[name].play();
+    _playMusic(id) {
+        this.state.audio.music.forEach(function(music) {
+            if (id !== music.id) {
+                music.track.stop();
+            } else {
+                music.track.play();
+            }
+        });
     },
-    _playSound(name) {
-        this.state.audio.sound[name].play();
+    _playSound(id) {
+        this.state.audio.sound.forEach(function(sound) {
+            if (id === sound.id) {
+                sound.track.play();
+                return;
+            }
+        });
     },
     render() {
         switch(this.state.status) {
