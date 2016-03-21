@@ -62,9 +62,8 @@ export default React.createClass({
     },
     _playMusic(id) {
         this.state.audio.music.forEach(function(music) {
-            if (id !== music.id) {
-                music.track.stop();
-            } else {
+            music.track.stop();
+            if (id === music.id) {
                 music.track.play();
             }
         });
