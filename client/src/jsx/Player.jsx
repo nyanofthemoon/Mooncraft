@@ -11,7 +11,11 @@ export default React.createClass({
         };
     },
     _handleConnectionFormButtonClick() {
-        return this.props.handleConnection(this.refs.username.value, this.refs.password.value);
+        var username = this.refs.username.value;
+        var password = this.refs.password.value;
+        if (username.length >= 1 && password.length >= 1) {
+            this.props.handleConnection(username, password);
+        }
     },
     handleUpdate(data) {
         console.log('Player Query Data Received', data);
@@ -27,8 +31,8 @@ export default React.createClass({
             default:
             case STATE_DISCONNECTED:
                 return (<form>
-                    <input type="text" ref="username" value="Username" />
-                    <input type="password" ref="password" value="Password" />
+                    Username <input type="text" ref="username" />
+                    Password <input type="password" ref="password" />
                     <input type="button" value="Play" onClick={this._handleConnectionFormButtonClick} />
                 </form>);
             case STATE_CONNECTED:
