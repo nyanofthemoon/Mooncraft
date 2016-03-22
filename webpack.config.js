@@ -1,4 +1,5 @@
-var webpack = require('webpack');
+var webpack      = require('webpack');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
     entry: [
@@ -14,7 +15,7 @@ module.exports = {
         },{
             test: /\.scss?$/,
             exclude: /node_modules/,
-            loader: 'style!css!sass'
+            loader: 'style!css!postcss!sass'
         }]
     },
     resolve: {
@@ -34,6 +35,9 @@ module.exports = {
         progress: true,
         watch: true,
         hot: true
+    },
+    postcss: function() {
+        return [autoprefixer({ browsers: ['last 3 versions'] })];
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin()

@@ -1,4 +1,5 @@
-var webpack = require('webpack');
+var webpack      = require('webpack');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
     entry: __dirname + '/client/src/app.jsx',
@@ -10,7 +11,7 @@ module.exports = {
         },{
             test: /\.scss?$/,
             exclude: /node_modules/,
-            loader: 'style!css!sass'
+            loader: 'style!css!postcss!sass'
         }]
     },
     resolve: {
@@ -21,6 +22,9 @@ module.exports = {
         filename: 'app-bundle.js'
     },
     devtool: 'source-map',
+    postcss: function() {
+        return [autoprefixer({ browsers: ['last 3 versions'] })];
+    },
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
