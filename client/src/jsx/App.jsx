@@ -81,21 +81,25 @@ export default React.createClass({
             default:
             case STATE_LOADING:
                 return (
-                    <div className="centered">
-                        <h1 className="title">MoonCraft</h1>
+                    <div className="vertically-centered light">
+                        <div className="title_background"></div>
+                        <div className="title_animation_overlay"></div>
+                        <h1 className="logo">MoonCraft</h1>
                         <Loader ref="Loader" handleCompletion={this._handleLoaderCompletion} />
                     </div>
                 );
             case STATE_LOADED:
                 return (
-                    <div className="centered">
-                        <h1 className="title">MoonCraft</h1>
+                    <div className="vertically-centered light">
+                        <div className="title_background"></div>
+                        <div className="title_animation_overlay"></div>
+                        <h1 className="logo">MoonCraft</h1>
                         <Player ref="Player" handleConnection={this._handlePlayerConnection} handleEventEmission={this._emitSocketEvent} handlePlaySound={this._playSound} />
                     </div>
                 );
             case STATE_RUNNING:
                 return (
-                    <div className="centered">
+                    <div className="vertically-centered dark">
                         <Player ref="Player" handleEventEmission={this._emitSocketEvent} handlePlaySound={this._playSound} />
                         <Region ref="Region" handlePlayMusic={this._playMusic} />
                         <Console ref="Console" />
