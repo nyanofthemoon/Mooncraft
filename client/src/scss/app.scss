@@ -2,7 +2,7 @@
 
 @import 'normalize';
 
-@import url('https://fonts.googleapis.com/css?family=Sail|Nova+Mono');
+@import url('https://fonts.googleapis.com/css?family=Sail|Source+Code+Pro');
 
 html {
   box-sizing: border-box;
@@ -13,14 +13,15 @@ html {
 
 /* Helper Classes */
 
-.vertically-centered {
+.flex-vertical-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  height:100vh;
 }
 
-.horizontally-centered {
+.flex-horizontal-container {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -40,11 +41,20 @@ html {
 
 /* Title Screen */
 
-h1.logo {
+h1, h2, h3 {
   font-family: 'Sail', serif;
   font-weight: 400;
-  font-size: 15vw;
+}
+
+h1.logo {
+  font-size: 20vmin;
   text-shadow: 3px 3px #555;
+  margin-top: 0;
+}
+
+h2.loading {
+  font-size: 5vmin;
+  margin-top: 0;
 }
 
 div.progress_bar {
@@ -55,7 +65,7 @@ div.progress_bar {
 
 div.progress_bar > span {
   display: block;
-  background-color: whitesmoke;
+  background-color: darkgreen;
   height: 100%;
 }
 
@@ -87,13 +97,70 @@ div.progress_bar > span {
   animation:move-background-overlay 200s linear infinite;
 }
 
-button {
-  font-family: 'Nova Mono', serif;
+input, button {
+  font-family: 'Source Code Pro', serif;
   border: 1px solid #555555;
   font-weight: 400;
-  font-size: 2.5vmin;
+  font-size: 1vw;
   background-color: whitesmoke;
 }
 
-p.console { font-family: 'Nova Mono', serif; font-weight: 400;  font-size: 1.25vw; }
+p.console { font-family: 'Source Code Pro', serif; font-weight: 400;  font-size: 1.25vw; }
 
+/* Region */
+
+section.region {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  background-color: black;
+}
+/* height et min ratio from x by y to get "squares": 4x3 grid would be width: 100vmin; and height: 75vmin; */
+
+div.row {
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+}
+
+div.tile {
+  flex: 1;
+  background: url(/img/tiles/void.gif);
+  background-size: cover;
+  position: relative;
+  z-index: 10;
+}
+
+div.node, div.character, div.item, div#player {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+div.node {
+  background-image: url(/img/nodes/space.gif);
+  background-size: cover;
+  z-index: 100;
+}
+
+div.item {
+  background-image: url(/img/items/dust.gif);
+  background-size: cover;
+  z-index: 500;
+}
+
+div.character {
+  background-image: url(/img/characters/default.gif);
+  background-size: cover;
+  z-index: 1000;
+}
+
+div#player {
+  background-image: url(/img/players/default.gif);
+  background-size: cover;
+  z-index: 10000;
+}

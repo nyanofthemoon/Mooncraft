@@ -81,7 +81,7 @@ export default React.createClass({
         let percentage = Math.ceil((this.state.progress / this.state.count) * 100);
         return (
             <div className="text-centered">
-                <h3>Loading {this.state.step.toLowerCase()}</h3>
+                <h2 className="loading">Loading {this.state.step.toLowerCase()}</h2>
                 <div className="progress_bar">
                     <span style={{width:percentage + '%'}} />
                 </div>

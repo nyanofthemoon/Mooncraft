@@ -30,10 +30,16 @@ export default React.createClass({
         switch (this.state.status) {
             default:
             case STATE_DISCONNECTED:
-                return (<form className="horizontally-centered">
-                    <input type="text" ref="username" placeholder="username" />
-                    <input type="password" ref="password" placeholder="password" />
-                    <input type="button" value="Play" onClick={this._handleConnectionFormButtonClick} />
+                return (<form className="text-centered">
+                    <div>
+                        <input type="text" ref="username" placeholder="username" />
+                    </div>
+                    <div>
+                        <input type="password" ref="password" placeholder="password" />
+                    </div>
+                    <div>
+                        <input type="button" value="PLAY" onClick={this._handleConnectionFormButtonClick} />
+                    </div>
                 </form>);
             case STATE_CONNECTED:
                 return (<div>[ PLACE HERE ]</div>);

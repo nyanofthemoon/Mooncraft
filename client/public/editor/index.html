@@ -3,87 +3,32 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mooncraft</title>
+    <title>Region Editor - Mooncraft</title>
 </head>
 <body>
-    <!--h1>MoonCraft - Map Editor</h1-->
+    <h1 class="text-centered">MoonCraft - Region Editor</h1>
 
-    <style>
-
-        /* Temporary Helper Classes Below */
-
-        html, body {
-            margin: 0;
-        }
-
-        /*.row > div {
-            border: 1px solid white;
-        }*/
-
-        /* Game Classes Below */
-
-        .region {
-            display: flex;
-            flex-direction: column;
-            width: 100vmin;
-            height: 100vmin;
-            margin: auto;
-            background-color: black;
-        }
-
-        /* height et min ratio from x by y to get "squares"
-            4x3 grid would be
-            width: 100vmin;
-            height: 75vmin;
-        */
-
-        .row {
-            display: flex;
-            flex-direction: row;
-            flex: 1;
-        }
-
-        .tile {
-            flex: 1;
-            background: url(/img/tiles/void.gif);
-            background-size: cover;
-            position: relative;
-            z-index: 10;
-        }
-
-        .node, .character, #player {
-            height: 100%;
-            width: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        .node {
-            background-image: url(/img/nodes/space.gif);
-            background-size: cover;
-            z-index: 100;
-        }
-
-        .character {
-            background-image: url(/img/characters/default.gif);
-            background-size: cover;
-            z-index: 1000;
-        }
-
-        #player {
-            background-image: url(/img/players/default.gif);
-            background-size: cover;
-            z-index: 10000;
-        }
-
-    </style>
-
-
-
-    <section class="region">
+    <section class="region" style="width:80vmin;height:80vmin">
 
         <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
             <div class="tile">
                 <div class="node"></div>
             </div>
@@ -107,12 +52,30 @@
             </div>
             <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
                 <div class="node"></div>
-                <div class="character"></div>
+                <div class="character" style="background-image: url(/img/characters/default.gif);"></div>
             </div>
             <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
                 <div class="node"></div>
             </div>
             <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
                 <div class="node"></div>
             </div>
             <div class="tile">
@@ -129,7 +92,25 @@
             </div>
             <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
                 <div class="node" style="background-image: url(/img/nodes/radiated-space.gif);"></div>
-                <div id="player"></div>
+                <div id="player" style="background-image: url(/img/characters/default.gif);"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
             </div>
             <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
                 <div class="node"></div>
@@ -146,8 +127,26 @@
             <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
                 <div class="node"></div>
             </div>
-            <div class="tile">
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
                 <div class="node" style="background-image: url(/img/nodes/radiated-space-bone-pile.gif);"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
             </div>
             <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
                 <div class="node"></div>
@@ -158,6 +157,168 @@
         </div>
 
         <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_1.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_2.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile" style="background-image: url(/img/tiles/grass_3.gif);">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
+            <div class="tile">
+                <div class="node"></div>
+            </div>
             <div class="tile">
                 <div class="node"></div>
             </div>
@@ -177,9 +338,10 @@
 
     </section>
 
-    <script>
-        console.log('In Editor');
-    </script>
+    <script src="https://code.jquery.com/jquery-2.2.2.min.js" integrity="sha256-36cp2Co+/62rEAAYHLmRCPIych47CvdM+uTBJwSzWjI=" crossorigin="anonymous"></script>
+    <script src="/js/app-bundle.js"></script>
+    <script src="/editor/js/graphic.js"></script>
+    <script src="/editor/js/editor.js"></script>
 
 </body>
 </html>
