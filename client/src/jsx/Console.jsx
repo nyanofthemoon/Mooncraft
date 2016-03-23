@@ -28,6 +28,7 @@ export default React.createClass({
         console.log('Region Say Data Received', data);
     },
     render() {
-        return <div id="console"></div>;
+        return <div id="console">
+        </div>;
     }
 });

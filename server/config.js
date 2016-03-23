@@ -10,7 +10,7 @@ module.exports = {
 
     player: {
         salt            : process.env.PLAYER_SALT      || '!pur1n+',
-        originRegionId  : process.env.REGION_ORIGIN_ID || 'CG',
+        originRegionId  : process.env.REGION_ORIGIN_ID || 'T0',
         originRegionX   : process.env.REGION_ORIGIN_X  || 3,
         originRegionY   : process.env.REGION_ORIGIN_Y  || 3,
         defaultName     : 'Unnamed',

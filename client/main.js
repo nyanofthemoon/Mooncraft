@@ -40,6 +40,6 @@ app.get('/*', function(req, res) {
 });
 
 module.exports = {
-    app: app,
+    app   : app,
     logger: logger
 };

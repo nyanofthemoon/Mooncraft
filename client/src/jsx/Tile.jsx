@@ -1,13 +1,14 @@
 import React from 'react';
 
+import Node      from './Node';
+//import Item      from './Item';
+//import Character from './Character';
+
 export default React.createClass({
-    getInitialState() {
-        return {
-            data: {}
-        };
-    },
     render() {
-        return <div className="tile">
-        </div>;
+        let backgroundImage = 'url(/img/tiles/' + this.props.data.icon+')';
+        return (<div className="tile" style={{backgroundImage: backgroundImage}}>
+            <Node ref="Node" data={this.props.node} />
+        </div>);
     }
 });

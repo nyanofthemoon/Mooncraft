@@ -1,11 +1,11 @@
-import io from 'socket.io-client';
+import io    from 'socket.io-client';
 import React from 'react';
 
 import Config  from './../config'
 import Loader  from './Loader';
 import Console from './Console';
 import Region  from './Region';
-import LoginForm  from './LoginForm';
+import LoginForm from './forms/Login';
 
 const STATE_LOADING = 'loading';
 const STATE_LOADED  = 'loaded';
@@ -33,10 +33,10 @@ export default React.createClass({
         });
         this._playMusic('intro');
     },
-    _handlePlayerConnection(username, password) {
+    _establishSocketConnection(username, password) {
         var that = this;
         this.state.socket = io.connect('//' + Config.environment.host + Config.environment.port, { "query": { "name": username, "pass": password } });
-        this.state.socket.on('connect', function(data) {
+        this.state.socket.on('connect', function() {
             that.setState({ status: STATE_RUNNING });
             that.state.socket.on('query', function(data) {
                 that.refs.Region.handleUpdate(data);
@@ -89,7 +89,7 @@ export default React.createClass({
                 return (
                     <div className="flex-vertical-container light-text">
                         <h1 className="logo">MoonCraft</h1>
-                        <LoginForm ref="LoginForm" handleConnection={this._handlePlayerConnection}  />
+                        <LoginForm ref="LoginForm" connect={this._establishSocketConnection}  />
                         <div className="title_background"></div>
                         <div className="title_animation_overlay"></div>
                     </div>
