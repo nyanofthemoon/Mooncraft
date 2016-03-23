@@ -2,13 +2,19 @@
 
 @import 'normalize';
 
-@import url('https://fonts.googleapis.com/css?family=Sail|Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Sail');
 
 html {
   box-sizing: border-box;
 }
+
 *, *:before, *:after {
   box-sizing: inherit;
+}
+
+h1, h2, h3 {
+  font-family: 'Sail', serif;
+  font-weight: 400;
 }
 
 /* Helper Classes */
@@ -18,33 +24,28 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height:100vh;
+  height: 100vh;
 }
 
 .flex-horizontal-container {
   display: flex;
-  flex-direction: row;
   justify-content: center;
+  width: 100vw;
 }
 
 .text-centered {
   text-align: center;
 }
 
-.light {
+.light-text {
   color: whitesmoke;
 }
 
-.dark {
+.dark-text {
   color: black;
 }
 
 /* Title Screen */
-
-h1, h2, h3 {
-  font-family: 'Sail', serif;
-  font-weight: 400;
-}
 
 h1.logo {
   font-size: 20vmin;
@@ -97,17 +98,56 @@ div.progress_bar > span {
   animation:move-background-overlay 200s linear infinite;
 }
 
+/* Forms */
+
 input, button {
-  font-family: 'Source Code Pro', serif;
+  background: whitesmoke;
   border: 1px solid #555555;
-  font-weight: 400;
-  font-size: 1vw;
+  border-radius: 3px;
+  color: #000000;
+  font: 12px 'helvetica neue', sans-serif;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+input {
+  padding: 5px 5px 4px 5px;
+  text-shadow: 0 1px 0 #fff;
   background-color: whitesmoke;
 }
 
-p.console { font-family: 'Source Code Pro', serif; font-weight: 400;  font-size: 1.25vw; }
+button {
+  font-weight: bold;
+  padding: 4px 15px;
+  text-shadow: 0 1px 0 #fff;
+  &:hover, &:active {
+    background: #CCCCCC;
+    color: #777777;
+  }
+}
 
 /* Region */
+
+div.morning, div.afternoon, div.evening, div.night {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+}
+
+div.morning, div.afternoon {
+  background-color: rgba(0,0,0,0);
+}
+
+div.evening {
+  background-color: rgba(0,0,0,0.33);
+}
+
+div.night {
+  background-color: rgba(0,0,0,0.66);
+}
 
 section.region {
   display: flex;
@@ -162,5 +202,5 @@ div.character {
 div#player {
   background-image: url(/img/players/default.gif);
   background-size: cover;
-  z-index: 10000;
+  z-index: 5000;
 }

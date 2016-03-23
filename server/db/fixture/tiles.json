@@ -1,25 +1,25 @@
 {
   "0": {
     "name": "Void",
-    "icon": "void",
+    "icon": "void.gif",
     "description": "The edge of the world.",
     "walkable": false
   },
   "1": {
     "name": "Grass",
-    "icon": "grass_1",
+    "icon": "grass_1.gif",
     "description": "A patch of grass.",
     "walkable": true
   },
   "2": {
     "name": "Sand",
-    "icon": "sand_1",
+    "icon": "sand_1.gif",
     "description": "A patch of sand.",
     "walkable": true
   },
   "3": {
     "name": "Water",
-    "icon": "shallow-water",
+    "icon": "shallow-water.gif",
     "description": "A patch of shallow water.",
     "walkable": false
   }

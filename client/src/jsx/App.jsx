@@ -4,8 +4,8 @@ import React from 'react';
 import Config  from './../config'
 import Loader  from './Loader';
 import Console from './Console';
-import Player  from './Player';
 import Region  from './Region';
+import LoginForm  from './LoginForm';
 
 const STATE_LOADING = 'loading';
 const STATE_LOADED  = 'loaded';
@@ -37,22 +37,19 @@ export default React.createClass({
         var that = this;
         this.state.socket = io.connect('//' + Config.environment.host + Config.environment.port, { "query": { "name": username, "pass": password } });
         this.state.socket.on('connect', function(data) {
-            that.state.socket.on('query', function(data) {
-                switch(data.type) {
-                    case 'player':
-                        that.refs.Player.handleUpdate(data);
-                        break;
-                    case 'region':
-                        that.refs.Region.handleUpdate(data);
-                        break;
-                    case 'cycling':
-                        that.refs.Region.handleCycling(data);
-                        break;
-                    default:
-                        break;
-                }
-            });
             that.setState({ status: STATE_RUNNING });
+            that.state.socket.on('query', function(data) {
+                that.refs.Region.handleUpdate(data);
+            });
+            that.state.socket.on('say', function(data) {
+                that.refs.Console.handleUpdate(data);
+            });
+            that.state.socket.on('enter', function(data) {
+                that.refs.Console.handleUpdate(data);
+            });
+            that.state.socket.on('leave', function(data) {
+                that.refs.Console.handleUpdate(data);
+            });
             that._emitSocketEvent('query', { type: 'cycling' });
             that._emitSocketEvent('query', { type: 'player' });
         });
@@ -81,7 +78,7 @@ export default React.createClass({
             default:
             case STATE_LOADING:
                 return (
-                    <div className="flex-vertical-container light">
+                    <div className="flex-vertical-container light-text">
                         <h1 className="logo">MoonCraft</h1>
                         <Loader ref="Loader" handleCompletion={this._handleLoaderCompletion} />
                         <div className="title_background"></div>
@@ -90,18 +87,17 @@ export default React.createClass({
                 );
             case STATE_LOADED:
                 return (
-                    <div className="flex-vertical-container light">
+                    <div className="flex-vertical-container light-text">
                         <h1 className="logo">MoonCraft</h1>
-                        <Player ref="Player" handleConnection={this._handlePlayerConnection} handleEventEmission={this._emitSocketEvent} handlePlaySound={this._playSound} />
+                        <LoginForm ref="LoginForm" handleConnection={this._handlePlayerConnection}  />
                         <div className="title_background"></div>
                         <div className="title_animation_overlay"></div>
                     </div>
                 );
             case STATE_RUNNING:
                 return (
-                    <div className="dark">
-                        <Player ref="Player" handleEventEmission={this._emitSocketEvent} handlePlaySound={this._playSound} />
-                        <Region ref="Region" handlePlayMusic={this._playMusic} />
+                    <div className="dark-text">
+                        <Region ref="Region" handlePlayMusic={this._playMusic} handleEventEmission={this._emitSocketEvent} handlePlaySound={this._playSound} />
                         <Console ref="Console" />
                     </div>
                 );

@@ -19,8 +19,8 @@ class Player {
             icon: CONFIG.player.defaultIcon,
             region: {
                 id: CONFIG.player.originRegionId,
-                x: CONFIG.player.originRegionX,
-                y: CONFIG.player.originRegionY
+                x : CONFIG.player.originRegionX,
+                y : CONFIG.player.originRegionY
             },
             inventory: CONFIG.player.defaultInventory
         };
@@ -94,6 +94,7 @@ class Player {
     query(self) {
         var struct = {
             'type': 'player',
+            'self': false,
             'data': {
                 'name': this.getName(),
                 'icon': this.getIcon(),
@@ -102,6 +103,7 @@ class Player {
         };
 
         if (self) {
+            struct.self           = true;
             struct.data.inventory = this.getInventory();
         }
 

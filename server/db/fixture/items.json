@@ -13,8 +13,8 @@
       "plural": false
     },
     "icon": {
-      "singular": "dust",
-      "plural": "pile-of-dust"
+      "singular": "dust.gif",
+      "plural": "pile-of-dust.gif"
     },
     "price": 0,
     "quantity": 1,
@@ -39,8 +39,8 @@
       "plural": false
     },
     "icon": {
-      "singular": "log",
-      "plural": "pile-of-logs"
+      "singular": "log.gif",
+      "plural": "pile-of-logs.gif"
     },
     "price": 1,
     "quantity": 1,

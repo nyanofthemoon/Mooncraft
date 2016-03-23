@@ -12,20 +12,20 @@ graphicalAssetStream.on('open', function(fileDescriptor) {
 
     graphicalAssetStream.write('let TILES = [];\n');
     for (let tileIndex in TILES) {
-        graphicalAssetStream.write('TILES.push({"id": "' + TILES[tileIndex].icon + '", "url": "tiles/' + TILES[tileIndex].icon + '.gif"});\n');
+        graphicalAssetStream.write('TILES.push({"id": "' + TILES[tileIndex].icon.split('.')[0] + '", "url": "tiles/' + TILES[tileIndex].icon + '"});\n');
     }
     graphicalAssetStream.write('\n');
 
     graphicalAssetStream.write('let NODES = [];\n');
     for (let nodeIndex in NODES) {
-        graphicalAssetStream.write('NODES.push({"id": "' + NODES[nodeIndex].icon + '", "url": "nodes/' + NODES[nodeIndex].icon + '.gif"});\n');
+        graphicalAssetStream.write('NODES.push({"id": "' + NODES[nodeIndex].icon.split('.')[0] + '", "url": "nodes/' + NODES[nodeIndex].icon + '"});\n');
     }
     graphicalAssetStream.write('\n');
 
     graphicalAssetStream.write('let ITEMS = [];\n');
     for (let itemIndex in ITEMS) {
-        graphicalAssetStream.write('ITEMS.push({"id": "' + ITEMS[itemIndex].icon.singular + '", "url": "items/' + ITEMS[itemIndex].icon.singular + '.gif"});\n');
-        graphicalAssetStream.write('ITEMS.push({"id": "' + ITEMS[itemIndex].icon.plural + '", "url": "items/' + ITEMS[itemIndex].icon.plural + '.gif"});\n');
+        graphicalAssetStream.write('ITEMS.push({"id": "' + ITEMS[itemIndex].icon.singular.split('.')[0] + '", "url": "items/' + ITEMS[itemIndex].icon.singular + '"});\n');
+        graphicalAssetStream.write('ITEMS.push({"id": "' + ITEMS[itemIndex].icon.plural.split('.')[0] + '", "url": "items/' + ITEMS[itemIndex].icon.plural + '"});\n');
     }
     graphicalAssetStream.write('\n');
 
