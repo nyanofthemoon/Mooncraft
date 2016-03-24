@@ -4,6 +4,15 @@
 
 @import url('https://fonts.googleapis.com/css?family=Sail');
 
+$base-fontname : 'helvetica neue', sans-serif;
+$base-fontsize : 12px;
+$title-fontname: 'Sail', serif;
+
+$dark-color    : black;
+$median-color  : #888888;
+$light-color   : whitesmoke;
+$progress-color: darkgreen;
+
 html {
   box-sizing: border-box;
 }
@@ -13,24 +22,24 @@ html {
 }
 
 h1, h2, h3 {
-  font-family: 'Sail', serif;
+  font-family: $title-fontname;
   font-weight: 400;
 }
 
 /* Helper Classes */
 
 .flex-vertical-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display        : flex;
+  flex-direction : column;
+  align-items    : center;
   justify-content: center;
-  height: 100vh;
+  height         : 100vh;
 }
 
 .flex-horizontal-container {
-  display: flex;
+  display        : flex;
   justify-content: center;
-  width: 100vw;
+  width          : 100vw;
 }
 
 .text-centered {
@@ -38,46 +47,41 @@ h1, h2, h3 {
 }
 
 .light-text {
-  color: whitesmoke;
+  color: $light-color;
 }
 
 .dark-text {
-  color: black;
+  color: $dark-color;
 }
 
 /* Title Screen */
 
 h1.logo {
-  font-size: 20vmin;
-  text-shadow: 3px 3px #555;
-  margin-top: 0;
+  margin-top : 0;
+  font-size  : 20vmin;
+  text-shadow: 3px 3px $median-color;
 }
 
 h2.loading {
-  font-size: 5vmin;
   margin-top: 0;
+  font-size : 5vmin;
 }
 
-div.progress_bar {
+div.progressbar {
+
+  width : 50vw;
   height: 5vh;
-  border: 1px solid whitesmoke;
-  width: 50vw;
+  border: 1px solid $light-color;
+  > span {
+    display         : block;
+    height          : 100%;
+    background-color: $progress-color;
+  }
+
 }
 
-div.progress_bar > span {
-  display: block;
-  background-color: darkgreen;
-  height: 100%;
-}
+.titlescreen {
 
-/* Animation */
-
-@keyframes move-background-overlay {
-  from { background-position: 0 0; }
-  to   { background-position: -10000px 5000px; }
-}
-
-.title_background, .title_animation_overlay {
   display : block;
   position: absolute;
   top     : 0;
@@ -87,42 +91,47 @@ div.progress_bar > span {
   width   : 100%;
   height  : 100%;
   z-index : -1;
-}
 
-.title_background {
-  background: #000 url(/img/background-stars.png) repeat top center;
-}
+  &__background {
+    background: black url(/img/background-stars.png) repeat top center;
+  }
 
-.title_animation_overlay {
-  background:transparent url(/img/stars-overlay.png) repeat top center;
-  animation:move-background-overlay 200s linear infinite;
+  &__overlay {
+    @keyframes move-to-right {
+      from { background-position: 0 0; }
+      to   { background-position: -10000px 5000px; }
+    }
+    background: transparent url(/img/stars-overlay.png) repeat top center;
+    animation : move-to-right 200s linear infinite;
+  }
+
 }
 
 /* Forms */
 
 input, button {
-  background: whitesmoke;
-  border: 1px solid #555555;
+  margin-left  : 5px;
+  margin-right : 5px;
+  border       : 1px solid $median-color;
   border-radius: 3px;
-  color: #000000;
-  font: 12px 'helvetica neue', sans-serif;
-  margin-left: 5px;
-  margin-right: 5px;
+  background   : $light-color;
+  color        : $dark-color;
+  font         : $base-fontsize $base-fontname;
 }
 
 input {
-  padding: 5px 5px 4px 5px;
-  text-shadow: 0 1px 0 #fff;
-  background-color: whitesmoke;
+  padding         : 5px 5px 4px 5px;
+  text-shadow     : 0 1px 0 $light-color;
+  background-color: $light-color;
 }
 
 button {
+  padding    : 4px 15px;
   font-weight: bold;
-  padding: 4px 15px;
-  text-shadow: 0 1px 0 #fff;
+  text-shadow: 0 1px 0 $light-color;
   &:hover, &:active {
-    background: #CCCCCC;
-    color: #777777;
+    color     : $dark-color;
+    background: $median-color;
   }
 }
 
@@ -130,77 +139,76 @@ button {
 
 div.morning, div.afternoon, div.evening, div.night {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 9999;
+  top     : 0;
+  left    : 0;
+  width   : 100%;
+  height  : 100%;
+  z-index : 9999;
 }
 
 div.morning, div.afternoon {
-  background-color: rgba(0,0,0,0);
+  background-color: rgba(0,0,0, 0);
 }
 
 div.evening {
-  background-color: rgba(0,0,0,0.33);
+  background-color: rgba(0,0,0, 0.33);
 }
 
 div.night {
-  background-color: rgba(0,0,0,0.66);
+  background-color: rgba(0,0,0, 0.66);
 }
 
 section.region {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  margin: auto;
+  display         : flex;
+  flex-direction  : column;
+  width           : 100%;
+  height          : 100%;
+  margin          : auto;
   background-color: black;
 }
-/* height et min ratio from x by y to get "squares": 4x3 grid would be width: 100vmin; and height: 75vmin; */
 
 div.row {
-  display: flex;
+  display       : flex;
   flex-direction: row;
-  flex: 1;
+  flex          : 1;
 }
 
 div.tile {
-  flex: 1;
-  background: url(/img/tiles/void.gif);
+  position       : relative;
+  flex           : 1;
+  background     : url(/img/tiles/void.gif);
   background-size: cover;
-  position: relative;
-  z-index: 10;
+  z-index        : 10;
 }
 
 div.node, div.character, div.item, div#player {
-  height: 100%;
-  width: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
+  top     : 0;
+  left    : 0;
+  height  : 100%;
+  width   : 100%;
 }
 
 div.node {
   background-image: url(/img/nodes/space.gif);
-  background-size: cover;
-  z-index: 100;
+  background-size : cover;
+  z-index         : 100;
 }
 
 div.item {
   background-image: url(/img/items/dust.gif);
-  background-size: cover;
-  z-index: 500;
+  background-size : cover;
+  z-index         : 500;
 }
 
 div.character {
   background-image: url(/img/characters/default.gif);
-  background-size: cover;
-  z-index: 1000;
+  background-size : cover;
+  z-index         : 1000;
 }
 
 div#player {
   background-image: url(/img/players/default.gif);
-  background-size: cover;
-  z-index: 5000;
+  background-size : cover;
+  z-index         : 5000;
 }

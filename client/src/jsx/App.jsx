@@ -81,8 +81,8 @@ export default React.createClass({
                     <div className="flex-vertical-container light-text">
                         <h1 className="logo">MoonCraft</h1>
                         <Loader ref="Loader" handleCompletion={this._handleLoaderCompletion} />
-                        <div className="title_background"></div>
-                        <div className="title_animation_overlay"></div>
+                        <div className="titlescreen titlescreen__background"></div>
+                        <div className="titlescreen titlescreen__overlay"></div>
                     </div>
                 );
             case STATE_LOADED:
@@ -90,8 +90,8 @@ export default React.createClass({
                     <div className="flex-vertical-container light-text">
                         <h1 className="logo">MoonCraft</h1>
                         <LoginForm ref="LoginForm" connect={this._establishSocketConnection}  />
-                        <div className="title_background"></div>
-                        <div className="title_animation_overlay"></div>
+                        <div className="titlescreen titlescreen__background"></div>
+                        <div className="titlescreen titlescreen__overlay"></div>
                     </div>
                 );
             case STATE_RUNNING:

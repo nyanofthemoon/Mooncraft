@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {loadAllAudiosWithProgress} from '../helpers/audio';
+import {loadAllAudiosWithProgress}   from '../helpers/audio';
 import {loadAllGraphicsWithProgress} from '../helpers/graphic';
 
 const GRAPHICAL_ASSETS = require('./../package/graphic.js');
@@ -82,7 +82,7 @@ export default React.createClass({
         return (
             <div className="text-centered">
                 <h2 className="loading">Loading {this.state.step.toLowerCase()}</h2>
-                <div className="progress_bar">
+                <div className="progressbar">
                     <span style={{width:percentage + '%'}} />
                 </div>
             </div>
