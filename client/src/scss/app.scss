@@ -141,25 +141,27 @@ button {
 
 /* Region */
 
-div.morning, div.afternoon, div.evening, div.night {
+.cycle {
+
   position: absolute;
   top     : 0;
   left    : 0;
-  width   : 100%;
-  height  : 100%;
+  width   : 100vw;
+  height  : 100vh;
   z-index : 9999;
-}
 
-div.morning, div.afternoon {
-  background-color: rgba(0,0,0, 0);
-}
+  &--morning, &--afternoon {
+    background-color: rgba(0,0,0, 0);
+  }
 
-div.evening {
-  background-color: rgba(0,0,0, 0.33);
-}
+  &--evening {
+     background-color: rgba(0,0,0, 0.33);
+  }
 
-div.night {
-  background-color: rgba(0,0,0, 0.66);
+  &--night {
+    background-color: rgba(0,0,0, 0.66);
+  }
+
 }
 
 .region {

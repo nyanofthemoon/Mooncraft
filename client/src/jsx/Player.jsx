@@ -7,8 +7,6 @@ export default React.createClass({
             playerIcon = 'url(/img/' + this.props.data.icon + ')';
         }
 
-        console.log(playerIcon);
-
         return (<div id="player" style={{backgroundImage: playerIcon}}></div>);
     }
 });

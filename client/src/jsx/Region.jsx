@@ -129,7 +129,7 @@ export default React.createClass({
 
         return (
             <section className="region" style={{width:aspectRatioRows, height:aspectRatioCols}}>
-                <div className={this.state.cycle}></div>
+                <div className={['cycle', 'cycle--' + this.state.cycle].join(' ')}></div>
                 {this.state.rows.slice(minRow, maxRow).map(function(row, index) {
                     let uid = 'row-' + index;
                     return (<Row ref="Row" key={uid} data={row} player={player}/>);
