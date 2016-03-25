@@ -5,6 +5,8 @@ Somewhere in the seventh millenia, long after Humans have become extinct, only a
 A new breed of seemingly sentient beings has emerged due to centuries of mutations from radiation exposure.
 They call themselves "Ents", live in "The Garden" and follow the teachings of their oldest member, the "Tree of Knowledge".
 
+Status: On hiatus for rehaul using [redux](https://github.com/reactjs/redux).
+
 [>>> Play MoonCraft <<<](https://mooncraft.protolicio.us/)
 
 # Installation

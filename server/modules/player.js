@@ -20,12 +20,7 @@ class Player {
             region: {
                 id  : CONFIG.player.originRegionId,
                 x   : CONFIG.player.originRegionX,
-                y   : CONFIG.player.originRegionY,
-                last: {
-                    id: CONFIG.player.originRegionId,
-                    x : CONFIG.player.originRegionX,
-                    y : CONFIG.player.originRegionY
-                }
+                y   : CONFIG.player.originRegionY
             },
             inventory: CONFIG.player.defaultInventory
         };
@@ -189,9 +184,6 @@ class Player {
 
     move(region, x, y) {
         this.increaseActivity();
-        this.data.region.last.id = this.data.region.id;
-        this.data.region.last.x  = this.data.region.x;
-        this.data.region.last.y  = this.data.region.y;
         this.data.region.x = x;
         this.data.region.y = y;
         region.socket.to(region.getId()).emit('query', this.query(false));
