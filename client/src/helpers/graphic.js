@@ -18,7 +18,7 @@ export function loadGraphic(graphic) {
     });
 }
 
-export function loadAllGraphicsWithProgress(graphics, progressCallback, concurrency = 2) {
+export function loadAllGraphicsWithProgress(graphics, progressCallback, concurrency = 4) {
     return Promise.resolve(graphics).map(function(graphic) {
         return loadGraphic(graphic).then(
             function(loadedGraphic) {

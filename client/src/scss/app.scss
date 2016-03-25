@@ -17,6 +17,10 @@ html {
   box-sizing: border-box;
 }
 
+body {
+  background-color: black;
+}
+
 *, *:before, *:after {
   box-sizing: inherit;
 }
@@ -158,57 +162,59 @@ div.night {
   background-color: rgba(0,0,0, 0.66);
 }
 
-section.region {
+.region {
+
   display         : flex;
   flex-direction  : column;
   width           : 100%;
   height          : 100%;
   margin          : auto;
   background-color: black;
-}
 
-div.row {
-  display       : flex;
-  flex-direction: row;
-  flex          : 1;
-}
+  &__row {
 
-div.tile {
-  position       : relative;
-  flex           : 1;
-  background     : url(/img/tiles/void.gif);
-  background-size: cover;
-  z-index        : 10;
-}
+    display: flex;
+    flex-direction: row;
+    flex: 1;
 
-div.node, div.character, div.item, div#player {
-  position: absolute;
-  top     : 0;
-  left    : 0;
-  height  : 100%;
-  width   : 100%;
-}
+    &__tile {
+      position       : relative;
+      flex           : 1;
+      background     : url(/img/tiles/void.gif);
+      background-size: cover;
+      z-index        : 10;
 
-div.node {
-  background-image: url(/img/nodes/space.gif);
-  background-size : cover;
-  z-index         : 100;
-}
+        &__node, &__character, &__item, #player {
+          position       : absolute;
+          top            : 0;
+          left           : 0;
+          height         : 100%;
+          width          : 100%;
+          background-size: cover;
+        }
 
-div.item {
-  background-image: url(/img/items/dust.gif);
-  background-size : cover;
-  z-index         : 500;
-}
+        &__node {
+          background-image: url(/img/nodes/space.gif);
+          z-index         : 100;
+        }
 
-div.character {
-  background-image: url(/img/characters/default.gif);
-  background-size : cover;
-  z-index         : 1000;
-}
+        &__item {
+          background-image: url(/img/items/dust.gif);
+          z-index         : 500;
+        }
 
-div#player {
-  background-image: url(/img/players/default.gif);
-  background-size : cover;
-  z-index         : 5000;
+        &__character {
+          background-image: url(/img/characters/default.gif);
+          z-index         : 1000;
+        }
+
+        #player {
+          background-image: url(/img/players/default.gif);
+          z-index         : 5000;
+        }
+
+    }
+
+  }
+
 }

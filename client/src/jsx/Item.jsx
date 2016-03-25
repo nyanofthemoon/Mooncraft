@@ -7,7 +7,7 @@ export default React.createClass({
         };
     },
     render() {
-        return <div className="item">
+        return <div className="region__row__tile__item">
         </div>;
     }
 });
