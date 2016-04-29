@@ -35,7 +35,6 @@ export default React.createClass({
             count: count
         });
     },
-
     componentDidMount() {
         var that  = this;
         function updateProgress() {

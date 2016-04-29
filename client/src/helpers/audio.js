@@ -9,10 +9,13 @@ export function loadAudio(track) {
             urls: [track.url],
             loop: track.loop,
             onload: function() {
-                resolve({
-                    id   : track.id,
-                    track: howl
-                });
+                // @WTF Event Loop Bug Since Migrating to Redux
+                setTimeout(function() {
+                    resolve({
+                        id: track.id,
+                        track: howl
+                    });
+                }, 0);
             },
             onerror: function(err) {
                 reject(err);

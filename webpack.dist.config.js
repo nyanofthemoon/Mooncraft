@@ -2,7 +2,7 @@ var webpack      = require('webpack');
 var autoprefixer = require('autoprefixer');
 
 module.exports = {
-    entry: __dirname + '/client/src/app.jsx',
+    entry: __dirname + '/client/src/index.jsx',
     module: {
         loaders: [{
             test: /\.jsx?$/,

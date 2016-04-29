@@ -6,7 +6,8 @@ export default React.createClass({
         var username = this.refs.username.value;
         var password = this.refs.password.value;
         if (username.length >= 1 && password.length >= 1) {
-            this.props.connect(username, password);
+            var that = this;
+            that.props.handleSubmit(username, password);
         }
     },
     render() {
