@@ -2,8 +2,6 @@ import React, {Component, PropTypes} from 'react'
 import {bindActionCreators} from 'redux'
 import {connect} from 'react-redux'
 
-import {setAudioAssets, playSound, playMusic} from './../audio_controller';
-
 import Loader    from './../components/Loader';
 import LoginForm from './../components/Login';
 
@@ -17,7 +15,7 @@ class App extends Component {
             case 'loading':
                 return (<div className="flex-vertical-container light-text">
                     <h1 className="logo">MoonCraft</h1>
-                    <Loader ref="Loader" handleCompletion={actions.loaderCompletion}/>
+                    <Loader ref="Loader" handleCompletion={actions.assetLoaderCompletion}/>
                     <div className="titlescreen titlescreen__background"></div>
                     <div className="titlescreen titlescreen__overlay"></div>
                 </div>);

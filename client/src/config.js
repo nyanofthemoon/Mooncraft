@@ -11,9 +11,11 @@ if (host === 'localhost') {
 
 export default {
     environment: {
-        name:    name,
-        host:    host,
-        port:    port,
-        verbose: verbose
+        name     :    name,
+        host     :    host,
+        port     :    port,
+        isVerbose: function() {
+            return verbose === true;
+        }
     }
 };

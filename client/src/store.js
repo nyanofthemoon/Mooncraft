@@ -1,11 +1,8 @@
 import {createStore, applyMiddleware} from 'redux'
-import createSagaMiddleware from 'redux-saga'
 import rootReducer from './reducers'
-import {mySaga} from './sagas'
 
 export default function configureStore() {
-  const sagaMiddleware = createSagaMiddleware();
-  const store = createStore(rootReducer, applyMiddleware(sagaMiddleware))
+  const store = createStore(rootReducer)
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
@@ -13,8 +10,6 @@ export default function configureStore() {
       store.replaceReducer(nextReducer)
     })
   }
-
-  sagaMiddleware.run(mySaga)
 
   return store
 }

@@ -6,9 +6,11 @@ export default React.createClass({
         var username = this.refs.username.value;
         var password = this.refs.password.value;
         if (username.length >= 1 && password.length >= 1) {
-            var that = this;
-            that.props.handleSubmit(username, password);
+            this.props.handleSubmit(username, password, this.context.store);
         }
+    },
+    contextTypes: {
+        store: React.PropTypes.object.isRequired
     },
     render() {
         return (

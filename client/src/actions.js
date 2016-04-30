@@ -1,42 +1,86 @@
+import Config from './config';
 import * as types from './constants/ActionTypes'
-
 import {setAudioAssets, playSound, playMusic} from './audio_controller';
-import {createSocketConnection, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent} from './helpers/socket';
+import {createSocketConnection, emitSocketCyclingQueryEvent, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent} from './helpers/socket';
 
-export function loaderCompletion(musics, sounds) {
+let socket;
+let dispatch;
+
+export function assetLoaderCompletion(musics, sounds) {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.ASSET_LOADER_COMPLETION); }
     setAudioAssets(musics, sounds)
     playSound('intro')
-    return { type: types.LOADER_COMPLETION }
+    return {type: types.ASSET_LOADER_COMPLETION}
 }
 
-export function connectSocket(username, password) {
-    return {type: types.CONNECT_SOCKET_REQUESTED, payload: {username: username, password: password}};
+export function connectSocket(username, password, store) {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.CONNECT_SOCKET_REQUESTED); }
+    socket   = createSocketConnection(username, password, store);
+    dispatch = store.dispatch;
+    socket.on('error', connectSocketFailure)
+    socket.on('connect', connectSocketSuccess);
+    return {type: types.CONNECT_SOCKET_REQUESTED};
 }
 
-export function connectSocketSuccess(socket) {
-    return {type: types.CONNECT_SOCKET_SUCCEEDED, payload: {socket: socket}};
+function connectSocketSuccess() {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.CONNECT_SOCKET_SUCCEEDED); }
+    dispatch({type: types.CONNECT_SOCKET_SUCCEEDED});
+    socket.on('query', function(data) {
+        switch(data.type) {
+            case 'region' : return queryRegionReception(data);
+            case 'player' : return queryPlayerReception(data);
+            case 'cycling': return queryCyclingReception(data);
+            default       : return queryUnknownReception(data);
+        }
+    });
+    emitSocketPlayerQueryEvent();
+    return {type: types.CONNECT_SOCKET_SUCCEEDED};
 }
 
-export function connectSocketFailure(message) {
+function connectSocketFailure(message) {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.CONNECT_SOCKET_FAILED); }
+    dispatch({type: types.CONNECT_SOCKET_FAILED});
     return {type: types.CONNECT_SOCKET_FAILED, payload: {message: message}};
 }
 
 export function queryPlayer(id) {
-    return { type: types.QUERY_PLAYER, id }
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.QUERY_PLAYER_REQUESTED); }
+    emitSocketPlayerQueryEvent();
+    return { type: types.QUERY_PLAYER_REQUESTED, payload: {id: id} }
+}
+
+function queryPlayerReception(data) {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.QUERY_PLAYER_RECEIVED); }
+    dispatch({type: types.QUERY_PLAYER_RECEIVED, payload: data});
+    return { type: types.QUERY_PLAYER_RECEIVED, payload: {data: data} }
 }
 
 export function queryRegion(id) {
-    return { type: types.QUERY_REGION, id }
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.QUERY_REGION_REQUESTED); }
+    emitSocketRegionQueryEvent(id);
+    return { type: types.QUERY_REGION_REQUESTED, payload: {id: id} }
 }
 
-export function updatePlayer(data) {
-    return { type: types.UPDATE_PLAYER, data }
+function queryRegionReception(data) {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.QUERY_REGION_RECEIVED); }
+    dispatch({type: types.QUERY_REGION_RECEIVED, payload: data});
+    return { type: types.QUERY_REGION_RECEIVED, payload: {data: data} }
 }
 
-export function updateRegion(data) {
-    return { type: types.UPDATE_REGION, data }
+export function queryCycling() {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.QUERY_CYCLING_REQUESTED); }
+    emitSocketCyclingQueryEvent();
+    return { type: types.QUERY_CYCLING_REQUESTED, payload: {} }
 }
 
-export function disconnectSocket(id) {
-    return { type: types.DISCONNECT_SOCKET, id }
+function queryCyclingReception(data) {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.QUERY_CYCLING_RECEIVED); }
+    dispatch({type: types.QUERY_CYCLING_RECEIVED, payload: data});
+    return { type: types.QUERY_CYCLING_RECEIVED, payload: {data: data} }
+}
+
+function queryUnknownReception(data) {
+    if (Config.environment.isVerbose()) { console.log('[Redux    ] Run ' + types.QUERY_UNKNOWN_RECEIVED); }
+    dispatch({type: types.QUERY_UNKNOWN_RECEIVED, payload: data});
+    return { type: types.QUERY_UNKNOWN_RECEIVED, payload: {data: data} }
 }
