@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react'
 
 import {loadAllAudiosWithProgress}   from '../helpers/audio';
 import {loadAllGraphicsWithProgress} from '../helpers/graphic';
@@ -6,16 +6,17 @@ import {loadAllGraphicsWithProgress} from '../helpers/graphic';
 const GRAPHICAL_ASSETS = require('./../package/graphic.js');
 const AUDIO_ASSETS     = require('./../package/audio.js');
 
-export default React.createClass({
-    getInitialState() {
-        return {
+class Loader extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
             step     : 'information',
             musics   : {},
             sounds   : {},
             count    : 0,
             progress : 0
         };
-    },
+    }
     componentWillMount() {
         var count  = 0;
         var assets = {
@@ -34,7 +35,7 @@ export default React.createClass({
             remaining: assets,
             count: count
         });
-    },
+    }
     componentDidMount() {
         var that  = this;
         function updateProgress() {
@@ -44,15 +45,15 @@ export default React.createClass({
         }
         this.setState({ step: 'music' });
         loadAllAudiosWithProgress(AUDIO_ASSETS.MUSIC, updateProgress)
-        .then(
-            function(musicTracks) {
-                that.setState({
-                    step: 'sounds',
-                    musics: musicTracks
-                });
-                return loadAllAudiosWithProgress(AUDIO_ASSETS.MUSIC, updateProgress);
-            }
-        ).then(
+            .then(
+                function(musicTracks) {
+                    that.setState({
+                        step: 'sounds',
+                        musics: musicTracks
+                    });
+                    return loadAllAudiosWithProgress(AUDIO_ASSETS.MUSIC, updateProgress);
+                }
+            ).then(
             function(soundTracks) {
                 that.setState({
                     step: 'tiles',
@@ -75,7 +76,7 @@ export default React.createClass({
                 that.props.handleCompletion(that.state.musics, that.state.sounds);
             }
         );
-    },
+    }
     render() {
         let percentage = Math.ceil((this.state.progress / this.state.count) * 100);
         return (
@@ -87,4 +88,6 @@ export default React.createClass({
             </div>
         );
     }
-});
+}
+
+export default Loader;

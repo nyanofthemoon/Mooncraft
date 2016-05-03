@@ -9,26 +9,24 @@ const initialState = fromJS({
 
 const engine = (state = initialState, action) => {
     let actionIsInCurrentReducer = true;
-    let newState = state;
+    let nextState;
     switch (action.type) {
         case types.ASSET_LOADER_COMPLETION:
         case types.CONNECT_SOCKET_REQUESTED:
-            newState = state.set('status', 'loaded');
+            nextState = fromJS(state).set('status', 'loaded');
             break;
         case types.CONNECT_SOCKET_SUCCEEDED:
-            newState = state.set('status', 'connected');
+            nextState = fromJS(state).set('status', 'connected');
             break;
         case types.CONNECT_SOCKET_FAILED:
-            newState = state.set('status', 'loaded');
-            break;
-        case types.QUERY_CYCLING_REQUESTED:
-        case types.QUERY_CYCLING_RECEIVED:
+            nextState = fromJS(state).set('status', 'loaded');
             break;
         default:
             actionIsInCurrentReducer = false;
+            break;
     }
     if (Config.environment.isVerbose() && actionIsInCurrentReducer) { console.log('[Reducer  ] Engine ' + action.type); }
-    return newState;
+    return nextState || state;
 }
 
 export default engine

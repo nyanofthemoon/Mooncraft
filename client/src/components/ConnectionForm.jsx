@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react'
 
-export default React.createClass({
+class ConnectionForm extends Component {
     _handleFormSubmit(e) {
         e.preventDefault();
         var username = this.refs.username.value;
@@ -8,13 +8,10 @@ export default React.createClass({
         if (username.length >= 1 && password.length >= 1) {
             this.props.handleSubmit(username, password, this.context.store);
         }
-    },
-    contextTypes: {
-        store: React.PropTypes.object.isRequired
-    },
+    }
     render() {
         return (
-            <form className="flex-horizontal-container" action="" onSubmit={this._handleFormSubmit}>
+            <form className="flex-horizontal-container" action="" onSubmit={this._handleFormSubmit.bind(this)}>
                 <div>
                     <input type="text" ref="username" placeholder="username"/>
                 </div>
@@ -24,6 +21,13 @@ export default React.createClass({
                 <div>
                     <button type="submit">Play</button>
                 </div>
-            </form>);
+            </form>
+        );
     }
-});
+}
+
+ConnectionForm.contextTypes = {
+    store: React.PropTypes.object.isRequired
+}
+
+export default ConnectionForm;

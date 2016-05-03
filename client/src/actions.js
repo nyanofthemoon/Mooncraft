@@ -1,5 +1,6 @@
 import Config from './config';
 import * as types from './constants/ActionTypes'
+import store from './store'
 import {setAudioAssets, playSound, playMusic} from './audio_controller';
 import {createSocketConnection, emitSocketCyclingQueryEvent, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent} from './helpers/socket';
 
@@ -9,7 +10,7 @@ let dispatch;
 export function assetLoaderCompletion(musics, sounds) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.ASSET_LOADER_COMPLETION); }
     setAudioAssets(musics, sounds)
-    playSound('intro')
+    playMusic('intro')
     return {type: types.ASSET_LOADER_COMPLETION}
 }
 
@@ -40,7 +41,10 @@ function connectSocketSuccess() {
             default       : return queryUnknownReception(data);
         }
     });
+    dispatch({type: types.QUERY_PLAYER_REQUESTED});
     emitSocketPlayerQueryEvent();
+    dispatch({type: types.QUERY_CYCLING_REQUESTED});
+    emitSocketCyclingQueryEvent();
     return {type: types.CONNECT_SOCKET_SUCCEEDED};
 }
 
@@ -50,16 +54,28 @@ function connectSocketFailure(message) {
     return {type: types.CONNECT_SOCKET_FAILED, payload: {message: message}};
 }
 
-export function queryPlayer(id) {
+export function queryPlayer() {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_PLAYER_REQUESTED); }
     emitSocketPlayerQueryEvent();
-    return { type: types.QUERY_PLAYER_REQUESTED, payload: {id: id} }
+    return { type: types.QUERY_PLAYER_REQUESTED, payload: {} }
 }
 
-function queryPlayerReception(data) {
+export function queryPlayerReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_PLAYER_RECEIVED); }
-    dispatch({type: types.QUERY_PLAYER_RECEIVED, payload: data});
-    return { type: types.QUERY_PLAYER_RECEIVED, payload: {data: data} }
+    let currentStore = store.getState();
+    let currentPlayerRegionId = currentStore.player.getIn(['data', 'region', 'id']);
+    let nextPlayerRegionId    = data.data.region.id;
+    if (!currentPlayerRegionId || (currentPlayerRegionId != nextPlayerRegionId)) {
+        _changeRegion(nextPlayerRegionId);
+    }
+    dispatch({type: types.QUERY_PLAYER_RECEIVED, payload: data.data});
+    return { type: types.QUERY_PLAYER_RECEIVED, payload: {data: data.data} }
+}
+
+function _changeRegion(id) {
+    // @TODO Reset Characters
+    dispatch({type: types.QUERY_REGION_REQUESTED, payload: {id: id}});
+    emitSocketRegionQueryEvent(id);
 }
 
 export function queryRegion(id) {
@@ -68,10 +84,10 @@ export function queryRegion(id) {
     return { type: types.QUERY_REGION_REQUESTED, payload: {id: id} }
 }
 
-function queryRegionReception(data) {
+export function queryRegionReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_REGION_RECEIVED); }
-    dispatch({type: types.QUERY_REGION_RECEIVED, payload: data});
-    return { type: types.QUERY_REGION_RECEIVED, payload: {data: data} }
+    dispatch({type: types.QUERY_REGION_RECEIVED, payload: data.data});
+    return { type: types.QUERY_REGION_RECEIVED, payload: {data: data.data} }
 }
 
 export function queryCycling() {
@@ -80,10 +96,21 @@ export function queryCycling() {
     return { type: types.QUERY_CYCLING_REQUESTED, payload: {} }
 }
 
-function queryCyclingReception(data) {
+export function queryCyclingReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_CYCLING_RECEIVED); }
-    dispatch({type: types.QUERY_CYCLING_RECEIVED, payload: data});
-    return { type: types.QUERY_CYCLING_RECEIVED, payload: {data: data} }
+    switch (data.data.cycle) {
+        default:
+        case 'morning':
+        case 'afternoon':
+            playMusic('daytime');
+            break;
+        case 'evening':
+        case 'night':
+            playMusic('nighttime');
+            break;
+    }
+    dispatch({type: types.QUERY_CYCLING_RECEIVED, payload: data.data});
+    return { type: types.QUERY_CYCLING_RECEIVED, payload: {data: data.data} }
 }
 
 function queryUnknownReception(data) {

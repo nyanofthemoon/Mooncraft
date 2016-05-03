@@ -1,7 +1,7 @@
 import {createStore, applyMiddleware} from 'redux'
 import rootReducer from './reducers'
 
-export default function configureStore() {
+function configureStore() {
   const store = createStore(rootReducer)
 
   if (module.hot) {
@@ -13,3 +13,5 @@ export default function configureStore() {
 
   return store
 }
+
+export default configureStore()
