@@ -7,6 +7,8 @@ They call themselves "Ents", live in "The Garden" and follow the teachings of th
 
 [>>> Play MoonCraft <<<](https://mooncraft.protolicio.us/)
 
+Status: Player module for region interaction is coming up next.
+
 # Installation
 
 ### Development

@@ -12,24 +12,10 @@ class Region extends Component {
     }
     render() {
         const {player, region, actions} = this.props
+
+        // @TODO Switch to Immutable
         let playerJS = {}; if (player) { playerJS = player.get('data'); }
         let rowsJS   = []; if (region) { rowsJS = region.get('rows').toJS(); }
-
-        let aspectRatioRows = 100;
-        let aspectRatioCols = 70;
-         /* // @TODO Forcing view to 20x14 surrounding player
-         if (this.state.data) {
-         let rows = this.state.data.tiles[0].length;
-         let cols = this.state.data.tiles.length;
-         if (cols > rows) {
-         aspectRatioRows = Math.round((rows / cols) * 100);
-         } else if (cols < rows) {
-         aspectRatioCols = Math.round((cols / rows) * 100);
-         }
-         }
-         */
-        aspectRatioRows += 'vmax';
-        aspectRatioCols += 'vmax';
 
         let minRow  = 0;
         let maxRow  = 14;
@@ -49,6 +35,9 @@ class Region extends Component {
             }
         }
 
+        // @TODO Performance: force view to 20x14 surrounding player
+        let aspectRatioRows = '100vmax';
+        let aspectRatioCols = '70vmax';
         return (
             <section className="region" style={{width:aspectRatioRows, height:aspectRatioCols}}>
                 <div className={['cycle', 'cycle--' + region.get('cycle')].join(' ')}></div>

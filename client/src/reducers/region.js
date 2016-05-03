@@ -13,8 +13,7 @@ const initialState = fromJS({
         nodes: [],
         items: []
     },
-    rows: [],
-    rowSize: 0
+    rows: []
 });
 
 const region = (state = initialState, action) => {
