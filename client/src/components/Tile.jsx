@@ -7,7 +7,7 @@ class Tile extends Component {
     render() {
         let backgroundImage = 'url(/img/tiles/' + this.props.data.icon+')';
         let player          = '';
-        if (this.props.y == this.props.player.region.y && this.props.x == this.props.player.region.x) {
+        if (this.props.x == this.props.player.region.x && this.props.y == this.props.player.region.y) {
             player = (<Player ref="Player" data={this.props.player} />);
         }
 

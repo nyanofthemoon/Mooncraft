@@ -9,6 +9,19 @@ They call themselves "Ents", live in "The Garden" and follow the teachings of th
 
 Status: Player module for region interaction is coming up next.
 
+# Game Play
+
+### Movement
+
+* Left by pressing `Left Arrow` or `a` or `NUM 4`
+* Right by pressing `Right Arrow` or `d` or `NUM 6`
+* Up by pressing `Up Arrow` or `w` or `NUM 8`
+* Down by pressing `Down Arrow` or `s` or `NUM 5`
+* Upleft by pressing `q` or `NUM 7`
+* Upright by pressing `e` or `NUM 9`
+* Downleft by pressing `z` or `NUM 1`
+* Downright by pressing `c` or `NUM 3`
+
 # Installation
 
 ### Development

@@ -18,6 +18,11 @@ export function emitSocketPlayerQueryEvent() {
     socket.emit('query', { type: 'player' });
 }
 
+export function emitPlayerMove(id, x, y) {
+    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Move (' + x + ',' + y + ')'); }
+    socket.emit('move', { id: id, x: x, y: y });
+}
+
 export function emitSocketCyclingQueryEvent() {
     if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Cycling Query'); }
     socket.emit('query', { type: 'cycling' });

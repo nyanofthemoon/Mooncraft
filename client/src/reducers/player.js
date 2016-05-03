@@ -21,6 +21,14 @@ const player = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case types.QUERY_PLAYER_REQUESTED:
+        case types.MOVE_PLAYER_LEFT_REQUESTED:
+        case types.MOVE_PLAYER_UP_REQUESTED:
+        case types.MOVE_PLAYER_DOWN_REQUESTED:
+        case types.MOVE_PLAYER_RIGHT_REQUESTED:
+        case types.MOVE_PLAYER_LEFTUP_REQUESTED:
+        case types.MOVE_PLAYER_RIGHTUP_REQUESTED:
+        case types.MOVE_PLAYER_LEFTDOWN_REQUESTED:
+        case types.MOVE_PLAYER_RIGHTDOWN_REQUESTED:
             break;
         case types.QUERY_PLAYER_RECEIVED:
             newState = fromJS(state).set('data', action.payload);

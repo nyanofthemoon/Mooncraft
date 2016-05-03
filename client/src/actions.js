@@ -2,10 +2,14 @@ import Config from './config';
 import * as types from './constants/ActionTypes'
 import store from './store'
 import {setAudioAssets, playSound, playMusic} from './audio_controller';
-import {createSocketConnection, emitSocketCyclingQueryEvent, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent} from './helpers/socket';
+import {createSocketConnection, emitSocketCyclingQueryEvent, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent, emitPlayerMove} from './helpers/socket';
 
 let socket;
 let dispatch;
+
+function getState() {
+    return store.getState();
+}
 
 export function assetLoaderCompletion(musics, sounds) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.ASSET_LOADER_COMPLETION); }
@@ -45,6 +49,7 @@ function connectSocketSuccess() {
     emitSocketPlayerQueryEvent();
     dispatch({type: types.QUERY_CYCLING_REQUESTED});
     emitSocketCyclingQueryEvent();
+    bindKeys();
     return {type: types.CONNECT_SOCKET_SUCCEEDED};
 }
 
@@ -60,22 +65,16 @@ export function queryPlayer() {
     return { type: types.QUERY_PLAYER_REQUESTED, payload: {} }
 }
 
-export function queryPlayerReception(data) {
+function queryPlayerReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_PLAYER_RECEIVED); }
-    let currentStore = store.getState();
-    let currentPlayerRegionId = currentStore.player.getIn(['data', 'region', 'id']);
-    let nextPlayerRegionId    = data.data.region.id;
-    if (!currentPlayerRegionId || (currentPlayerRegionId != nextPlayerRegionId)) {
-        _changeRegion(nextPlayerRegionId);
+    let player       = getState().player.get('data');
+    let nextRegionId = data.data.region.id;
+    if (!player.region || (player.region.id != nextRegionId)) {
+        dispatch({type: types.QUERY_REGION_REQUESTED, payload: {}});
+        emitSocketRegionQueryEvent(nextRegionId);
     }
     dispatch({type: types.QUERY_PLAYER_RECEIVED, payload: data.data});
     return { type: types.QUERY_PLAYER_RECEIVED, payload: {data: data.data} }
-}
-
-function _changeRegion(id) {
-    // @TODO Reset Characters
-    dispatch({type: types.QUERY_REGION_REQUESTED, payload: {id: id}});
-    emitSocketRegionQueryEvent(id);
 }
 
 export function queryRegion(id) {
@@ -84,7 +83,7 @@ export function queryRegion(id) {
     return { type: types.QUERY_REGION_REQUESTED, payload: {id: id} }
 }
 
-export function queryRegionReception(data) {
+function queryRegionReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_REGION_RECEIVED); }
     dispatch({type: types.QUERY_REGION_RECEIVED, payload: data.data});
     return { type: types.QUERY_REGION_RECEIVED, payload: {data: data.data} }
@@ -96,7 +95,7 @@ export function queryCycling() {
     return { type: types.QUERY_CYCLING_REQUESTED, payload: {} }
 }
 
-export function queryCyclingReception(data) {
+function queryCyclingReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_CYCLING_RECEIVED); }
     switch (data.data.cycle) {
         default:
@@ -117,4 +116,58 @@ function queryUnknownReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_UNKNOWN_RECEIVED); }
     dispatch({type: types.QUERY_UNKNOWN_RECEIVED, payload: data});
     return { type: types.QUERY_UNKNOWN_RECEIVED, payload: {data: data} }
+}
+
+function bindKeys() {
+    document.onkeydown = function(e) {
+        let player = getState().player.get('data');
+        switch (e.keyCode) {
+            case 37:
+            case 52:
+            case 65:
+                dispatch({type: types.MOVE_PLAYER_LEFT_REQUESTED});
+                emitPlayerMove(player.region.id, (player.region.x - 1), player.region.y);
+                break;
+            case 38:
+            case 56:
+            case 87:
+                dispatch({type: types.MOVE_PLAYER_UP_REQUESTED});
+                emitPlayerMove(player.region.id, player.region.x, (player.region.y - 1));
+                break;
+            case 39:
+            case 54:
+            case 68:
+                dispatch({type: types.MOVE_PLAYER_RIGHT_REQUESTED});
+                emitPlayerMove(player.region.id, (player.region.x + 1), player.region.y);
+                break;
+            case 40:
+            case 53:
+            case 83:
+                dispatch({type: types.MOVE_PLAYER_DOWN_REQUESTED});
+                emitPlayerMove(player.region.id, player.region.x, (player.region.y + 1));
+                break;
+            case 55:
+            case 81:
+                dispatch({type: types.MOVE_PLAYER_LEFTUP_REQUESTED});
+                emitPlayerMove(player.region.id, (player.region.x - 1), (player.region.y - 1));
+                break;
+            case 57:
+            case 69:
+                dispatch({type: types.MOVE_PLAYER_RIGHTUP_REQUESTED});
+                emitPlayerMove(player.region.id, (player.region.x + 1), (player.region.y - 1));
+                break;
+            case 49:
+            case 90:
+                dispatch({type: types.MOVE_PLAYER_LEFTDOWN_REQUESTED});
+                emitPlayerMove(player.region.id, (player.region.x - 1), (player.region.y + 1));
+                break;
+            case 51:
+            case 67:
+                dispatch({type: types.MOVE_PLAYER_RIGHTDOWN_REQUESTED});
+                emitPlayerMove(player.region.id, (player.region.x + 1), (player.region.y + 1));
+                break;
+            default:
+                break;
+        }
+    };
 }

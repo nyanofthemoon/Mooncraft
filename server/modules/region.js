@@ -96,27 +96,27 @@ class Region {
     }
 
     getTile(x, y) {
-        if (!this.tiles[x][y]) {
+        if (!this.tiles[y][x]) {
             return null;
         }
 
-        return this.tiles[x][y];
+        return this.tiles[y][x];
     }
 
     getNode(x, y) {
-        if (!this.nodes[x][y]) {
+        if (!this.nodes[y][x]) {
             return null;
         }
 
-        return this.nodes[x][y];
+        return this.nodes[y][x];
     }
 
     getItems(x, y) {
-        if (!this.items[x][y]) {
+        if (!this.items[y][x]) {
             return null;
         }
 
-        return this.items[x][y];
+        return this.items[y][x];
     }
 
     query() {
