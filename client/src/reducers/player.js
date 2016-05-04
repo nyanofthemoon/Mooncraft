@@ -28,28 +28,28 @@ const player = (state = initialState, action) => {
             // @TODO Received external players movements
             newState = fromJS(state).set('data', action.payload);
             break;
-        case types.MOVE_UP_REQUESTED:
+        case types.PLAYER_MOVE_UP_REQUESTED:
             newState = fromJS(state).set('direction', 'up');
             break;
-        case types.MOVE_RIGHT_REQUESTED:
+        case types.PLAYER_MOVE_RIGHT_REQUESTED:
             newState = fromJS(state).set('direction', 'right');
             break;
-        case types.MOVE_DOWN_REQUESTED:
+        case types.PLAYER_MOVE_DOWN_REQUESTED:
             newState = fromJS(state).set('direction', 'down');
             break;
-        case types.MOVE_LEFT_REQUESTED:
+        case types.PLAYER_MOVE_LEFT_REQUESTED:
             newState = fromJS(state).set('direction', 'left');
             break;
-        case types.MOVE_LEFTUP_REQUESTED:
+        case types.PLAYER_MOVE_LEFTUP_REQUESTED:
             newState = fromJS(state).set('direction', 'leftup');
             break;
-        case types.MOVE_RIGHTUP_REQUESTED:
+        case types.PLAYER_MOVE_RIGHTUP_REQUESTED:
             newState = fromJS(state).set('direction', 'rightup');
             break;
-        case types.MOVE_LEFTDOWN_REQUESTED:
+        case types.PLAYER_MOVE_LEFTDOWN_REQUESTED:
             newState = fromJS(state).set('direction', 'leftdown');
             break;
-        case types.MOVE_RIGHTDOWN_REQUESTED:
+        case types.PLAYER_MOVE_RIGHTDOWN_REQUESTED:
             newState = fromJS(state).set('direction', 'rightdown');
             break;
         default:

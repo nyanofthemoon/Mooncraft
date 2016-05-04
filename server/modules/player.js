@@ -212,9 +212,6 @@ class Player {
 
     harvest(region, x, y) {
         var item = region.getNode(x, y).harvest();
-
-
-
         region.socket.to(region.getId()).emit('query', region.query());
         this.addItemToInventory(item);
         this.socket.emit('query', this.query(true));

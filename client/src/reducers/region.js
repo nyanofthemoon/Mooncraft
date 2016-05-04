@@ -22,7 +22,9 @@ const region = (state = initialState, action) => {
     switch (action.type) {
         case types.QUERY_CYCLING_REQUESTED:
         case types.QUERY_REGION_REQUESTED:
-        case types.HARVEST_NODE_REQUESTED:
+        case types.PLAYER_ENTER_REGION_REQUESTED:
+        case types.PLAYER_LEAVE_REGION_REQUESTED:
+        case types.PLAYER_HARVEST_REGION_REQUESTED:
             break;
         case types.QUERY_CYCLING_RECEIVED:
             nextState = fromJS(state).set('cycle', action.payload.cycle);

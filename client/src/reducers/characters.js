@@ -5,24 +5,56 @@ import * as types from './../constants/ActionTypes'
 
 const initialState = fromJS({
     list       : {},
-    coordinates: []
+    coordinates: {}
 });
 
 const characters = (state = initialState, action) => {
+
+    function _updateCharacterInList(character, list) {
+        list[character.name] = character;
+        return list;
+    }
+    function _removeCharacterFromList(character, list) {
+        delete list[character.name];
+        return list;
+    }
+    function _updateCharacterInCoordinates(character, list, coordinates) {
+        let currentCharacter = list[character.name]
+        if (currentCharacter) {
+            coordinates = _removeCharacterFromCoordinates(currentCharacter, coordinates);
+        }
+        let nextX = character.region.x;
+        let nextY = character.region.y;
+        if (!coordinates[nextX])               { coordinates[nextX]        = {}; coordinates[nextX][nextY] = {};
+        } else if (!coordinates[nextX][nextY]) { coordinates[nextX][nextY] = {} }
+        coordinates[nextX][nextY][character.name] = character;
+        return coordinates;
+    }
+    function _removeCharacterFromCoordinates(character, coordinates) {
+        if (coordinates[character.region.x] && coordinates[character.region.x][character.region.y]) {
+            delete coordinates[character.region.x][character.region.y][character.name];
+        }
+        return coordinates;
+    }
+
     let actionIsInCurrentReducer = true;
     let nextState;
     switch (action.type) {
-        case types.ENTER_REGION_REQUESTED:
-        case types.LEAVE_REGION_REQUESTED:
-            break;
         case types.QUERY_CHARACTER_RECEIVED:
-            // @TODO External Players Moved Inside Local Player Region
+            let currentQueryList = fromJS(state).toJS().list;
+            nextState = fromJS(state).merge({
+                'coordinates': _updateCharacterInCoordinates(action.payload, currentQueryList, fromJS(state).toJS().coordinates),
+                'list'       : _updateCharacterInList(action.payload, currentQueryList)
+            });
             break;
-        case types.ENTER_REGION_RECEIVED:
-            // @TODO External Players Entered Local Player Region
+        case types.CHARACTER_ENTER_REGION_RECEIVED:
+            nextState = fromJS(state).set('list', _updateCharacterInList(action.payload, fromJS(state).toJS().list));
             break;
-        case types.LEAVE_REGION_RECEIVED:
-            // @TODO External Players Left Local Player Region
+        case types.CHARACTER_LEAVE_REGION_RECEIVED:
+            nextState = fromJS(state).merge({
+                'coordinates': _removeCharacterFromCoordinates(action.payload, fromJS(state).toJS().coordinates),
+                'list'       : _removeCharacterFromList(action.payload, fromJS(state).toJS().list)
+            });
             break;
         default:
             actionIsInCurrentReducer = false;

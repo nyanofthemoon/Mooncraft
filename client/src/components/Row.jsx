@@ -10,8 +10,8 @@ class Row extends Component {
                 {this.props.cells.map(function(cell, index) {
                     return (<Tile
                         key        = {'tile-' + index}
-                        x          = {parseInt(cell.getIn(['coordinates','x']))}
-                        y          = {parseInt(cell.getIn(['coordinates','y']))}
+                        x          = {cell.getIn(['coordinates','x'])}
+                        y          = {cell.getIn(['coordinates','y'])}
                         data       = {cell.getIn(['tile','data'])}
                         node       = {cell.getIn(['node','data'])}
                         items      = {cell.getIn(['items','data'])}
