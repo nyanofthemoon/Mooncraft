@@ -23,10 +23,7 @@ class Tile extends Component {
             <Node data={this.props.node}/>
             {playerComponent}
             {list.map(function(character, index) {
-                return (<Character
-                    key  = {'tile-' + index}
-                    data = {character}
-                />);
+                return (<Character key={'tile-' + index} data={character}/>);
             })}
         </div>);
     }

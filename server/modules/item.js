@@ -1,18 +1,20 @@
 'use strict';
 
-const FIXTURES = require('./../db/fixture/nodes.json');
+const FIXTURES = require('./../db/fixture/items.json');
 
 class Item {
 
     constructor(id) {
         this.data    = JSON.parse(JSON.stringify(Item.getTypeDefinition(id)));
         this.data.id = id;
-        this.data.x  = null;
-        this.data.y  = null;
     }
 
     static getTypeDefinition(id) {
-        return FIXTURES[id];
+        return JSON.parse(JSON.stringify(FIXTURES[id]));
+    }
+
+    getId() {
+        return this.data.id;
     }
 
     getName() {
@@ -32,27 +34,27 @@ class Item {
     }
 
     getQuantity() {
-        return this.data.quantity;
+        return this.data.quantity || 0;
     }
 
     getUnitValue() {
-        return this.data.price;
+        return this.data.price || 0;
     }
 
     getUnitWeight() {
-        return this.data.weight;
+        return this.data.weight || 0;
     }
 
     getTotalValue() {
-        return this.data.quantity * this.data.price;
+        return this.getQuantity() * this.getUnitValue();
     }
 
     getTotalWeight() {
-        return this.data.quantity * this.data.weight;
+        return this.getQuantity() * this.getUnitWeight();
     }
 
     isSingular() {
-        if (this.data.quantity <= 1) {
+        if (this.getQuantity() <= 1) {
             return true;
         } else {
             return false;

@@ -9,8 +9,6 @@ class Node {
     constructor(id) {
         this.data    = JSON.parse(JSON.stringify(Node.getTypeDefinition(id)));
         this.data.id = id;
-        this.data.x  = null;
-        this.data.y  = null;
     }
 
     static getTypeDefinition(id) {

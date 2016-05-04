@@ -79,18 +79,18 @@ class Player {
     }
 
     addItemToInventory(item) {
-        if (this.data.inventory[item.id]) {
-            this.data.inventory[item.id].quantity += item.quantity;
+        if (this.data.inventory[item.getId()]) {
+            this.data.inventory[item.getId()].data.quantity = this.data.inventory[item.getId()].data.quantity + item.getQuantity();
         } else {
-            this.data.inventory[item.id] = item;
+            this.data.inventory[item.getId()] = item;
         }
     }
 
     removeItemFromInventory(item) {
-        if (this.data.inventory[item.id]) {
-            this.data.inventory[item.id].quantity -= item.quantity;
-            if (this.data.inventory[item.id].quantity <= 0) {
-                delete this.data.inventory[item.id];
+        if (this.data.inventory[item.getId()]) {
+            this.data.inventory[item.getId()].data.quantity = this.data.inventory[item.getId()].data.quantity - item.getQuantity();
+            if (this.data.inventory[item.getId()].getQuantity() <= 0) {
+                delete this.data.inventory[item.getId()];
             }
         }
     }
