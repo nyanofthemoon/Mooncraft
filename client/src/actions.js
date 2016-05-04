@@ -161,54 +161,54 @@ function queryUnknownReception(data) {
 
 function bindKeys() {
     document.onkeyup = function(e) {
-        let player = _getState().player.get('data');
+        let player    = _getState().player.get('data');
+        let direction = _getState().player.get('direction');
         switch (e.keyCode) {
             case 38:
             case 56:
             case 87:
                 dispatch({type: types.PLAYER_MOVE_UP_REQUESTED});
-                emitPlayerMove(player.region.id, player.region.x, (player.region.y - 1));
+                if ('up' === direction) { emitPlayerMove(player.region.id, player.region.x, (player.region.y - 1)); }
                 break;
             case 39:
             case 54:
             case 68:
                 dispatch({type: types.PLAYER_MOVE_RIGHT_REQUESTED});
-                emitPlayerMove(player.region.id, (player.region.x + 1), player.region.y);
+                if ('right' === direction) { emitPlayerMove(player.region.id, (player.region.x + 1), player.region.y); }
                 break;
             case 40:
             case 53:
             case 83:
                 dispatch({type: types.PLAYER_MOVE_DOWN_REQUESTED});
-                emitPlayerMove(player.region.id, player.region.x, (player.region.y + 1));
+                if ('down' === direction) { emitPlayerMove(player.region.id, player.region.x, (player.region.y + 1)); }
                 break;
             case 37:
             case 52:
             case 65:
                 dispatch({type: types.PLAYER_MOVE_LEFT_REQUESTED});
-                emitPlayerMove(player.region.id, (player.region.x - 1), player.region.y);
+                if ('left' === direction) { emitPlayerMove(player.region.id, (player.region.x - 1), player.region.y); }
                 break;
             case 55:
             case 81:
                 dispatch({type: types.PLAYER_MOVE_LEFTUP_REQUESTED});
-                emitPlayerMove(player.region.id, (player.region.x - 1), (player.region.y - 1));
+                if ('leftup' === direction) { emitPlayerMove(player.region.id, (player.region.x - 1), (player.region.y - 1)); }
                 break;
             case 57:
             case 69:
                 dispatch({type: types.PLAYER_MOVE_RIGHTUP_REQUESTED});
-                emitPlayerMove(player.region.id, (player.region.x + 1), (player.region.y - 1));
+                if ('rightup' === direction) { emitPlayerMove(player.region.id, (player.region.x + 1), (player.region.y - 1)); }
                 break;
             case 49:
             case 90:
                 dispatch({type: types.PLAYER_MOVE_LEFTDOWN_REQUESTED});
-                emitPlayerMove(player.region.id, (player.region.x - 1), (player.region.y + 1));
+                if ('leftdown' === direction) { emitPlayerMove(player.region.id, (player.region.x - 1), (player.region.y + 1)); }
                 break;
             case 51:
             case 67:
                 dispatch({type: types.PLAYER_MOVE_RIGHTDOWN_REQUESTED});
-                emitPlayerMove(player.region.id, (player.region.x + 1), (player.region.y + 1));
+                if ('rightdown' === direction) { emitPlayerMove(player.region.id, (player.region.x + 1), (player.region.y + 1)); }
                 break;
             case 72:
-                let direction = _getState().player.get('direction');
                 if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.PLAYER_HARVEST_REGION_REQUESTED + ' towards ' + direction); }
                 if (Config.audio.soundIsEnabled()) {
                     playSound('harvest');
