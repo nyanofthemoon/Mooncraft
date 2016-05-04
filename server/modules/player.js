@@ -198,7 +198,7 @@ class Player {
     canHarvest(region, x, y) {
         // Can only harvest within the same region and to an adjacent tile.
         if (!this._isInRegion(region) || !this._isAdjacentTo(x, y)) {
-            return false
+            return false;
         }
 
         // Can only harvest "harvestable" nodes
@@ -211,10 +211,12 @@ class Player {
     }
 
     harvest(region, x, y) {
-        var item = region.getNode(x, y).harvest();
+        var harvestedItem = region.getNode(x, y).harvest();
         region.socket.to(region.getId()).emit('query', region.query());
-        this.addItemToInventory(item);
-        this.socket.emit('query', this.query(true));
+        if (harvestedItem) {
+            this.addItemToInventory(harvestedItem);
+            this.socket.emit('query', this.query(true));
+        }
     }
 
     canBuild(region, x, y) {

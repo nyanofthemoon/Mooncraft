@@ -24,8 +24,6 @@ const player = (state = initialState, action) => {
         case types.QUERY_PLAYER_REQUESTED:
             break;
         case types.QUERY_PLAYER_RECEIVED:
-            // @TODO DIFFERENCIATE BEWTEEN LOCAL PLAYER AND EXTERNAL PLAYER
-            // @TODO Received external players movements
             newState = fromJS(state).set('data', action.payload);
             break;
         case types.PLAYER_MOVE_UP_REQUESTED:

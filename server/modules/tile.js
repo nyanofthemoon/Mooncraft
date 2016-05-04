@@ -5,7 +5,7 @@ const FIXTURES = require('./../db/fixture/tiles.json');
 class Tile {
 
     constructor(id) {
-        this.data = Tile.getTypeDefinition(id);
+        this.data = JSON.parse(JSON.stringify(Tile.getTypeDefinition(id)));
     }
 
     static getTypeDefinition(id) {

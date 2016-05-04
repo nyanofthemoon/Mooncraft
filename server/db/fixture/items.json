@@ -1,5 +1,5 @@
 {
-  "0": {
+  "1": {
     "name": {
       "singular": "Dust",
       "plural": "Dust"
@@ -25,7 +25,7 @@
     "containable": false,
     "invisible": false
   },
-  "1": {
+  "2": {
     "name": {
       "singular": "Log",
       "plural": "Logs"

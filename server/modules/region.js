@@ -42,7 +42,7 @@ class Region {
             }
             for (var y in this.data.fixture.tiles[x]) {
                 this.tiles[x][y] = new Tile(this.data.fixture.tiles[x][y]);
-                this.nodes[x][y] = new Node(0);
+                this.nodes[x][y] = new Node(1);
                 this.items[x][y] = [];
             }
         }
@@ -51,15 +51,13 @@ class Region {
             // Initialize Nodes
             for (var i in this.data.progress.nodes) {
                 let ndata = this.data.progress.nodes[i];
-                this.nodes[ndata.x][ndata.y].mutate(ndata.id, ndata);
+                this.nodes[ndata.y][ndata.x] = new Node(ndata.id, this.data.progress.nodes[i]);
             }
 
             // Initialize Items
             for (var i in this.data.progress.items) {
                 let idata = this.data.progress.items[i];
-                let item = new Item(0);
-                item.mutate(idata.id, idata);
-                this.items[idata.x][idata.y].push(item);
+                this.items[ndata.y][ndata.x].push(new Item(idata.id, this.data.progress.items[i]));
             }
         }
     }

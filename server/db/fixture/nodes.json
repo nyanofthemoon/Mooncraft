@@ -1,5 +1,5 @@
 {
-  "0": {
+  "1": {
     "name": "Purified Space",
     "icon": "space.gif",
     "description": "An empty space.",
@@ -9,7 +9,7 @@
     "ownable": false,
     "transportable": false
   },
-  "1": {
+  "2": {
     "name": "Teleport",
     "icon": "teleport.gif",
     "description": "A teleport to another region.",
@@ -31,7 +31,8 @@
     "buildable": false,
     "ownable": false,
     "harvestable": {
-      "transform": 0
+      "quantity": 3,
+      "transform": 1
     }
   },
   "101": {
@@ -42,7 +43,7 @@
     "buildable": false,
     "ownable": false,
     "harvestable": {
-      "item": 0,
+      "item": 1,
       "quantity": 1,
       "transform": 100
     }
@@ -55,8 +56,8 @@
     "buildable": false,
     "ownable": false,
     "harvestable": {
-      "item": 0,
-      "quantity": 2,
+      "item": 1,
+      "quantity": 1,
       "transform": 101
     }
   },
@@ -66,7 +67,7 @@
     "description": "A tall tree.",
     "walkable": false,
     "harvestable": {
-      "item": 1,
+      "item": 2,
       "quantity": 2,
       "transform": 201
     },
@@ -80,9 +81,9 @@
     "description": "What remains of a once proud tree.",
     "walkable": false,
     "harvestable": {
-      "item": 1,
+      "item": 2,
       "quantity": 1,
-      "transform": 0
+      "transform": 1
     },
     "buildable": false,
     "ownable": false,

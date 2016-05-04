@@ -79,12 +79,12 @@ function queryPlayerReception(data) {
         dispatch({type: types.QUERY_CHARACTER_RECEIVED, payload: data.data});
     } else {
         if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_PLAYER_RECEIVED + ' for Player'); }
-        let currentRegionId = _getState().player.getIn(['data', 'region', 'id']);
-        let nextRegionId    = data.data.region.id;
-        if (currentRegionId != nextRegionId) {
-            if (currentRegionId) {
+        let currentRegion = _getState().player.getIn(['data', 'region']);
+        let nextRegionId  = data.data.region.id;
+        if (currentRegion && currentRegion.id != nextRegionId) {
+            if (currentRegion.id) {
                 dispatch({type: types.PLAYER_LEAVE_REGION_REQUESTED, payload: {}});
-                emitPlayerLeave(currentRegionId);
+                emitPlayerLeave(currentRegion.id);
                 dispatch({type: types.PLAYER_ENTER_REGION_REQUESTED, payload: {}});
                 emitPlayerEnter(nextRegionId);
             }
@@ -160,7 +160,7 @@ function queryUnknownReception(data) {
 }
 
 function bindKeys() {
-    document.onkeydown = function(e) {
+    document.onkeyup = function(e) {
         let player = _getState().player.get('data');
         switch (e.keyCode) {
             case 38:

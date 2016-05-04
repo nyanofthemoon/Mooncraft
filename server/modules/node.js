@@ -1,13 +1,13 @@
 'use strict';
 
-let Item = require('./item');
+let Item   = require('./item');
 
 const FIXTURES = require('./../db/fixture/nodes.json');
 
 class Node {
 
     constructor(id) {
-        this.data    = Node.getTypeDefinition(id);
+        this.data    = JSON.parse(JSON.stringify(Node.getTypeDefinition(id)));
         this.data.id = id;
         this.data.x  = null;
         this.data.y  = null;
@@ -77,20 +77,19 @@ class Node {
     }
 
     harvest() {
-        var item = new Item(this.data.harvestable.item);
-
+        var item = null;
         this.data.harvestable.quantity--;
-        if (this.data.harvestable.quantity < 1) {
-            if (this.data.harvestable.transform) {
-                transform(this.data.harvestable.transform);
-            }
+        if (this.data.harvestable.item) {
+            item = new Item(this.data.harvestable.item);
         }
-
+        if (this.data.harvestable.quantity < 1 && this.data.harvestable.transform) {
+            this.mutate(this.data.harvestable.transform);
+        }
         return item;
     }
 
     mutate(id, data) {
-        this.data = Node.getTypeDefinition(id);
+        this.data = JSON.parse(JSON.stringify(Node.getTypeDefinition(id)));
         if (data) {
             var that = this;
             Object.keys(data).forEach(function(key) {

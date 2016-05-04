@@ -5,7 +5,7 @@ const FIXTURES = require('./../db/fixture/nodes.json');
 class Item {
 
     constructor(id) {
-        this.data    = Item.getTypeDefinition(id);
+        this.data    = JSON.parse(JSON.stringify(Item.getTypeDefinition(id)));
         this.data.id = id;
         this.data.x  = null;
         this.data.y  = null;
@@ -112,7 +112,7 @@ class Item {
     }
 
     mutate(id, data) {
-        this.data = Item.getTypeDefinition(id);
+        this.data = JSON.parse(JSON.stringify(Item.getTypeDefinition(id)));
         if (data) {
             var that = this;
             Object.keys(data).forEach(function(key) {
