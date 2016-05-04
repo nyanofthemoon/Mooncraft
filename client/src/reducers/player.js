@@ -9,7 +9,7 @@ const initialState = fromJS({
         icon: "players/default.gif",
         inventory: {},
         region: {
-            id: "",
+            id: null,
             x : 0,
             y : 0
         }

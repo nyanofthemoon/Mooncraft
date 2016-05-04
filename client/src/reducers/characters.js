@@ -15,6 +15,9 @@ const characters = (state = initialState, action) => {
         case types.ENTER_REGION_REQUESTED:
         case types.LEAVE_REGION_REQUESTED:
             break;
+        case types.QUERY_CHARACTER_RECEIVED:
+            // @TODO External Players Moved Inside Local Player Region
+            break;
         case types.ENTER_REGION_RECEIVED:
             // @TODO External Players Entered Local Player Region
             break;

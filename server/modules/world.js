@@ -191,7 +191,16 @@ class World {
         try {
             let player = this.getPlayerBySocketId(socket.id);
             let region = this.getRegion(data.id);
+
+            console.log('** trying to enter ' + data.id);
+            if (!region) {
+                console.log('** no region found in mem for ' + data.id);
+            }
+
             if (player.canEnter(region)) {
+                console.log('** validated entry to ' + data.id);
+
+
                 player.enter(region);
             } else {
                 this.logger.verbose('[ENTER] Invalid ' + JSON.stringify(data));

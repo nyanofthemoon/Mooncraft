@@ -23,6 +23,10 @@ World.initialize(io, CONFIG).then(function(world) {
                     'pass': socket.handshake.query.pass
                 });
                 world.addPlayer(player);
+                let lastRegion = world.getRegion(player.getRegionId());
+                if (lastRegion) {
+                    player.enter(lastRegion);
+                }
                 logger.info('Creating New Player: ' + player.getName(), socket.id);
             } else {
                 player.socket = socket;

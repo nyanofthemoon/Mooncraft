@@ -70,6 +70,10 @@ class Player {
         return this.data.region;
     }
 
+    getRegionId() {
+        return this.data.region.id;
+    }
+
     getInventory() {
         return this.data.inventory;
     }
@@ -111,7 +115,7 @@ class Player {
     }
 
     canEnter(region) {
-        if ((!this.data.region.id && region.getId()) || (this.data.region.id != region.getId())) {
+        if (this.data.region.id != region.getId()) {
             return true;
         } else {
             return false;
@@ -123,11 +127,12 @@ class Player {
         this.data.region.id = region.getId();
         this.data.region.x  = region.getXOrigin();
         this.data.region.y  = region.getYOrigin();
-        region.socket.to(region.getId()).emit('enter', this.query(false));
+        this.socket.emit('query', this.query(true));
+        this.socket.to(region.getId()).emit('enter', this.query(false));
     }
 
     canLeave(region) {
-        if (this.data.region.id && this.data.region.id == region.getId()) {
+        if (this.data.region.id == region.getId()) {
             return true;
         } else {
             return false;
@@ -186,7 +191,7 @@ class Player {
         this.increaseActivity();
         this.data.region.x = x;
         this.data.region.y = y;
-        region.socket.to(region.getId()).emit('query', this.query(false));
+        this.socket.to(region.getId()).emit('query', this.query(false));
         this.socket.emit('query', this.query(true));
     }
 

@@ -14,7 +14,9 @@ function _getState() {
 export function assetLoaderCompletion(musics, sounds) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.ASSET_LOADER_COMPLETION); }
     setAudioAssets(musics, sounds)
-    playMusic('intro')
+    if (Config.audio.musicIsEnabled()) {
+        playMusic('intro')
+    }
     return {type: types.ASSET_LOADER_COMPLETION}
 }
 
@@ -42,10 +44,16 @@ function connectSocketSuccess() {
             case 'region' : return queryRegionReception(data);
             case 'player' : return queryPlayerReception(data);
             case 'cycling': return queryCyclingReception(data);
-            case 'enter'  : return enterRegionReception(data);
-            case 'leave'  : return leaveRegionReception(data);
             default       : return queryUnknownReception(data);
         }
+    });
+    socket.on('enter', function(data) {
+        if (Config.environment.isVerbose()) { console.log('[WebSocket] Received Enter', data); }
+        return enterRegionReception(data);
+    });
+    socket.on('leave', function(data) {
+        if (Config.environment.isVerbose()) { console.log('[WebSocket] Received Leave', data); }
+        return leaveRegionReception(data);
     });
     dispatch({type: types.QUERY_PLAYER_REQUESTED});
     emitSocketPlayerQueryEvent();
@@ -66,19 +74,25 @@ export function queryPlayer() {
 }
 
 function queryPlayerReception(data) {
-    if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_PLAYER_RECEIVED); }
-    let currentRegionId = _getState().player.getIn(['data', 'region', 'id']);
-    let nextRegionId    = data.data.region.id;
-    if (currentRegionId != nextRegionId) {
-        dispatch({type: types.LEAVE_REGION_REQUESTED, payload: {}});
-        emitPlayerLeave(currentRegionId);
-        dispatch({type: types.ENTER_REGION_REQUESTED, payload: {}});
-        emitPlayerEnter(nextRegionId);
-        dispatch({type: types.QUERY_REGION_REQUESTED, payload: {}});
-        emitSocketRegionQueryEvent(nextRegionId);
+    if (data.self === false) {
+        if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_CHARACTER_RECEIVED + ' for Character'); }
+        dispatch({type: types.QUERY_CHARACTER_RECEIVED, payload: data.data});
+    } else {
+        if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_PLAYER_RECEIVED + ' for Player'); }
+        let currentRegionId = _getState().player.getIn(['data', 'region', 'id']);
+        let nextRegionId    = data.data.region.id;
+        if (currentRegionId != nextRegionId) {
+            if (currentRegionId) {
+                dispatch({type: types.LEAVE_REGION_REQUESTED, payload: {}});
+                emitPlayerLeave(currentRegionId);
+                dispatch({type: types.ENTER_REGION_REQUESTED, payload: {}});
+                emitPlayerEnter(nextRegionId);
+            }
+            dispatch({type: types.QUERY_REGION_REQUESTED, payload: {}});
+            emitSocketRegionQueryEvent(nextRegionId);
+        }
+        dispatch({type: types.QUERY_PLAYER_RECEIVED, payload: data.data});
     }
-    dispatch({type: types.QUERY_PLAYER_RECEIVED, payload: data.data});
-    return { type: types.QUERY_PLAYER_RECEIVED, payload: {data: data.data} }
 }
 
 export function queryRegion(id) {
@@ -126,11 +140,15 @@ function queryCyclingReception(data) {
         default:
         case 'morning':
         case 'afternoon':
-            playMusic('daytime');
+            if (Config.audio.musicIsEnabled()) {
+                playMusic('daytime');
+            }
             break;
         case 'evening':
         case 'night':
-            playMusic('nighttime');
+            if (Config.audio.musicIsEnabled()) {
+                playMusic('nighttime');
+            }
             break;
     }
     dispatch({type: types.QUERY_CYCLING_RECEIVED, payload: data.data});
@@ -192,7 +210,9 @@ function bindKeys() {
             case 72:
                 let direction = _getState().player.get('direction');
                 if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.HARVEST_NODE_REQUESTED + ' towards ' + direction); }
-                playSound('harvest');
+                if (Config.audio.soundIsEnabled()) {
+                    playSound('harvest');
+                }
                 let harvestX  = player.region.x;
                 let harvestY  = player.region.y;
                 switch(direction) {
