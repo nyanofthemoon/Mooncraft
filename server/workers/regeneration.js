@@ -1,15 +1,16 @@
 'use strict';
 
 let Logger = require('./../modules/logger');
+let Region = require('./../modules/region');
 
 class Regeneration {
 
     constructor(config, store) {
-        this.logger    = new Logger('WORKER [REGENERATION]', config);
-        this.store     = store;
-        this.namespace = 'regeneration';
-        this.interval  = 1440 * (60 * 1000); // Runs every 1440 minutes
-        this.last      = null;
+        this.logger         = new Logger('WORKER [REGENERATION]', config);
+        this.store          = store;
+        this.namespace      = 'regeneration';
+        this.interval       = 1440 * (60 * 1000); // Runs every 1440 minutes
+        this.originRegionId = config.player.originRegionId;
     }
 
     start() {
@@ -18,11 +19,33 @@ class Regeneration {
     }
 
     _run() {
-        this.last = {
-            'id'  : 'F0', // @TODO Currently Hardcoded to Region F0
-            'data': {}    // @TODO Define region data
-        };
-        this.publish(this.last);
+        var that = this;
+        Region.findAllIds(this.store).then(function(regionsIds) {
+            regionsIds.forEach(function(regionId) {
+                if (regionId != that.originRegionId) {
+                    Region.findOne(that.store, regionId).then(function(data) {
+                        /*
+                         data         = {
+                         'id'         : null,
+                         'name'       : null,
+                         'description': null,
+                         'fixture'    : {},
+                         'progress'    : {
+                         'nodes': [],
+                         'items': []
+                         }
+                         };
+                         */
+                        /*
+                        that.publish({
+                            'id'  : regionId,
+                            'data': data
+                        });
+                        */
+                    });
+                }
+            });
+        });
     }
 
     publish(data) {
@@ -44,14 +67,7 @@ class Regeneration {
     }
 
     notify(socket, region) {
-        socket.to(region.getId()).emit(this.namespace, region.query());
-    }
-
-    say(region, message) {
-        region.socket.to(region.getId()).emit('say', {
-            name   : this.getName(),
-            message: message
-        });
+        socket.to(region.getId()).emit('query', {type: this.namespace, data: region.query() });
     }
 
 };

@@ -1,25 +1,32 @@
-let host    = window.location.hostname;
-let name    = 'production';
-let port    = '';
-let verbose = false;
-let music   = true;
-let sound   = true;
+let host     = window.location.hostname;
+let name     = 'production';
+let port     = '';
+let verbose  = false;
+let music    = true;
+let sound    = true;
+let rotation = false;
 
 if (host === 'localhost') {
-    name    = 'development';
-    port    = ':8888';
-    verbose = true;
-    //music   = false;
-    //sound   = true;
+    name     = 'development';
+    port     = ':8888';
+    verbose  = true;
+    music    = false;
+    sound    = true;
+    rotation = true;
 }
 
 export default {
     audio: {
-        musicIsEnabled: function () {
+        musicIsEnabled: function() {
             return music;
         },
-        soundIsEnabled: function () {
+        soundIsEnabled: function() {
             return sound;
+        }
+    },
+    player: {
+        mustFaceDirectionBeforeMoving: function() {
+            return rotation;
         }
     },
     environment: {

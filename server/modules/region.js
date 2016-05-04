@@ -73,6 +73,11 @@ class Region {
     }
 
     // Return a promise
+    static findAllIds(source) {
+        return source.hkeysAsync('region');
+    }
+
+    // Return a promise
     save() {
         return this.source.hsetAsync('region', this.getId(), JSON.stringify(this.data));
     }

@@ -30,6 +30,7 @@ const region = (state = initialState, action) => {
             nextState = fromJS(state).set('cycle', action.payload.cycle);
             break;
         case types.QUERY_REGION_RECEIVED:
+        case types.QUERY_REGENERATION_RECEIVED:
             let nextTiles = action.payload.tiles;
             let nextNodes = action.payload.nodes;
             let nextItems = action.payload.items;

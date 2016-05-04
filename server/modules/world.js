@@ -56,23 +56,14 @@ class World {
                             message = JSON.parse(message);
                             switch (channel) {
                                 case cycling.namespace:
-                                    // PUBLISH cycling '{"cycle":"evening"}'
                                     cycling.initialize(message);
                                     cycling.notify(world.sockets);
                                     break;
                                 case regeneration.namespace:
-                                    // PUBLISH regeneration '[{"id":"T0", "data":{"foo": "bar"}}]'
-                                    // HGETALL region
-                                    // DEL region
-                                    ///////////////////////////////////////////////////////////////////////
-                                    // @TODO Implement worker functionality based on map schema.
-                                    ///////////////////////////////////////////////////////////////////////
-                                    message.forEach(function(data) {
-                                        let region = world.getRegion(data.id);
-                                        region.initialize(world.sockets, world.source, data.data);
-                                        regeneration.notify(world.sockets, region);
-                                        region.save();
-                                    });
+                                    let region = world.getRegion(message.id);
+                                    region.initialize(world.sockets, world.source, message.data);
+                                    regeneration.notify(world.sockets, region);
+                                    region.save();
                                     break;
                                 default:
                                     break;
@@ -104,6 +95,7 @@ class World {
                                                 let region = new Region(config);
                                                 region.initialize(world.sockets, world.source, JSON.parse(data));
                                                 world.data.regions[region.getId()] = region;
+                                                region.save();
                                             });
                                             Player.findAll(world.source)
                                                 .then(function(players) {
