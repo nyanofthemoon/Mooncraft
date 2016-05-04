@@ -3,9 +3,10 @@ import {connect} from 'react-redux'
 
 class Player extends Component {
     render() {
-        //@TODO Implement direction from this.props.get('direction')
         const {player} = this.props
-        return (<div id="player" style={{backgroundImage: 'url(/img/' + player.get('data').icon + ')'}}></div>);
+        let iconParts = player.get('data').icon.split('.')
+        let icon      = iconParts[0] + '_' + player.get('direction') + '.' + iconParts[1]
+        return (<div id="player" style={{backgroundImage: 'url(/img/' + icon + ')'}}></div>);
     }
 }
 
