@@ -12,13 +12,37 @@
     "walkable": true
   },
   "2": {
+    "name": "Grass",
+    "icon": "grass_2.gif",
+    "description": "A patch of grass.",
+    "walkable": true
+  },
+  "3": {
+    "name": "Grass",
+    "icon": "grass_3.gif",
+    "description": "A patch of grass.",
+    "walkable": true
+  },
+  "4": {
     "name": "Sand",
     "icon": "sand_1.gif",
     "description": "A patch of sand.",
     "walkable": true
   },
-  "3": {
-    "name": "Water",
+  "5": {
+    "name": "Sand",
+    "icon": "sand_2.gif",
+    "description": "A patch of sand.",
+    "walkable": true
+  },
+  "6": {
+    "name": "Sand",
+    "icon": "sand_3.gif",
+    "description": "A patch of sand.",
+    "walkable": true
+  },
+  "7": {
+    "name": "Shallow Water",
     "icon": "shallow-water.gif",
     "description": "A patch of shallow water.",
     "walkable": false

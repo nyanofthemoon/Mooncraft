@@ -1,7 +1,11 @@
 let TILES = [];
 TILES.push({"id": "void", "url": "tiles/void.gif"});
 TILES.push({"id": "grass_1", "url": "tiles/grass_1.gif"});
+TILES.push({"id": "grass_2", "url": "tiles/grass_2.gif"});
+TILES.push({"id": "grass_3", "url": "tiles/grass_3.gif"});
 TILES.push({"id": "sand_1", "url": "tiles/sand_1.gif"});
+TILES.push({"id": "sand_2", "url": "tiles/sand_2.gif"});
+TILES.push({"id": "sand_3", "url": "tiles/sand_3.gif"});
 TILES.push({"id": "shallow-water", "url": "tiles/shallow-water.gif"});
 
 let NODES = [];

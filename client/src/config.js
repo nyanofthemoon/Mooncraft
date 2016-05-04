@@ -9,8 +9,8 @@ if (host === 'localhost') {
     name    = 'development';
     port    = ':8888';
     verbose = true;
-    music   = false;
-    sound   = true;
+    //music   = false;
+    //sound   = true;
 }
 
 export default {
