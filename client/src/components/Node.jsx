@@ -1,13 +1,13 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
 
 class Node extends Component {
-    constructor(props) {
-        super(props);
-    }
     render() {
-        let backgroundImage = 'url(/img/nodes/' + this.props.data.icon+')';
-        return (<div className="region__row__tile__node" style={{backgroundImage: backgroundImage}}></div>);
+        return (<div className="region__row__tile__node" style={{backgroundImage: 'url(/img/nodes/' + this.props.data.get('icon')+')'}}></div>);
     }
+}
+
+Node.propTypes = {
+    data: PropTypes.object.isRequired
 }
 
 export default Node;

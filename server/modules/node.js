@@ -77,12 +77,12 @@ class Node {
     }
 
     harvest() {
-        var item = new Item(this.harvestable.item);
+        var item = new Item(this.data.harvestable.item);
 
-        this.harvestable.quantity--;
-        if (this.harvestable.quantity < 1) {
-            if (this.harvestable.transform) {
-                transform(this.harvestable.transform);
+        this.data.harvestable.quantity--;
+        if (this.data.harvestable.quantity < 1) {
+            if (this.data.harvestable.transform) {
+                transform(this.data.harvestable.transform);
             }
         }
 

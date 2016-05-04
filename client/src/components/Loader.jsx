@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 
-import {loadAllAudiosWithProgress}   from '../helpers/audio';
-import {loadAllGraphicsWithProgress} from '../helpers/graphic';
+import {loadAllAudiosWithProgress}   from '../helpers/audio/loader';
+import {loadAllGraphicsWithProgress} from '../helpers/graphic/loader';
 
 const GRAPHICAL_ASSETS = require('./../package/graphic.js');
 const AUDIO_ASSETS     = require('./../package/audio.js');
@@ -51,7 +51,7 @@ class Loader extends Component {
                         step: 'sounds',
                         musics: musicTracks
                     });
-                    return loadAllAudiosWithProgress(AUDIO_ASSETS.MUSIC, updateProgress);
+                    return loadAllAudiosWithProgress(AUDIO_ASSETS.SOUND, updateProgress);
                 }
             ).then(
             function(soundTracks) {

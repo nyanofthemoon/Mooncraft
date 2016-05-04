@@ -14,8 +14,11 @@ export default {
         name     :    name,
         host     :    host,
         port     :    port,
+        isDevelopment: function() {
+            return name === 'development'
+        },
         isVerbose: function() {
-            return verbose === true;
+            return verbose === true
         }
     }
 };

@@ -1,14 +1,22 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 
 class Player extends Component {
     render() {
-        let playerIcon = '';
-        if (this.props.data.icon) {
-            playerIcon = 'url(/img/' + this.props.data.icon + ')';
-        }
-
-        return (<div id="player" style={{backgroundImage: playerIcon}}></div>);
+        //@TODO Implement direction from this.props.get('direction')
+        const {player} = this.props
+        return (<div id="player" style={{backgroundImage: 'url(/img/' + player.get('data').icon + ')'}}></div>);
     }
 }
 
-export default Player;
+Player.contextTypes = {
+    store: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+    return {
+        player: state.player
+    }
+}
+
+export default connect(mapStateToProps)(Player);

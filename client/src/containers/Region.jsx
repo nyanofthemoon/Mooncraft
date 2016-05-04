@@ -4,24 +4,23 @@ import {connect} from 'react-redux'
 
 import Row from './../components/Row';
 
-import {queryPlayer, queryPlayerReception, queryRegion, queryRegionReception, queryCycling, queryCyclingReception} from './../actions';
+import {queryPlayer, queryRegion, enterRegion, leaveRegion} from './../actions';
 
 class Region extends Component {
     constructor(props) {
         super(props);
     }
+    // @TODO Support maps of different sizes
     render() {
-        const {player, region, actions} = this.props
-        // @TODO Switch to Immutable
-        let playerJS = {}; if (player) { playerJS = player.get('data'); }
-        let rowsJS   = []; if (region) { rowsJS   = region.get('rows').toJS(); }
-        // @TODO Support maps of different sizes
+        const {player, region, characters, actions} = this.props
         return (
             <section className="region">
                 <div className={['cycle', 'cycle--' + region.get('cycle')].join(' ')}></div>
-                {rowsJS.map(function(row, index) {
-                    let uid = 'row-' + index;
-                    return (<Row ref="Row" key={uid} data={row} player={playerJS}/>);
+                {region.get('rows').map(function(row, index) {
+                    return (<Row
+                        key        = {'row-' + index}
+                        cells      = {row}
+                    />);
                 })}
             </section>
         );
@@ -29,19 +28,21 @@ class Region extends Component {
 }
 
 Region.contextTypes = {
-    store: React.PropTypes.object.isRequired
+    store: PropTypes.object.isRequired
 }
 
 Region.propTypes = {
-    player: PropTypes.object.isRequired,
-    region: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    player    : PropTypes.object.isRequired,
+    region    : PropTypes.object.isRequired,
+    characters: PropTypes.object.isRequired,
+    actions   : PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
     return {
-        player: state.player,
-        region: state.region
+        player    : state.player,
+        region    : state.region,
+        characters: state.characters
     }
 }
 
@@ -49,11 +50,9 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             queryPlayer,
-            queryPlayerReception,
             queryRegion,
-            queryRegionReception,
-            queryCycling,
-            queryCyclingReception
+            enterRegion,
+            leaveRegion
         }, dispatch)
     }
 }

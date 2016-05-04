@@ -18,9 +18,24 @@ export function emitSocketPlayerQueryEvent() {
     socket.emit('query', { type: 'player' });
 }
 
+export function emitPlayerEnter(id) {
+    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Enter'); }
+    socket.emit('enter', { id: id });
+}
+
+export function emitPlayerLeave(id) {
+    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Leave'); }
+    socket.emit('leave', { id: id });
+}
+
 export function emitPlayerMove(id, x, y) {
     if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Move (' + x + ',' + y + ')'); }
     socket.emit('move', { id: id, x: x, y: y });
+}
+
+export function emitPlayerHarvest(id, x, y) {
+    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Harvest (' + x + ',' + y + ')'); }
+    socket.emit('harvest', { id: id, x: x, y: y });
 }
 
 export function emitSocketCyclingQueryEvent() {

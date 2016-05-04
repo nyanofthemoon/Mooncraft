@@ -1,24 +1,42 @@
-import React, {Component} from 'react'
+import React, {Component, PropTypes} from 'react'
+import {connect} from 'react-redux'
 
 import Tile from './Tile'
 
 class Row extends Component {
     render() {
-        let player = this.props.player;
         return (
             <div className="region__row">
-                {this.props.data.map(function(data, index) {
-                    let tileData = data.tile.data;
-                    let nodeData = data.node.data;
-                    let itemData = data.node.items;
-                    let uid      = 'tile-' + index;
-                    return (
-                        <Tile ref="Tile" key={uid} x={data.coordinates.x} y={data.coordinates.y} data={tileData} node={nodeData} items={itemData} player={player} />
-                    );
+                {this.props.cells.map(function(cell, index) {
+                    return (<Tile
+                        key        = {'tile-' + index}
+                        x          = {parseInt(cell.getIn(['coordinates','x']))}
+                        y          = {parseInt(cell.getIn(['coordinates','y']))}
+                        data       = {cell.getIn(['tile','data'])}
+                        node       = {cell.getIn(['node','data'])}
+                        items      = {cell.getIn(['items','data'])}
+                    />);
                 })}
             </div>
         );
     }
 }
 
-export default Row;
+Row.contextTypes = {
+    store: PropTypes.object.isRequired
+}
+
+Row.propTypes = {
+    cells     : PropTypes.object.isRequired,
+    player    : PropTypes.object.isRequired,
+    characters: PropTypes.object.isRequired
+}
+
+function mapStateToProps(state) {
+    return {
+        player    : state.player,
+        characters: state.characters
+    }
+}
+
+export default connect(mapStateToProps)(Row);

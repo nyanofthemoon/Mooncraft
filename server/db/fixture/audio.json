@@ -17,5 +17,20 @@
     }
   ],
   "sound": [
+    {
+      "id": "harvest",
+      "url": "sound/harvest.mp3",
+      "loop": false
+    },
+    {
+      "id": "achievement",
+      "url": "sound/achievement.mp3",
+      "loop": false
+    },
+    {
+      "id": "suspense",
+      "url": "sound/suspense.mp3",
+      "loop": false
+    }
   ]
 }

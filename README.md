@@ -13,6 +13,10 @@ Status: Player module for region interaction is coming up next.
 
 [Play MoonCraft](https://mooncraft.protolicio.us/)
 
+### Action
+
+* Harvest line-of-sight by pressing `h`
+
 ### Movement
 
 * Left by pressing `Left Arrow` or `a` or `NUM 4`
@@ -31,6 +35,18 @@ Status: Player module for region interaction is coming up next.
 * `npm install`
 * `redis-server --port 6379`
 * `npm run dev` runs the development environment using webpack-dev-server + hot reload
+
+###### Redis Recipes
+* Change cycle ```PUBLISH cycling '{"cycle":"morning|afternoon|evening|night"}'```
+* Get all players data ```HGETALL player```
+* Get all player ids ```HKEYS player```
+* Get one player ```HGET player <id>```
+* Delete one player ```HDEL player <id>```
+* Delete all players ```DEL player'```
+* Get all region ids ```HKEYS region```
+* Get one region ```HGET region <id>```
+* Delete one region ```HDEL region <id>```
+* Delete all region ```DEL region'```
 
 ### Deployment
 

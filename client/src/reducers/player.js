@@ -9,11 +9,12 @@ const initialState = fromJS({
         icon: "players/default.gif",
         inventory: {},
         region: {
-            id: null,
+            id: "",
             x : 0,
             y : 0
         }
-    }
+    },
+    direction: "down"
 })
 
 const player = (state = initialState, action) => {
@@ -21,17 +22,35 @@ const player = (state = initialState, action) => {
     let newState;
     switch (action.type) {
         case types.QUERY_PLAYER_REQUESTED:
-        case types.MOVE_PLAYER_LEFT_REQUESTED:
-        case types.MOVE_PLAYER_UP_REQUESTED:
-        case types.MOVE_PLAYER_DOWN_REQUESTED:
-        case types.MOVE_PLAYER_RIGHT_REQUESTED:
-        case types.MOVE_PLAYER_LEFTUP_REQUESTED:
-        case types.MOVE_PLAYER_RIGHTUP_REQUESTED:
-        case types.MOVE_PLAYER_LEFTDOWN_REQUESTED:
-        case types.MOVE_PLAYER_RIGHTDOWN_REQUESTED:
             break;
         case types.QUERY_PLAYER_RECEIVED:
+            // @TODO DIFFERENCIATE BEWTEEN LOCAL PLAYER AND EXTERNAL PLAYER
+            // @TODO Received external players movements
             newState = fromJS(state).set('data', action.payload);
+            break;
+        case types.MOVE_UP_REQUESTED:
+            newState = fromJS(state).set('direction', 'up');
+            break;
+        case types.MOVE_RIGHT_REQUESTED:
+            newState = fromJS(state).set('direction', 'right');
+            break;
+        case types.MOVE_DOWN_REQUESTED:
+            newState = fromJS(state).set('direction', 'down');
+            break;
+        case types.MOVE_LEFT_REQUESTED:
+            newState = fromJS(state).set('direction', 'left');
+            break;
+        case types.MOVE_LEFTUP_REQUESTED:
+            newState = fromJS(state).set('direction', 'leftup');
+            break;
+        case types.MOVE_RIGHTUP_REQUESTED:
+            newState = fromJS(state).set('direction', 'rightup');
+            break;
+        case types.MOVE_LEFTDOWN_REQUESTED:
+            newState = fromJS(state).set('direction', 'leftdown');
+            break;
+        case types.MOVE_RIGHTDOWN_REQUESTED:
+            newState = fromJS(state).set('direction', 'rightdown');
             break;
         default:
             actionIsInCurrentReducer = false;

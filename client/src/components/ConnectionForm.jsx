@@ -1,4 +1,5 @@
 import React, {Component, PropTypes} from 'react'
+import Config from './../config';
 
 class ConnectionForm extends Component {
     _handleFormSubmit(e) {
@@ -7,6 +8,13 @@ class ConnectionForm extends Component {
         var password = this.refs.password.value;
         if (username.length >= 1 && password.length >= 1) {
             this.props.handleSubmit(username, password, this.context.store);
+        }
+    }
+    componentDidMount() {
+        if (Config.environment.isDevelopment()) {
+            let timestamp            = new Date().getTime()
+            this.refs.username.value = 'Player ' + timestamp
+            this.refs.password.value = timestamp
         }
     }
     render() {

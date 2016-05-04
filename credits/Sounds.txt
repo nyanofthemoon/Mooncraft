@@ -1,0 +1,7 @@
+http://soundbible.com/1601-Mario-Jumping.html
+http://soundbible.com/1795-Electrical-Sweep.html
+http://soundbible.com/1832-Climactic-Suspense.html
+
+client/public/sounds/boop.mp3        -> 1601-Mario-Jumping
+client/public/sounds/achievement.mp3 -> 1795-Electrical-Sweep
+client/public/sounds/suspense.mp3    -> 1832-Climactic-Suspense
