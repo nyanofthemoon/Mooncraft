@@ -10,7 +10,7 @@ class Regeneration {
         this.logger         = new Logger('WORKER [REGENERATION]', config);
         this.store          = store;
         this.namespace      = 'regeneration';
-        this.interval       = 5 * 1000;//1440 * (60 * 1000); // Runs every 1440 minutes
+        this.interval       = 1440 * (60 * 1000); // Runs every 1440 minutes
         this.originRegionId = config.player.originRegionId;
     }
 
