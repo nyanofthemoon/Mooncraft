@@ -157,6 +157,9 @@ function queryCyclingReception(data) {
 
 function queryRegenerationReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_REGENERATION_RECEIVED); }
+    if (Config.audio.soundIsEnabled()) {
+        playSound('suspense');
+    }
     dispatch({type: types.QUERY_REGENERATION_RECEIVED, payload: data.data});
 }
 

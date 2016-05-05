@@ -2,6 +2,7 @@
 
 let Logger = require('./../modules/logger');
 let Region = require('./../modules/region');
+let Node   = require('./../modules/node');
 
 class Regeneration {
 
@@ -9,7 +10,7 @@ class Regeneration {
         this.logger         = new Logger('WORKER [REGENERATION]', config);
         this.store          = store;
         this.namespace      = 'regeneration';
-        this.interval       = 1440 * (60 * 1000); // Runs every 1440 minutes
+        this.interval       = 5 * 1000;//1440 * (60 * 1000); // Runs every 1440 minutes
         this.originRegionId = config.player.originRegionId;
     }
 
@@ -22,26 +23,37 @@ class Regeneration {
         var that = this;
         Region.findAllIds(this.store).then(function(regionsIds) {
             regionsIds.forEach(function(regionId) {
-                if (regionId != that.originRegionId) {
-                    Region.findOne(that.store, regionId).then(function(data) {
-                        /*
-                         data         = {
-                         'id'         : null,
-                         'name'       : null,
-                         'description': null,
-                         'fixture'    : {},
-                         'progress'    : {
-                         'nodes': [],
-                         'items': []
-                         }
-                         };
-                         */
-                        /*
+                // @TODO Put the != back on... //
+                // if (regionId != that.originRegionId) {
+                if (regionId == that.originRegionId) {
+                    Region.findOne(that.store, regionId).then(function(region) {
+                        let newRegion = new Region();
+                        newRegion.initialize(null, null, JSON.parse(region));
+
+                        // @TODO Put back
+                        //newRegion.data.progress.nodes = [];
+                        //newRegion.data.progress.items = [];
+
+                        newRegion.nodes.forEach(function (y, yIndex) {
+                            y.forEach(function (x, xIndex) {
+                                /* Example
+                                if (yIndex == 2 && xIndex == 2) {
+                                    x.mutate(102);
+                                    x.data.id = 102;
+                                    delete x.data.description;
+                                    delete x.data.name;
+                                    delete x.data.icon;
+                                    x.data.x = xIndex;
+                                    x.data.y = yIndex;
+                                    newRegion.data.progress.nodes.push(x.data);
+                                }
+                                */
+                            });
+                        });
                         that.publish({
                             'id'  : regionId,
-                            'data': data
+                            'data': newRegion.data
                         });
-                        */
                     });
                 }
             });
@@ -67,7 +79,7 @@ class Regeneration {
     }
 
     notify(socket, region) {
-        socket.to(region.getId()).emit('query', {type: this.namespace, data: region.query() });
+        socket.to(region.getId()).emit('query', {type: this.namespace, data: region.query().data });
     }
 
 };

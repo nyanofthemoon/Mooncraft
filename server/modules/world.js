@@ -32,6 +32,10 @@ class World {
         return this.data.players[sessionIdentifier] || null;
     };
 
+    setRegion(id, data) {
+        this.data.regions[id] = data;
+    };
+
     getRegion(id) {
         return this.data.regions[id] || null;
     };
@@ -94,7 +98,7 @@ class World {
                                             regions.forEach(function(data) {
                                                 let region = new Region(config);
                                                 region.initialize(world.sockets, world.source, JSON.parse(data));
-                                                world.data.regions[region.getId()] = region;
+                                                world.setRegion(region.getId(), region);
                                                 region.save();
                                             });
                                             Player.findAll(world.source)
@@ -183,16 +187,7 @@ class World {
         try {
             let player = this.getPlayerBySocketId(socket.id);
             let region = this.getRegion(data.id);
-
-            console.log('** trying to enter ' + data.id);
-            if (!region) {
-                console.log('** no region found in mem for ' + data.id);
-            }
-
             if (player.canEnter(region)) {
-                console.log('** validated entry to ' + data.id);
-
-
                 player.enter(region);
             } else {
                 this.logger.verbose('[ENTER] Invalid ' + JSON.stringify(data));
