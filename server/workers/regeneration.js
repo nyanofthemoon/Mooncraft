@@ -4,6 +4,11 @@ let Logger = require('./../modules/logger');
 let Region = require('./../modules/region');
 let Node   = require('./../modules/node');
 
+const emptySpaceNodeId  = 1;
+const radiatedNodeIds   = [100, 101, 102];
+const minRadiatedNodeId = Math.min.apply(Math, radiatedNodeIds);
+const maxRadiatedNodeId = Math.max.apply(Math, radiatedNodeIds);
+
 class Regeneration {
 
     constructor(config, store) {
@@ -11,6 +16,7 @@ class Regeneration {
         this.store          = store;
         this.namespace      = 'regeneration';
         this.interval       = 1440 * (60 * 1000); // Runs every 1440 minutes
+        this.saveDelay      = 10 * 1000;          // 10 seconds
         this.originRegionId = config.player.originRegionId;
     }
 
@@ -20,44 +26,61 @@ class Regeneration {
     }
 
     _run() {
+        this.store.publish('system', JSON.stringify({type: 'save-regions'}));
         var that = this;
-        Region.findAllIds(this.store).then(function(regionsIds) {
-            regionsIds.forEach(function(regionId) {
-                // @TODO Put the != back on... //
-                // if (regionId != that.originRegionId) {
-                if (regionId == that.originRegionId) {
+        setTimeout(function() {
+            Region.findAllIds(that.store).then(function(regionsIds) {
+                regionsIds.forEach(function(regionId) {
                     Region.findOne(that.store, regionId).then(function(region) {
-                        let newRegion = new Region();
-                        newRegion.initialize(null, null, JSON.parse(region));
+                        try {
+                            region               = JSON.parse(region);
+                            let regenerationData = region.fixture.regeneration;
+                            if (regenerationData) {
+                                let newRegion = new Region();
+                                newRegion.initialize(null, null, region);
 
-                        // @TODO Put back
-                        //newRegion.data.progress.nodes = [];
-                        //newRegion.data.progress.items = [];
+                                // Process Nodes
+                                let radiationChance = regenerationData.radiation || null;
+                                newRegion.data.progress.nodes = [];
+                                newRegion.nodes.forEach(function (y, yIndex) {
+                                    y.forEach(function (x, xIndex) {
+                                        let xTile = newRegion.getTile(xIndex, yIndex);
+                                        if (xTile.isWalkable()) {
+                                            if (radiationChance == Math.floor((Math.random() * 100))) {
+                                                if (radiatedNodeIds.indexOf(x.getId()) == -1) {
+                                                    if (!x.isOwnable()) {
+                                                        x.mutate(minRadiatedNodeId);
+                                                    }
+                                                } else {
+                                                    let incrementedRadiationId = x.getId() + 1;
+                                                    if (incrementedRadiationId <= maxRadiatedNodeId) {
+                                                        x.mutate(incrementedRadiationId);
+                                                    }
+                                                }
+                                            }
+                                            if (emptySpaceNodeId != x.getId()) {
+                                                newRegion.data.progress.nodes.push(_formatNode(x, xIndex, yIndex));
+                                            }
+                                        }
+                                    });
+                                });
 
-                        newRegion.nodes.forEach(function (y, yIndex) {
-                            y.forEach(function (x, xIndex) {
-                                /* Example
-                                if (yIndex == 2 && xIndex == 2) {
-                                    x.mutate(102);
-                                    x.data.id = 102;
-                                    delete x.data.description;
-                                    delete x.data.name;
-                                    delete x.data.icon;
-                                    x.data.x = xIndex;
-                                    x.data.y = yIndex;
-                                    newRegion.data.progress.nodes.push(x.data);
-                                }
-                                */
-                            });
-                        });
-                        that.publish({
-                            'id'  : regionId,
-                            'data': newRegion.data
-                        });
+                                // Process Items
+                                newRegion.data.progress.items = [];
+
+                                // Publish
+                                that.publish({
+                                    'id'  : regionId,
+                                    'data': newRegion.data
+                                });
+                            }
+                        } catch (e) {
+                            that.logger.error('Error occured while regenerating ' + regionId, e);
+                        }
                     });
-                }
+                });
             });
-        });
+        }, that.saveDelay);
     }
 
     publish(data) {
@@ -83,5 +106,14 @@ class Regeneration {
     }
 
 };
+
+function _formatNode(node, x, y) {
+    node.data.x  = x;
+    node.data.y  = y;
+    delete node.data.description;
+    delete node.data.name;
+    delete node.data.icon;
+    return node.data;
+}
 
 module.exports = Regeneration;

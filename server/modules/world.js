@@ -40,6 +40,14 @@ class World {
         return this.data.regions[id] || null;
     };
 
+    getPlayers() {
+        return this.data.players || {};
+    };
+
+    getRegions() {
+        return this.data.regions || {};
+    };
+
     static initialize(io, config) {
         return new Promise(function(resolve, reject) {
             let world     = new World(config);
@@ -48,6 +56,7 @@ class World {
                 .then(function(clientOne) {
 
                     // Subscribe to Events
+                    clientOne.subscribe('system');
                     let cycling = new Cycling(config);
                     cycling.subscribe(clientOne);
                     world.workers.cycling = cycling;
@@ -69,6 +78,21 @@ class World {
                                     regeneration.notify(world.sockets, region);
                                     region.save();
                                     break;
+                                case 'system':
+                                    switch(message.type) {
+                                        case 'save-regions':
+                                            for (let key in world.data.regions) {
+                                                world.data.regions[key].save();
+                                            }
+                                            break;
+                                        case 'save-players':
+                                            for (let key in world.data.players) {
+                                                world.data.players[key].save();
+                                            }
+                                            break;
+                                        default:
+                                            break;
+                                    }
                                 default:
                                     break;
                             }
