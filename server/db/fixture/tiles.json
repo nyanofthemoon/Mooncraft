@@ -42,6 +42,24 @@
     "walkable": true
   },
   "7": {
+    "name": "Dirt",
+    "icon": "dirt_1.gif",
+    "description": "A patch of dirt.",
+    "walkable": true
+  },
+  "8": {
+    "name": "Dirt",
+    "icon": "dirt_2.gif",
+    "description": "A patch of dirt.",
+    "walkable": true
+  },
+  "9": {
+    "name": "Dirt",
+    "icon": "dirt_3.gif",
+    "description": "A patch of dirt.",
+    "walkable": true
+  },
+  "10": {
     "name": "Shallow Water",
     "icon": "shallow-water.gif",
     "description": "A patch of shallow water.",

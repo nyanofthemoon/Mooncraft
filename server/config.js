@@ -14,7 +14,7 @@ module.exports = {
         originRegionX   : process.env.REGION_ORIGIN_X  || 1,
         originRegionY   : process.env.REGION_ORIGIN_Y  || 1,
         defaultName     : 'Unnamed',
-        defaultIcon     : 'players/default.gif',
+        defaultIcon     : 'players/leaf.gif',
         defaultInventory: {}
     },
 
