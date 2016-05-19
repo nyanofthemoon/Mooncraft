@@ -28,6 +28,11 @@ export function emitPlayerLeave(id) {
     socket.emit('leave', { id: id });
 }
 
+export function emitPlayerSay(id, message) {
+    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Say'); }
+    socket.emit('say', { id: id, message: message });
+}
+
 export function emitPlayerMove(id, x, y) {
     if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Move (' + x + ',' + y + ')'); }
     socket.emit('move', { id: id, x: x, y: y });

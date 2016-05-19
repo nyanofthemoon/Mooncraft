@@ -2,7 +2,7 @@ import Config from './config';
 import * as types from './constants/ActionTypes'
 import Store from './store'
 import {setAudioAssets, playSound, playMusic} from './helpers/audio/controller';
-import {createSocketConnection, emitSocketCyclingQueryEvent, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent, emitPlayerMove, emitPlayerEnter, emitPlayerLeave, emitPlayerHarvest} from './helpers/socket';
+import {createSocketConnection, emitSocketCyclingQueryEvent, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent, emitPlayerMove, emitPlayerEnter, emitPlayerLeave, emitPlayerSay, emitPlayerHarvest} from './helpers/socket';
 
 let socket;
 let dispatch;
@@ -55,6 +55,10 @@ function connectSocketSuccess() {
     socket.on('leave', function(data) {
         if (Config.environment.isVerbose()) { console.log('[WebSocket] Received Leave', data); }
         return leaveRegionReception(data);
+    });
+    socket.on('say', function(data) {
+        if (Config.environment.isVerbose()) { console.log('[WebSocket] Received Say', data); }
+        return sayRegionReception(data);
     });
     dispatch({type: types.QUERY_PLAYER_REQUESTED});
     emitSocketPlayerQueryEvent();
@@ -124,9 +128,26 @@ export function leaveRegion(id) {
     return { type: types.PLAYER_LEAVE_REGION_REQUESTED, payload: {id: id} }
 }
 
+export function sayRegion(message) {
+    if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.PLAYER_SAY_REGION_REQUESTED); }
+    let player = _getState().player.get('data');
+    emitPlayerSay(player.region.id, message);
+    return { type: types.PLAYER_SAY_REGION_REQUESTED, payload: {id: player.region.id, message: message} }
+}
+
 function leaveRegionReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.CHARACTER_LEAVE_REGION_RECEIVED); }
     dispatch({type: types.CHARACTER_LEAVE_REGION_RECEIVED, payload: data.data});
+}
+
+function sayRegionReception(data) {
+    if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.CHARACTER_SAY_REGION_RECEIVED); }
+    let player = _getState().player.get('data');
+    if (data.name !== player.name) {
+        dispatch({type: types.CHARACTER_SAY_REGION_RECEIVED, payload: data});
+    } else {
+        dispatch({type: types.PLAYER_SAY_REGION_RECEIVED, payload: data});
+    }
 }
 
 export function queryCycling() {

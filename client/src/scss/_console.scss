@@ -1,0 +1,57 @@
+@import 'bourbon/bourbon';
+
+.console-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  z-index: 10000;
+}
+
+.console-content {
+
+  &__icon {
+    position: absolute;
+    top:0px;
+    left:0px;
+    padding-top: 5px;
+    margin-top: 8px;
+    margin-right: 1vh;
+    margin-left: 1vh;
+    width: 5vh;
+    cursor: pointer;
+    z-index: 10001;
+    width: 32px;
+    height: 32px;
+    background: url('/img/menu-icon-player.gif');
+  }
+
+  &__checkbox {
+    display: none;
+  }
+  &__checkbox:checked + .console-container {
+    .console-content__list {;
+      @include transform(scale3d(1,1,1));
+    }
+  }
+  &__list {
+    padding: 1vh 1vh 0.5vh 45px;
+    background-color: rgba(0, 0, 0, 0.66);
+    @include transform(scale3d(1, 0, 1));
+    @include transform-origin(0 0);
+    @include transition(transform 250ms ease-in);
+  }
+  &__list textarea {
+    width: 100%;
+    font-family: $base-fontname;
+    font-size: $base-fontsize;
+    color: $light-color;
+    border: none;
+    background-color: transparent;
+    cursor: default;
+    user-select: none;
+  }
+  &__list textarea:focus {
+    outline: none;
+  }
+}

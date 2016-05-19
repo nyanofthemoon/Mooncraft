@@ -5,8 +5,9 @@ import {connect} from 'react-redux'
 import Loader from './../components/Loader';
 import ConnectionForm from './../components/ConnectionForm';
 import Region from './Region';
+import Console from './../components/Console';
 
-import {assetLoaderCompletion, connectSocket} from './../actions';
+import {assetLoaderCompletion, connectSocket, sayRegion} from './../actions';
 
 class App extends Component {
     render() {
@@ -29,6 +30,7 @@ class App extends Component {
                 </div>);
             case 'connected':
                 return (<div className="flex-vertical-container light-text">
+                    <Console ref="Console" handleSubmit={actions.sayRegion}/>
                     <Region ref="Region" />
                 </div>);
                 break;
@@ -51,7 +53,8 @@ function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
             assetLoaderCompletion,
-            connectSocket
+            connectSocket,
+            sayRegion
         }, dispatch)
     }
 }

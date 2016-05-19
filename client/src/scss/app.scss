@@ -1,17 +1,8 @@
 @charset "UTF-8";
 
 @import 'normalize';
-
-@import url('https://fonts.googleapis.com/css?family=Sail');
-
-$base-fontname : 'helvetica neue', sans-serif;
-$base-fontsize : 12px;
-$title-fontname: 'Sail', serif;
-
-$dark-color    : black;
-$median-color  : #888888;
-$light-color   : whitesmoke;
-$progress-color: darkgreen;
+@import 'theme';
+@import 'console';
 
 html {
   box-sizing: border-box;

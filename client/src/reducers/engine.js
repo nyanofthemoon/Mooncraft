@@ -4,7 +4,8 @@ import Config from './../config';
 import * as types from './../constants/ActionTypes'
 
 const initialState = fromJS({
-    status: 'loading'
+    status: 'loading',
+    notifications: ['Welcome to MoonCraft!', 'https://mooncraft.protolicio.us', 'https://github.com/nyanofthemoon/Mooncraft', 'by Paule Lepage', '']
 });
 
 const engine = (state = initialState, action) => {
@@ -20,6 +21,21 @@ const engine = (state = initialState, action) => {
             break;
         case types.CONNECT_SOCKET_FAILED:
             nextState = fromJS(state).set('status', 'loaded');
+            break;
+        case types.QUERY_CYCLING_RECEIVED:
+            nextState = fromJS(state).set('notifications', fromJS(state).get('notifications').push('The daily cycle has changed to the ' + action.payload.cycle + '.'));
+            break;
+        case types.CHARACTER_ENTER_REGION_RECEIVED:
+            nextState = fromJS(state).set('notifications', fromJS(state).get('notifications').push(action.payload.name + ' enters the region.'));
+            break;
+        case types.CHARACTER_LEAVE_REGION_RECEIVED:
+            nextState = fromJS(state).set('notifications', fromJS(state).get('notifications').push(action.payload.name + ' leaves the region.'));
+            break;
+        case types.CHARACTER_SAY_REGION_RECEIVED:
+            nextState = fromJS(state).set('notifications', fromJS(state).get('notifications').push(action.payload.name + ' says "' + action.payload.message + '".'));
+            break;
+        case types.PLAYER_SAY_REGION_RECEIVED:
+            nextState = fromJS(state).set('notifications', fromJS(state).get('notifications').push('You said "' + action.payload.message + '".'));
             break;
         default:
             actionIsInCurrentReducer = false;
