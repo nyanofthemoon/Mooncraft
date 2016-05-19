@@ -1,13 +1,15 @@
+import {Sanitizer} from 'sanitizer';
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
 class Console extends Component {
-    _handleClick(e) {
-        e.preventDefault();
-        var message = this.refs.message.value;
-        if (message.length >= 3) {
-            this.refs.message.value = '';
-            this.props.handleSubmit(message);
+    _handleKeyUp(e) {
+        if (13 === e.keyCode) {
+            var message = Sanitizer.unescapeEntities(Sanitizer.sanitize(Sanitizer.escape(this.refs.message.value)));
+            if (message.length >= 3) {
+                this.refs.message.value = '';
+                this.props.handleSubmit(message);
+            }
         }
     }
     componentDidUpdate() {
@@ -25,7 +27,7 @@ class Console extends Component {
                   <label className="console-content__icon" htmlFor="console-content__checkbox"></label>
                   <div className="console-content__list">
                       <textarea ref="textarea" readOnly={true} value={contents} rows="8"></textarea>
-                      <input ref="message" type="text"/> <input type="button" onClick={this._handleClick.bind(this)} value="say"/>
+                      <input ref="message" id="console-input" type="text" onKeyUp={this._handleKeyUp.bind(this)}/>
                   </div>
               </div>
           </div>

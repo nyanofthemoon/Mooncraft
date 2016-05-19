@@ -1,6 +1,6 @@
 'use strict';
 
-var htmlEscape = require('secure-filters').html;
+var sanitizer = require('sanitizer');
 
 let Logger        = require('./logger');
 let Player        = require('./player');
@@ -240,7 +240,7 @@ class World {
             let player = this.getPlayerBySocketId(socket.id);
             let region = this.getRegion(data.id);
             if (player.canSay(region)) {
-                player.say(region, htmlEscape(data.message));
+                player.say(region, sanitizer.unescapeEntities(sanitizer.sanitize(data.message)));
             } else {
                 this.logger.verbose('[SAY] Invalid ' + JSON.stringify(data));
             }

@@ -3672,6 +3672,11 @@
       "from": "ripemd160@0.2.0",
       "resolved": "https://registry.npmjs.org/ripemd160/-/ripemd160-0.2.0.tgz"
     },
+    "sanitizer": {
+      "version": "0.1.3",
+      "from": "sanitizer@latest",
+      "resolved": "https://registry.npmjs.org/sanitizer/-/sanitizer-0.1.3.tgz"
+    },
     "sass-graph": {
       "version": "2.1.1",
       "from": "sass-graph@>=2.1.1 <3.0.0",
@@ -3705,11 +3710,6 @@
       "version": "1.2.1",
       "from": "sax@>=1.2.1 <1.3.0",
       "resolved": "https://registry.npmjs.org/sax/-/sax-1.2.1.tgz"
-    },
-    "secure-filters": {
-      "version": "1.0.5",
-      "from": "secure-filters@>=1.0.5 <2.0.0",
-      "resolved": "https://registry.npmjs.org/secure-filters/-/secure-filters-1.0.5.tgz"
     },
     "semver": {
       "version": "5.1.0",
