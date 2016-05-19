@@ -5,7 +5,7 @@ Somewhere in the seventh millenia, long after Humans have become extinct, only a
 A new breed of seemingly sentient beings has emerged due to centuries of mutations from radiation exposure.
 They call themselves "Ents", live in "The Garden" and follow the teachings of their oldest member, the "Tree of Knowledge".
 
-Status: Player module for region interaction is coming up next.
+Status: Player and Region interaction is in progress.
 
 # Game Play
 
@@ -16,6 +16,8 @@ Status: Player module for region interaction is coming up next.
 ### Action
 
 * Harvest line-of-sight by pressing `h`
+* Investigate line-of-sight by pressing `i`
+* Toggle notifications console by pressing `ESC`
 
 ### Movement
 

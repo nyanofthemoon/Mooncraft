@@ -202,6 +202,10 @@ function bindKeys() {
             let player = _getState().player.get('data');
             let direction = _getState().player.get('direction');
             switch (e.keyCode) {
+                case 27:
+                    let checkbox = document.querySelector('#console-content__checkbox');
+                    checkbox.checked = !checkbox.checked;
+                    break;
                 case 38:
                 case 56:
                 case 87:
@@ -262,6 +266,7 @@ function bindKeys() {
                         emitPlayerMove(player.region.id, (player.region.x + 1), (player.region.y + 1));
                     }
                     break;
+
                 case 72:
                 case 73:
                     let directionX = player.region.x;
