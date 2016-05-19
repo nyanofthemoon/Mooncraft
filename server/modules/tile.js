@@ -12,6 +12,22 @@ class Tile {
         return JSON.parse(JSON.stringify(FIXTURES[id]));
     }
 
+    getId() {
+        return this.data.id;
+    }
+
+    getName() {
+        return this.data.name;
+    }
+
+    getIcon() {
+        return this.data.icon;
+    }
+
+    getDescription() {
+        return this.data.description;
+    }
+
     isWalkable() {
         return this.data.walkable;
     }
@@ -25,6 +41,19 @@ class Tile {
                 that.data[key] = data[key];
             });
         }
+    }
+
+    query() {
+        return {
+            'type': 'tile',
+            'data': {
+                'id'           : this.getId(),
+                'name'         : this.getName(),
+                'icon'         : this.getIcon(),
+                'description'  : this.getDescription(),
+                'walkable'     : this.isWalkable()
+            }
+        };
     }
 
 };

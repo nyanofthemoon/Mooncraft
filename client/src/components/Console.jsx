@@ -5,7 +5,7 @@ import {connect} from 'react-redux'
 class Console extends Component {
     _handleKeyUp(e) {
         if (13 === e.keyCode) {
-            var message = Sanitizer.unescapeEntities(Sanitizer.sanitize(Sanitizer.escape(this.refs.message.value)));
+            var message = Sanitizer.unescapeEntities(Sanitizer.sanitize(this.refs.message.value));
             if (message.length >= 3) {
                 this.refs.message.value = '';
                 this.props.handleSubmit(message);

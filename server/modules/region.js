@@ -90,6 +90,10 @@ class Region {
         return this.data.name;
     }
 
+    getDescription() {
+        return this.data.description;
+    }
+
     getXOrigin() {
         return this.data.fixture.origin.x;
     }
@@ -126,9 +130,9 @@ class Region {
         return {
             'type': 'region',
             'data': {
-                'id'         : this.data.id,
-                'name'       : this.data.name,
-                'description': this.data.description,
+                'id'         : this.getId(),
+                'name'       : this.getName(),
+                'description': this.getDescription(),
                 'tiles'      : this.tiles,
                 'nodes'      : this.nodes,
                 'items'      : this.items

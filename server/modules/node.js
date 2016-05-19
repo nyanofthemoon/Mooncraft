@@ -22,6 +22,10 @@ class Node {
         return this.data.name;
     }
 
+    getIcon() {
+        return this.data.icon;
+    }
+
     getDescription() {
         return this.data.description;
     }
@@ -98,6 +102,23 @@ class Node {
                 that.data[key] = data[key];
             });
         }
+    }
+
+    query() {
+        return {
+            'type': 'node',
+            'data': {
+                'id'           : this.getId(),
+                'name'         : this.getName(),
+                'icon'         : this.getIcon(),
+                'description'  : this.getDescription(),
+                'walkable'     : this.isWalkable(),
+                'harvestable'  : this.isHarvestable(),
+                'buildable'    : this.isBuildable(),
+                'transportable': this.isTransportable(),
+                'ownable'      : this.isOwnable()
+            }
+        };
     }
 
 };

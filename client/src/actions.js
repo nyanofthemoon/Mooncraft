@@ -2,7 +2,7 @@ import Config from './config';
 import * as types from './constants/ActionTypes'
 import Store from './store'
 import {setAudioAssets, playSound, playMusic} from './helpers/audio/controller';
-import {createSocketConnection, emitSocketCyclingQueryEvent, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent, emitPlayerMove, emitPlayerEnter, emitPlayerLeave, emitPlayerSay, emitPlayerHarvest} from './helpers/socket';
+import {createSocketConnection, emitSocketCyclingQueryEvent, emitSocketPlayerQueryEvent, emitSocketRegionQueryEvent, emitPlayerMove, emitPlayerEnter, emitPlayerLeave, emitPlayerSay, emitPlayerHarvest, emitPlayerInvestigate} from './helpers/socket';
 
 let socket;
 let dispatch;
@@ -45,6 +45,7 @@ function connectSocketSuccess() {
             case 'player'      : return queryPlayerReception(data);
             case 'cycling'     : return queryCyclingReception(data);
             case 'regeneration': return queryRegenerationReception(data);
+            case 'coordinates' : return queryCoordinatesReception(data);
             default            : return queryUnknownReception(data);
         }
     });
@@ -184,6 +185,11 @@ function queryRegenerationReception(data) {
     dispatch({type: types.QUERY_REGENERATION_RECEIVED, payload: data.data});
 }
 
+function queryCoordinatesReception(data) {
+    if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_COORDINATES_RECEIVED); }
+    dispatch({type: types.QUERY_COORDINATES_RECEIVED, payload: data.data});
+}
+
 function queryUnknownReception(data) {
     if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_UNKNOWN_RECEIVED); }
     dispatch({type: types.QUERY_UNKNOWN_RECEIVED, payload: data});
@@ -257,48 +263,57 @@ function bindKeys() {
                     }
                     break;
                 case 72:
-                    if (Config.environment.isVerbose()) {
-                        console.log('[Action   ] Run ' + types.PLAYER_HARVEST_REGION_REQUESTED + ' towards ' + direction);
-                    }
-                    if (Config.audio.soundIsEnabled()) {
-                        playSound('harvest');
-                    }
-                    let harvestX = player.region.x;
-                    let harvestY = player.region.y;
+                case 73:
+                    let directionX = player.region.x;
+                    let directionY = player.region.y;
                     switch (direction) {
                         case 'up':
-                            harvestY--;
+                            directionY--;
                             break;
                         case 'right':
-                            harvestX++;
+                            directionX++;
                             break;
                         case 'down':
-                            harvestY++;
+                            directionY++;
                             break;
                         case 'left':
-                            harvestX--;
+                            directionX--;
                             break;
                         case 'leftup':
-                            harvestY--;
-                            harvestX--;
+                            directionY--;
+                            directionX--;
                             break;
                         case 'rightup':
-                            harvestY--;
-                            harvestX++;
+                            directionY--;
+                            directionX++;
                             break;
                         case 'leftdown':
-                            harvestY++;
-                            harvestX--;
+                            directionY++;
+                            directionX--;
                             break;
                         case 'rightdown':
-                            harvestY++;
-                            harvestX++;
+                            directionY++;
+                            directionX++;
                             break;
                         default:
                             break;
                     }
-                    dispatch({type: types.PLAYER_HARVEST_REGION_REQUESTED});
-                    emitPlayerHarvest(player.region.id, harvestX, harvestY);
+                    if (e.keyCode == 72) {
+                        if (Config.environment.isVerbose()) {
+                            console.log('[Action   ] Run ' + types.PLAYER_HARVEST_REGION_REQUESTED + ' towards ' + direction);
+                        }
+                        if (Config.audio.soundIsEnabled()) {
+                            playSound('harvest');
+                        }
+                        dispatch({type: types.PLAYER_HARVEST_REGION_REQUESTED});
+                        emitPlayerHarvest(player.region.id, directionX, directionY);
+                    } else {
+                        if (Config.environment.isVerbose()) {
+                            console.log('[Action   ] Run ' + types.QUERY_COORDINATES_REQUESTED + ' towards ' + direction);
+                        }
+                        dispatch({type: types.QUERY_COORDINATES_REQUESTED});
+                        emitPlayerInvestigate(player.region.id, directionX, directionY);
+                    }
                     break;
                 default:
                     break;

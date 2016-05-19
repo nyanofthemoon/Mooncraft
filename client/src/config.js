@@ -6,7 +6,7 @@ let music    = true;
 let sound    = true;
 let rotation = false;
 
-if (host === 'localhost') {
+if (['localhost', '127.0.0.1'].indexOf(host) > -1) {
     name     = 'development';
     port     = ':8888';
     verbose  = true;

@@ -37,6 +37,12 @@ const engine = (state = initialState, action) => {
         case types.PLAYER_SAY_REGION_RECEIVED:
             nextState = fromJS(state).set('notifications', fromJS(state).get('notifications').push('You said "' + action.payload.message + '".'));
             break;
+        case types.QUERY_COORDINATES_RECEIVED:
+            // @TODO Display Modal With Information
+            if (Config.environment.isVerbose()) {
+                console.log(action.payload);
+            }
+            break;
         default:
             actionIsInCurrentReducer = false;
             break;

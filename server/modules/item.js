@@ -24,6 +24,14 @@ class Item {
         }
     }
 
+    getIcon() {
+        if (this.isSingular()) {
+            return this.data.icon.singular;
+        } else {
+            return this.data.icon.plural;
+        }
+    }
+
     getDescription() {
         if (this.isSingular()) {
             return this.data.description.singular;
@@ -127,12 +135,21 @@ class Item {
         return {
             'type': 'item',
             'data': {
-                'id'         : this.data.id,
-                'name'       : this.data.name,
-                'description': this.data.description,
-                'icon'       : this.data.icon,
-                'price'      : this.data.price,
-                'quantity'   : this.data.quantity
+                'id'         : this.getId(),
+                'name'       : this.getName(),
+                'icon'       : this.getIcon(),
+                'description': this.getDescription(),
+                'quantity'   : this.getQuantity(),
+                'unitValue'  : this.getUnitValue(),
+                'unitWeight' : this.getUnitWeight(),
+                'totalValue' : this.getTotalValue(),
+                'totalWeight': this.getTotalWeight(),
+                'walkable'   : this.isWalkable(),
+                'pickable'   : this.isPickable(),
+                'droppable'  : this.isDroppable(),
+                'consummable': this.isConsummable(),
+                'containable': this.isContainable(),
+                'invisible'  : this.isInvisible()
             }
         };
     }

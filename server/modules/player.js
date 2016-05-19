@@ -265,9 +265,43 @@ class Player {
         return true;
     }
 
-    investigate() {
-        // @TODO Give tile / node description
-        // @TODO Give description only for "visible" items
+    investigate(region, x, y) {
+        let tile  = region.getTile(x, y);
+        let node  = region.getNode(x, y);
+        let items = [];
+        region.getItems(x, y).forEach(function(item) {
+            if (!item.isInvisible()) {
+                items.push[{
+                    'name'       : item.getName(),
+                    'description': item.getDescription(),
+                    'quantity'   : item.getQuantity(),
+                    'unitValue'  : item.getUnitValue(),
+                    'unitWeight' : item.getUnitWeight()
+                }];
+            }
+        });
+        this.socket.emit('query', {
+            type: 'coordinates',
+            data: {
+                'id'           : region.getId(),
+                'x'            : x,
+                'y'            : y,
+                'walkable'     : this.canMove(region, x, y),
+                'harvestable'  : this.canHarvest(region, x, y),
+                'buildable'    : this.canBuild(region, x, y),
+                'pickable'     : this.canPickUp(region, x, y),
+                'droppable'    : this.canDrop(region, x, y),
+                'items'        : items,
+                'tile'         : {
+                    'name'       : tile.getName(),
+                    'description': tile.getDescription()
+                },
+                'node'         : {
+                    'name'       : node.getName(),
+                    'description': node.getDescription()
+                }
+            }
+        });
     }
 
     _isInRegion(region) {

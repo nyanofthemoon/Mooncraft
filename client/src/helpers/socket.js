@@ -38,6 +38,11 @@ export function emitPlayerMove(id, x, y) {
     socket.emit('move', { id: id, x: x, y: y });
 }
 
+export function emitPlayerInvestigate(id, x, y) {
+    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Investigate (' + x + ',' + y + ')'); }
+    socket.emit('investigate', { id: id, x: x, y: y });
+}
+
 export function emitPlayerHarvest(id, x, y) {
     if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Harvest (' + x + ',' + y + ')'); }
     socket.emit('harvest', { id: id, x: x, y: y });
