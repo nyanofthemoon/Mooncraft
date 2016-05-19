@@ -32,6 +32,10 @@ class Tile {
         return this.data.walkable;
     }
 
+    isDroppable() {
+        return this.data.droppable;
+    }
+
     mutate(id, data) {
         this.data    = Tile.getTypeDefinition(id);
         this.data.id = id;
@@ -51,7 +55,8 @@ class Tile {
                 'name'         : this.getName(),
                 'icon'         : this.getIcon(),
                 'description'  : this.getDescription(),
-                'walkable'     : this.isWalkable()
+                'walkable'     : this.isWalkable(),
+                'droppable'    : this.isDroppable()
             }
         };
     }

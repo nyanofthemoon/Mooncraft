@@ -4,6 +4,7 @@
     "icon": "space.gif",
     "description": "An empty space.",
     "walkable": true,
+    "droppable": true,
     "harvestable": false,
     "buildable": true,
     "ownable": false,
@@ -14,6 +15,7 @@
     "icon": "teleport.gif",
     "description": "A teleport to another region.",
     "walkable": true,
+    "droppable": false,
     "harvestable": false,
     "buildable": false,
     "ownable": false,
@@ -28,6 +30,7 @@
     "icon": "radiated-space.gif",
     "description": "Barren space. It needs to be purified.",
     "walkable": true,
+    "droppable": false,
     "buildable": false,
     "ownable": false,
     "harvestable": {
@@ -40,6 +43,7 @@
     "icon": "radiated-space-bone.gif",
     "description": "Barren space containing remains. It needs to be purified.",
     "walkable": true,
+    "droppable": false,
     "buildable": false,
     "ownable": false,
     "harvestable": {
@@ -53,6 +57,7 @@
     "icon": "radiated-space-bone-pile.gif",
     "description": "Barren space containing many remains. It needs to be purified.",
     "walkable": false,
+    "droppable": false,
     "buildable": false,
     "ownable": false,
     "harvestable": {
@@ -66,6 +71,7 @@
     "icon": "dirt_left-top.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -75,6 +81,7 @@
     "icon": "dirt_middle-top.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -84,6 +91,7 @@
     "icon": "dirt_right-top.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -93,6 +101,7 @@
     "icon": "dirt_left-middle.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -102,6 +111,7 @@
     "icon": "dirt_middle-middle.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -111,6 +121,7 @@
     "icon": "dirt_right-middle.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -120,6 +131,7 @@
     "icon": "dirt_left-bottom.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -129,6 +141,7 @@
     "icon": "dirt_middle-bottom.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -138,6 +151,7 @@
     "icon": "dirt_right-bottom.gif",
     "description": "A patch of dirt.",
     "walkable": true,
+    "droppable": true,
     "buildable": false,
     "ownable": false,
     "transportable": false
@@ -147,6 +161,7 @@
     "icon": "tree-large-stump.gif",
     "description": "What remains of a once proud tree.",
     "walkable": false,
+    "droppable": false,
     "harvestable": {
       "item": 2,
       "quantity": 3,
@@ -161,6 +176,7 @@
     "icon": "tree-large_1.gif",
     "description": "A large tree.",
     "walkable": false,
+    "droppable": false,
     "harvestable": {
       "item": 2,
       "quantity": 2,
@@ -175,6 +191,7 @@
     "icon": "tree-small-stump.gif",
     "description": "What remains of a once proud tree.",
     "walkable": false,
+    "droppable": false,
     "harvestable": {
       "item": 2,
       "quantity": 1,
@@ -189,6 +206,7 @@
     "icon": "tree-small_1.gif",
     "description": "A small tree.",
     "walkable": false,
+    "droppable": false,
     "harvestable": {
       "item": 2,
       "quantity": 2,
@@ -203,6 +221,7 @@
     "icon": "grass-light_small.gif",
     "description": "A small patch of light grass.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -215,8 +234,9 @@
   "401": {
     "name": "Grass",
     "icon": "grass-dark_small.gif",
-    "description": "An small patch of dark grass.",
+    "description": "A small patch of dark grass.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -231,6 +251,7 @@
     "icon": "grass-light_large.gif",
     "description": "A large patch of light grass.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -243,8 +264,9 @@
   "403": {
     "name": "Grass",
     "icon": "grass-dark_large.gif",
-    "description": "An large patch of dark grass.",
+    "description": "A large patch of dark grass.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -257,8 +279,9 @@
   "404": {
     "name": "Flowers",
     "icon": "flowers_1.gif",
-    "description": "An patch of flowers.",
+    "description": "A patch of flowers.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -271,8 +294,9 @@
   "405": {
     "name": "Flowers",
     "icon": "flowers_2.gif",
-    "description": "An patch of flowers.",
+    "description": "A patch of flowers.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -287,6 +311,7 @@
     "icon": "plant_1.gif",
     "description": "A plant.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -301,6 +326,7 @@
     "icon": "plant_2.gif",
     "description": "A plant.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -315,6 +341,7 @@
     "icon": "plant_3.gif",
     "description": "A plant.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -329,6 +356,7 @@
     "icon": "plant_4.gif",
     "description": "A plant.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -342,6 +370,7 @@
     "icon": "plant_5.gif",
     "description": "A plant.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -356,6 +385,7 @@
     "icon": "plant_6.gif",
     "description": "A plant.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -370,6 +400,7 @@
     "icon": "plant_7.gif",
     "description": "A plant.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -384,6 +415,7 @@
     "icon": "plant_8.gif",
     "description": "A plant.",
     "walkable": true,
+    "droppable": true,
     "harvestable": {
       "item": 1,
       "quantity": 1,
@@ -398,6 +430,7 @@
     "icon": "wood-fence.gif",
     "description": "A wooden fence built by someone.",
     "walkable": false,
+    "droppable": false,
     "harvestable": false,
     "buildable": false,
     "ownable": {

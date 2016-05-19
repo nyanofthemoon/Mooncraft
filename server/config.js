@@ -18,6 +18,10 @@ module.exports = {
         defaultInventory: {}
     },
 
+    region: {
+        defaultNodeId: 1
+    },
+
     // See https://www.npmjs.com/package/redis
     redis: {
         url:     process.env.REDIS_URL || 'redis://127.0.0.1:6379',

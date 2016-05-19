@@ -2,9 +2,8 @@
 
 let CryptoJS = require('crypto-js');
 
+let Logger   = require('./logger');
 const CONFIG = require('./../config');
-
-let Logger = require('./logger');
 
 class Player {
 
@@ -239,8 +238,12 @@ class Player {
     }
 
     canPickUp(region, x, y) {
-        // @TODO Check if item can be picked up
-       return false;
+       let items = region.getItems(x, y);
+       if (!items || items.length < 1) {
+           return false;
+       }
+
+       return true;
     }
 
     pickup() {
@@ -248,7 +251,12 @@ class Player {
     }
 
     canDrop(region, x, y) {
-        // @TODO Check if item can be dropped
+        let tile = region.getTile(x, y);
+        let node = region.getNode(x, y);
+        if (tile.isDroppable() && node.isDroppable()) {
+            return true;
+        }
+
         return false;
     }
 
@@ -266,8 +274,6 @@ class Player {
     }
 
     investigate(region, x, y) {
-        let tile  = region.getTile(x, y);
-        let node  = region.getNode(x, y);
         let items = [];
         region.getItems(x, y).forEach(function(item) {
             if (!item.isInvisible()) {
@@ -286,20 +292,13 @@ class Player {
                 'id'           : region.getId(),
                 'x'            : x,
                 'y'            : y,
+                'description'  : region.getCoordinatesDescription(x, y),
                 'walkable'     : this.canMove(region, x, y),
                 'harvestable'  : this.canHarvest(region, x, y),
                 'buildable'    : this.canBuild(region, x, y),
                 'pickable'     : this.canPickUp(region, x, y),
                 'droppable'    : this.canDrop(region, x, y),
-                'items'        : items,
-                'tile'         : {
-                    'name'       : tile.getName(),
-                    'description': tile.getDescription()
-                },
-                'node'         : {
-                    'name'       : node.getName(),
-                    'description': node.getDescription()
-                }
+                'items'        : items
             }
         });
     }

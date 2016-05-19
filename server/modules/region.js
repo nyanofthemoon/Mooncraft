@@ -5,6 +5,8 @@ let Tile   = require('./tile');
 let Node   = require('./node');
 let Item   = require('./item');
 
+const CONFIG = require('./../config');
+
 class Region {
 
     constructor(config) {
@@ -92,6 +94,15 @@ class Region {
 
     getDescription() {
         return this.data.description;
+    }
+
+    getCoordinatesDescription(x, y) {
+        let node = this.getNode(x, y);
+        if (node.getId() === CONFIG.region.defaultNodeId) {
+            return this.getTile(x, y).getDescription();
+        } else {
+            return node.getDescription();
+        }
     }
 
     getXOrigin() {

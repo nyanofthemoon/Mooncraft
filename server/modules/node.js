@@ -1,6 +1,6 @@
 'use strict';
 
-let Item   = require('./item');
+let Item = require('./item');
 
 const FIXTURES = require('./../db/fixture/nodes.json');
 
@@ -36,6 +36,10 @@ class Node {
         } else {
             return false;
         }
+    }
+
+    isDroppable() {
+        return this.data.droppable;
     }
 
     isTransportable() {
@@ -113,6 +117,7 @@ class Node {
                 'icon'         : this.getIcon(),
                 'description'  : this.getDescription(),
                 'walkable'     : this.isWalkable(),
+                'droppable'    : this.isDroppable(),
                 'harvestable'  : this.isHarvestable(),
                 'buildable'    : this.isBuildable(),
                 'transportable': this.isTransportable(),

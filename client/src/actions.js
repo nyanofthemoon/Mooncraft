@@ -304,18 +304,14 @@ function bindKeys() {
                             break;
                     }
                     if (e.keyCode == 72) {
-                        if (Config.environment.isVerbose()) {
-                            console.log('[Action   ] Run ' + types.PLAYER_HARVEST_REGION_REQUESTED + ' towards ' + direction);
-                        }
+                        if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.PLAYER_HARVEST_REGION_REQUESTED + ' towards ' + direction); }
                         if (Config.audio.soundIsEnabled()) {
                             playSound('harvest');
                         }
                         dispatch({type: types.PLAYER_HARVEST_REGION_REQUESTED});
                         emitPlayerHarvest(player.region.id, directionX, directionY);
                     } else {
-                        if (Config.environment.isVerbose()) {
-                            console.log('[Action   ] Run ' + types.QUERY_COORDINATES_REQUESTED + ' towards ' + direction);
-                        }
+                        if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.QUERY_COORDINATES_REQUESTED + ' towards ' + direction); }
                         dispatch({type: types.QUERY_COORDINATES_REQUESTED});
                         emitPlayerInvestigate(player.region.id, directionX, directionY);
                     }

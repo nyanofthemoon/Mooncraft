@@ -38,10 +38,7 @@ const engine = (state = initialState, action) => {
             nextState = fromJS(state).set('notifications', fromJS(state).get('notifications').push('You said "' + action.payload.message + '".'));
             break;
         case types.QUERY_COORDINATES_RECEIVED:
-            // @TODO Display Modal With Information
-            if (Config.environment.isVerbose()) {
-                console.log(action.payload);
-            }
+            nextState = fromJS(state).set('notifications', fromJS(state).get('notifications').push('You see... ' + action.payload.description));
             break;
         default:
             actionIsInCurrentReducer = false;
