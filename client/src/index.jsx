@@ -9,9 +9,11 @@ import {Provider} from 'react-redux';
 import App from './containers/App';
 import store from './store'
 
-render(
+setTimeout(function() {
+  render(
     <Provider store={store}>
-        <App />
+      <App />
     </Provider>,
     document.getElementById('root')
-);
+  );
+}, 500);
