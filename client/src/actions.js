@@ -199,12 +199,13 @@ function bindKeys() {
     document.onkeyup = function(e) {
         let focusedElement = document.querySelector(":focus");
         if (!focusedElement || 'console-input' !== focusedElement.id) {
+            if (Config.environment.isVerbose()) { console.log('[KeyUp    ] ' + e.keyCode); }
             let player = _getState().player.get('data');
             let direction = _getState().player.get('direction');
             switch (e.keyCode) {
                 case 27:
-                    let checkbox = document.querySelector('#console-content__checkbox');
-                    checkbox.checked = !checkbox.checked;
+                    let consoleCheckbox     = document.querySelector('#console-content__checkbox');
+                    consoleCheckbox.checked = !consoleCheckbox.checked;
                     break;
                 case 38:
                 case 56:
@@ -266,7 +267,10 @@ function bindKeys() {
                         emitPlayerMove(player.region.id, (player.region.x + 1), (player.region.y + 1));
                     }
                     break;
-
+                case 66:
+                    let buildmenuCheckbox     = document.querySelector('#buildmenu-content__checkbox');
+                    buildmenuCheckbox.checked = !buildmenuCheckbox.checked;
+                    break;
                 case 72:
                 case 73:
                     let directionX = player.region.x;

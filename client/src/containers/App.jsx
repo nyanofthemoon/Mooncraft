@@ -6,6 +6,7 @@ import Loader from './../components/Loader';
 import ConnectionForm from './../components/ConnectionForm';
 import Region from './Region';
 import Console from './../components/Console';
+import BuildMenu from './../components/menu/Build';
 
 import {assetLoaderCompletion, connectSocket, sayRegion} from './../actions';
 
@@ -30,8 +31,9 @@ class App extends Component {
                 </div>);
             case 'connected':
                 return (<div className="flex-vertical-container light-text">
-                    <Console ref="Console" handleSubmit={actions.sayRegion}/>
-                    <Region ref="Region" />
+                    <Console handleSubmit={actions.sayRegion}/>
+                    <BuildMenu/>
+                    <Region/>
                 </div>);
                 break;
         }

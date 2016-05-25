@@ -1,0 +1,44 @@
+@import 'bourbon/bourbon';
+
+.menu-container {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  z-index: 10010;
+}
+
+.menu-content {
+
+  &__icon {
+    position: absolute;
+    top:40px;
+    left:0px;
+    padding-top: 5px;
+    margin-top: 8px;
+    margin-right: 1vh;
+    margin-left: 1vh;
+    width: 5vh;
+    cursor: pointer;
+    z-index: 10010;
+    width: 32px;
+    height: 32px;
+    background: url('/img/menu-icon-player.gif');
+  }
+
+  &__checkbox {
+    display: none;
+  }
+  &__checkbox:checked + .menu-container {
+    .menu-content__list {;
+      @include transform(scale3d(1,1,1));
+    }
+  }
+  &__list {
+    padding: 1vh 1vh 0.5vh 45px;
+    background-color: rgba(0, 0, 0, 0.66);
+    @include transform(scale3d(1, 0, 1));
+    @include transform-origin(0 0);
+    @include transition(transform 250ms ease-in);
+  }
+}
