@@ -1,6 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
+import Config from './../config';
 import Node from './Node'
 import Player from './Player'
 import Character from './Character'
@@ -8,24 +9,33 @@ import Character from './Character'
 class Tile extends Component {
     render() {
         const {player, characters} = this.props
-        let playerComponent = '';
+        let playerComponent = ''
         if (this.props.x == player.get('data').region.x && this.props.y == player.get('data').region.y) {
-            playerComponent = (<Player />);
+            playerComponent = (<Player />)
         }
-        let list        = [];
-        let coordinates = characters.getIn(['coordinates', this.props.x, this.props.y]);
+        let list        = []
+        let coordinates = characters.getIn(['coordinates', this.props.x, this.props.y])
         if (coordinates) {
             coordinates.keySeq().toArray().map(function(key) {
-                list.push(coordinates.get(key));
-            });
+                list.push(coordinates.get(key))
+            })
         }
-        return (<div className="region__row__tile" style={{backgroundImage: 'url(/img/tiles/' + this.props.data.get('icon')+')'}}>
+
+        let info   = ''
+        let border = ''
+        if (Config.environment.isDevelopment()) {
+            border = '1px solid white'
+            info = this.props.x + 'x' + this.props.y
+        }
+
+        return (<div className="region__row__tile" style={{backgroundImage: 'url(/img/tiles/' + this.props.data.get('icon')+')', border: border}}>
             <Node data={this.props.node}/>
             {playerComponent}
             {list.map(function(character, index) {
-                return (<Character key={'tile-' + index} data={character}/>);
+                return (<Character key={'tile-' + index} data={character}/>)
             })}
-        </div>);
+            {info}
+        </div>)
     }
 }
 
@@ -48,4 +58,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(Tile);
+export default connect(mapStateToProps)(Tile)

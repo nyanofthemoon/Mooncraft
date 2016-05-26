@@ -14,7 +14,7 @@ class Row extends Component {
                         data  = {cell.getIn(['tile','data'])}
                         node  = {cell.getIn(['node','data'])}
                         items = {cell.getIn(['items','data'])}
-                    />);
+                    />)
                 })}
             </div>
         );
@@ -25,4 +25,4 @@ Row.propTypes = {
     cells: PropTypes.object.isRequired
 }
 
-export default Row;
+export default Row

@@ -4,34 +4,82 @@ import {connect} from 'react-redux'
 import Row from './../components/Row';
 
 class Region extends Component {
-    // @TODO Support maps of different sizes
     render() {
-        const {region} = this.props
+        const {region, player} = this.props
+
+        let playerRegion = player.get('data').region
+        let regionRows   = region.get('rows')
+
+        let sliceStartX = 0;
+        let sliceStartY = 0;
+        let sliceEndX = 0;
+        let sliceEndY = 0;
+        let width, height;
+
+        if (playerRegion && regionRows) {
+            let playerX = playerRegion.x
+            let playerY = playerRegion.y
+            let maxX = region.get('maxX')
+            let maxY = region.get('maxY')
+
+            //@TODO Change based on device available viewport size (mobile, tablet, desktop)
+            let sizeX = 5
+            let sizeY = 5
+
+            sliceStartX = playerX - sizeX;
+            sliceStartY = playerY - sizeY;
+            sliceEndX = playerX + sizeX;
+            sliceEndY = playerY + sizeY;
+
+            if (sliceStartX < 0) {
+                sliceEndX = sliceEndX - sliceStartX;
+                sliceStartX = 0;
+            } else if (sliceEndX > maxX) {
+                sliceStartX = sliceStartX - (sliceEndX - maxX);
+                sliceEndX = maxX;
+            }
+
+            if (sliceStartY < 0) {
+                sliceEndY = sliceEndY - sliceStartY;
+                sliceStartY = 0;
+            } else if (sliceEndY > maxY) {
+                sliceStartY = sliceStartY - (sliceEndY - maxY);
+                sliceEndY = maxY;
+            }
+
+            let ratio = sizeX / sizeY;
+            width     = ratio * 100;
+            height    = 100;
+        }
+
         return (
-            <section className="region">
+            <section className="region" style={{width: width + 'vmin', height: height + 'vmin'}}>
                 <div className={['cycle', 'cycle--' + region.get('cycle')].join(' ')}></div>
-                {region.get('rows').map(function(row, index) {
+                {region.get('rows').slice(sliceStartY, sliceEndY + 1).map(function(row, index) {
                     return (<Row
                         key   = {'row-' + index}
-                        cells = {row}
+                        cells = {row.slice(sliceStartX, sliceEndX + 1)}
                     />);
                 })}
             </section>
         );
+
     }
 }
-
+5
 Region.contextTypes = {
     store: PropTypes.object.isRequired
 }
 
 Region.propTypes = {
-    region: PropTypes.object.isRequired
+    region: PropTypes.object.isRequired,
+    player: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state) {
     return {
-        region: state.region
+        region: state.region,
+        player: state.player
     }
 }
 

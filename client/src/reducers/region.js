@@ -13,7 +13,9 @@ const initialState = fromJS({
         nodes: [],
         items: []
     },
-    rows: []
+    rows: [],
+    maxX: 0,
+    maxY: 0
 });
 
 const region = (state = initialState, action) => {
@@ -51,9 +53,14 @@ const region = (state = initialState, action) => {
                     };
                 }
             }
+
+
+
             nextState = fromJS(state).merge({
                 data: action.payload,
-                rows: nextRows
+                rows: nextRows,
+                maxX: nextRows[0].length,
+                maxY: nextRows.length
             });
             break;
         default:
