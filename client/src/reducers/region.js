@@ -15,7 +15,9 @@ const initialState = fromJS({
     },
     rows: [],
     maxX: 0,
-    maxY: 0
+    maxY: 0,
+    viewportCols: 0,
+    viewportRows: 0
 });
 
 const region = (state = initialState, action) => {
@@ -53,14 +55,19 @@ const region = (state = initialState, action) => {
                     };
                 }
             }
-
-
-
             nextState = fromJS(state).merge({
                 data: action.payload,
                 rows: nextRows,
                 maxX: nextRows[0].length,
                 maxY: nextRows.length
+            });
+            break;
+        case types.WINDOW_RESIZE_EVENT_RECEIVED:
+            let viewportRows = Math.floor(Math.floor(((action.payload.width  + 24) / 32)) / 4);
+            let viewportCols = Math.floor(Math.floor(((action.payload.height + 24) / 32)) / 4);
+            nextState = fromJS(state).merge({
+                viewportCols: viewportCols,
+                viewportRows: viewportRows
             });
             break;
         default:

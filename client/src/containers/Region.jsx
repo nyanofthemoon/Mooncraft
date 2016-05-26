@@ -21,11 +21,8 @@ class Region extends Component {
             let playerY = playerRegion.y
             let maxX = region.get('maxX')
             let maxY = region.get('maxY')
-
-            //@TODO Change based on device available viewport size (mobile, tablet, desktop)
-            let sizeX = 5
-            let sizeY = 5
-
+            let sizeX = region.get('viewportRows')
+            let sizeY = region.get('viewportCols')
             sliceStartX = playerX - sizeX;
             sliceStartY = playerY - sizeY;
             sliceEndX = playerX + sizeX;

@@ -66,6 +66,8 @@ function connectSocketSuccess() {
     dispatch({type: types.QUERY_CYCLING_REQUESTED});
     emitSocketCyclingQueryEvent();
     bindKeys();
+    bindWindowResizeEvent();
+    window.dispatchEvent(new Event('resize'));
 }
 
 function connectSocketFailure(message) {
@@ -195,8 +197,12 @@ function queryUnknownReception(data) {
     dispatch({type: types.QUERY_UNKNOWN_RECEIVED, payload: data});
 }
 
+function unbindKeys() {
+    document.removeEventListener('keyup');
+}
+
 function bindKeys() {
-    document.onkeyup = function(e) {
+    document.addEventListener('keyup', function(e) {
         let focusedElement = document.querySelector(":focus");
         if (!focusedElement || 'console-input' !== focusedElement.id) {
             if (Config.environment.isVerbose()) { console.log('[KeyUp    ] ' + e.keyCode); }
@@ -324,5 +330,16 @@ function bindKeys() {
                     break;
             }
         }
-    };
+    });
+}
+
+function unbindWindowResizeEvent() {
+    window.removeEventListener('resize');
+}
+
+function bindWindowResizeEvent() {
+    window.addEventListener('resize', function(e) {
+        if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.WINDOW_RESIZE_EVENT_RECEIVED); }
+        dispatch({type: types.WINDOW_RESIZE_EVENT_RECEIVED, payload: {width: window.innerWidth, height:window.innerHeight} });
+    });
 }
