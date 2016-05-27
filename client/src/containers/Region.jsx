@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
 import Row from './../components/Row';
-import {getAspectRatio, getRowsSliceBoundaries, getCellsSliceBoundaries} from '../helpers/region';
+import {getAspectRatio, getSliceBoundaries} from '../helpers/region';
 
 class Region extends Component {
     render() {
@@ -12,17 +12,17 @@ class Region extends Component {
         let playerRegion = player.get('data').region
         let regionRows   = region.get('rows')
         if (playerRegion && regionRows) {
-            maxRow  = region.get('rowCount') - 1
-            maxCell = region.get('cellCount') - 1
-            maxCells    = region.get('maxCells')
-            maxRows     = region.get('maxRows')
-            playerX     = playerRegion.x
-            playerY     = playerRegion.y
+            maxRow   = region.get('rowCount') - 1
+            maxCell  = region.get('cellCount') - 1
+            maxCells = region.get('maxCells')
+            maxRows  = region.get('maxRows')
+            playerX  = playerRegion.x
+            playerY  = playerRegion.y
         }
 
         let aspectRatio        = getAspectRatio((maxCells+1), (maxRows+1))
-        let rowSliceBoundaries = getRowsSliceBoundaries(playerY, maxRows, maxRow)
-        let celSliceBoundaries = getCellsSliceBoundaries(playerX, maxCells, maxCell)
+        let rowSliceBoundaries = getSliceBoundaries(playerY, maxRows, maxRow)
+        let celSliceBoundaries = getSliceBoundaries(playerX, maxCells, maxCell)
         return (
             <section className="region" style={{width: aspectRatio.width + 'vmin', height: aspectRatio.height + 'vmin'}}>
                 <div className={['cycle', 'cycle--' + region.get('cycle')].join(' ')}></div>
