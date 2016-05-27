@@ -8,9 +8,9 @@ export function getAspectRatio(x, y) {
   }
 }
 
-export function getSliceBoundaries(y, total, surrounding) {
-  let start = y - total
-  let end   = y + total
+export function getSliceBoundaries(coordinate, total, surrounding) {
+  let start = coordinate - total
+  let end   = coordinate + total
   if (start < 0) {
     end   = end - start
     start = 0
