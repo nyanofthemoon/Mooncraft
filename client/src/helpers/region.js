@@ -1,59 +1,43 @@
 'use strict';
 
-import io from 'socket.io-client';
-
-import Config from './../config';
-import * as types from './../constants/ActionTypes'
-
-let socket;
-
-export function createSocketConnection(username, password) {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Connection for ' + username); }
-    socket = io.connect('//' + Config.environment.host + Config.environment.port, { "query": { "name": username, "pass": password } });
-    return socket;
+export function getAspectRatio(x, y) {
+  let ratio = x / y
+  return {
+    width : ratio * 100,
+    height: 100
+  }
 }
 
-export function emitSocketPlayerQueryEvent() {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Query'); }
-    socket.emit('query', { type: 'player' });
+export function getRowsSliceBoundaries(y, rows, row) {
+  let start = y - rows
+  let end   = y + rows
+  if (start < 0) {
+    end   = end - start
+    start = 0
+  } else if (end > row) {
+    start = start - (end - row)
+    end   = row
+  }
+
+  return {
+    start: start,
+    end  : end + 1
+  }
 }
 
-export function emitPlayerEnter(id) {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Enter'); }
-    socket.emit('enter', { id: id });
-}
+export function getCellsSliceBoundaries(x, cells, cell) {
+  let start = x - cells
+  let end   = x + cells
+  if (start < 0) {
+    end   = end - start
+    start = 0
+  } else if (end > cell) {
+    start = start - (end - cell)
+    end   = cell
+  }
 
-export function emitPlayerLeave(id) {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Leave'); }
-    socket.emit('leave', { id: id });
-}
-
-export function emitPlayerSay(id, message) {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Say'); }
-    socket.emit('say', { id: id, message: message });
-}
-
-export function emitPlayerMove(id, x, y) {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Move (' + x + ',' + y + ')'); }
-    socket.emit('move', { id: id, x: x, y: y });
-}
-
-export function emitPlayerInvestigate(id, x, y) {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Investigate (' + x + ',' + y + ')'); }
-    socket.emit('investigate', { id: id, x: x, y: y });
-}
-
-export function emitPlayerHarvest(id, x, y) {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Player Harvest (' + x + ',' + y + ')'); }
-    socket.emit('harvest', { id: id, x: x, y: y });
-}
-
-export function emitSocketCyclingQueryEvent() {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Cycling Query'); }
-    socket.emit('query', { type: 'cycling' });
-}
-
-export function emitSocketRegionQueryEvent(id) {
-    if (Config.environment.isVerbose()) { console.log('[WebSocket] Emit Region Query for ' + id); }
-    socket.emit('query', { type: 'region', id: id });
+  return {
+    start: start,
+    end  : end + 1
+  }
 }

@@ -2,68 +2,42 @@ import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
 import Row from './../components/Row';
+import {getAspectRatio, getRowsSliceBoundaries, getCellsSliceBoundaries} from '../helpers/region';
 
 class Region extends Component {
     render() {
         const {region, player} = this.props
 
+        let maxRow, maxRows, maxCell, maxCells, playerX, playerY = 0
         let playerRegion = player.get('data').region
         let regionRows   = region.get('rows')
-
-        let sliceStartX = 0;
-        let sliceStartY = 0;
-        let sliceEndX = 0;
-        let sliceEndY = 0;
-        let width, height;
-
         if (playerRegion && regionRows) {
-            let playerX = playerRegion.x;
-            let playerY = playerRegion.y;
-            let maxX = region.get('maxX') - 1;
-            let maxY = region.get('maxY') - 1;
-            let sizeX = region.get('viewportCols');
-            let sizeY = region.get('viewportRows');
-            sliceStartX = playerX - sizeX;
-            sliceStartY = playerY - sizeY;
-            sliceEndX = playerX + sizeX;
-            sliceEndY = playerY + sizeY;
-
-            if (sliceStartX < 0) {
-                sliceEndX = sliceEndX - sliceStartX;
-                sliceStartX = 0;
-            } else if (sliceEndX > maxX) {
-                sliceStartX = sliceStartX - (sliceEndX - maxX);
-                sliceEndX = maxX;
-            }
-
-            if (sliceStartY < 0) {
-                sliceEndY = sliceEndY - sliceStartY;
-                sliceStartY = 0;
-            } else if (sliceEndY > maxY) {
-                sliceStartY = sliceStartY - (sliceEndY - maxY);
-                sliceEndY = maxY;
-            }
-
-            let ratio = sizeX / sizeY;
-            width     = ratio * 100;
-            height    = 100;
+            maxRow  = region.get('rowCount') - 1
+            maxCell = region.get('cellCount') - 1
+            maxCells    = region.get('maxCells')
+            maxRows     = region.get('maxRows')
+            playerX     = playerRegion.x
+            playerY     = playerRegion.y
         }
 
+        let aspectRatio        = getAspectRatio((maxCells+1), (maxRows+1))
+        let rowSliceBoundaries = getRowsSliceBoundaries(playerY, maxRows, maxRow)
+        let celSliceBoundaries = getCellsSliceBoundaries(playerX, maxCells, maxCell)
         return (
-            <section className="region" style={{width: width + 'vmin', height: height + 'vmin'}}>
+            <section className="region" style={{width: aspectRatio.width + 'vmin', height: aspectRatio.height + 'vmin'}}>
                 <div className={['cycle', 'cycle--' + region.get('cycle')].join(' ')}></div>
-                {region.get('rows').slice(sliceStartY, sliceEndY + 1).map(function(row, index) {
+                {region.get('rows').slice(rowSliceBoundaries.start, rowSliceBoundaries.end).map(function(row, index) {
                     return (<Row
                         key   = {'row-' + index}
-                        cells = {row.slice(sliceStartX, sliceEndX + 1)}
-                    />);
+                        cells = {row.slice(celSliceBoundaries.start, celSliceBoundaries.end)}
+                    />)
                 })}
             </section>
-        );
+        )
 
     }
 }
-5
+
 Region.contextTypes = {
     store: PropTypes.object.isRequired
 }
@@ -80,4 +54,4 @@ function mapStateToProps(state) {
     }
 }
 
-export default connect(mapStateToProps)(Region);
+export default connect(mapStateToProps)(Region)

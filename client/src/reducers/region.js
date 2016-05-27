@@ -14,10 +14,10 @@ const initialState = fromJS({
         items: []
     },
     rows: [],
-    maxX: 0,
-    maxY: 0,
-    viewportCols: 0,
-    viewportRows: 0
+    rowCount : 0,
+    cellCount: 0,
+    maxRows  : 0,
+    maxCells : 0
 });
 
 const region = (state = initialState, action) => {
@@ -58,17 +58,17 @@ const region = (state = initialState, action) => {
             nextState = fromJS(state).merge({
                 data: action.payload,
                 rows: nextRows,
-                maxX: nextRows[0].length,
-                maxY: nextRows.length
+                rowCount: nextRows.length,
+                cellCount: nextRows[0].length
             });
             break;
         case types.WINDOW_RESIZE_EVENT_RECEIVED:
             //@TODO Fix with real tile sizes
-            let viewportCols = Math.floor((((action.payload.width) / 32) / 4));
-            let viewportRows = Math.floor((((action.payload.height) / 32) / 4));
+            let maxRows  = Math.floor((((action.payload.width) / 32) / 4));
+            let maxCells = Math.floor((((action.payload.height) / 32) / 4));
             nextState = fromJS(state).merge({
-                viewportCols: viewportCols,
-                viewportRows: viewportRows
+                maxRows : maxRows,
+                maxCells: maxCells
             });
             break;
         default:
