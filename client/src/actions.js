@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import Config from './config';
 import * as types from './constants/ActionTypes'
 import Store from './store'
@@ -202,7 +203,7 @@ function unbindKeys() {
 }
 
 function bindKeys() {
-    document.addEventListener('keyup', function(e) {
+    document.addEventListener('keyup', _.debounce(function(e) {
         let focusedElement = document.querySelector(":focus");
         if (!focusedElement || 'console-input' !== focusedElement.id) {
             if (Config.environment.isVerbose()) { console.log('[KeyUp    ] ' + e.keyCode); }
@@ -330,7 +331,7 @@ function bindKeys() {
                     break;
             }
         }
-    });
+    }, Config.debounce.keyUp, Config.debounce.options));
 }
 
 function unbindWindowResizeEvent() {
@@ -338,8 +339,8 @@ function unbindWindowResizeEvent() {
 }
 
 function bindWindowResizeEvent() {
-    window.addEventListener('resize', function(e) {
+    window.addEventListener('resize', _.debounce(function(e) {
         if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.WINDOW_RESIZE_EVENT_RECEIVED); }
         dispatch({type: types.WINDOW_RESIZE_EVENT_RECEIVED, payload: {width: window.innerWidth, height:window.innerHeight} });
-    });
+    }, Config.debounce.windowResize, Config.debounce.options));
 }

@@ -28,6 +28,7 @@
     "howler": "^1.1.29",
     "http-auth": "^2.2.8",
     "immutable": "^3.7.6",
+    "lodash": "^4.13.1",
     "node-sass": "^3.4.2",
     "parallelshell": "^2.0.0",
     "pm2": "^1.0.2",
