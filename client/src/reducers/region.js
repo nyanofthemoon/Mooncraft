@@ -63,8 +63,9 @@ const region = (state = initialState, action) => {
             });
             break;
         case types.WINDOW_RESIZE_EVENT_RECEIVED:
-            let viewportRows = Math.floor(Math.floor(((action.payload.width  + 24) / 32)) / 4);
-            let viewportCols = Math.floor(Math.floor(((action.payload.height + 24) / 32)) / 4);
+            //@TODO Fix with real tile sizes
+            let viewportCols = Math.floor((((action.payload.width) / 32) / 4));
+            let viewportRows = Math.floor((((action.payload.height) / 32) / 4));
             nextState = fromJS(state).merge({
                 viewportCols: viewportCols,
                 viewportRows: viewportRows

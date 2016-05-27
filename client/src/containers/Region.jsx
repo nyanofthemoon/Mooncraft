@@ -17,12 +17,12 @@ class Region extends Component {
         let width, height;
 
         if (playerRegion && regionRows) {
-            let playerX = playerRegion.x
-            let playerY = playerRegion.y
-            let maxX = region.get('maxX')
-            let maxY = region.get('maxY')
-            let sizeX = region.get('viewportRows')
-            let sizeY = region.get('viewportCols')
+            let playerX = playerRegion.x;
+            let playerY = playerRegion.y;
+            let maxX = region.get('maxX') - 1;
+            let maxY = region.get('maxY') - 1;
+            let sizeX = region.get('viewportCols');
+            let sizeY = region.get('viewportRows');
             sliceStartX = playerX - sizeX;
             sliceStartY = playerY - sizeY;
             sliceEndX = playerX + sizeX;
