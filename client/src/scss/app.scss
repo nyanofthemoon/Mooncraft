@@ -160,8 +160,6 @@ button {
 
   display         : flex;
   flex-direction  : column;
-  width           : 100vmin;
-  height          : 100vmin;
   margin          : auto;
   background-color: black;
 
@@ -169,11 +167,9 @@ button {
 
     display: flex;
     flex-direction: row;
-    flex: 1;
 
     &__tile {
       position       : relative;
-      flex           : 1;
       background     : url(/img/tiles/void.gif);
       background-size: cover;
       z-index        : 10;

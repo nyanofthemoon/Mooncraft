@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react'
 import {connect} from 'react-redux'
 
-import Config from './../config';
+import Config from './../config'
 import Node from './Node'
 import Player from './Player'
 import Character from './Character'
@@ -28,7 +28,7 @@ class Tile extends Component {
             info = this.props.x + 'x' + this.props.y
         }
 
-        return (<div className="region__row__tile" style={{backgroundImage: 'url(/img/tiles/' + this.props.data.get('icon')+')', border: border}}>
+        return (<div className="region__row__tile" style={{width: this.props.size, height: this.props.size, backgroundImage: 'url(/img/tiles/' + this.props.data.get('icon')+')', border: border}}>
             <Node data={this.props.node}/>
             {playerComponent}
             {list.map(function(character, index) {
@@ -46,6 +46,7 @@ Tile.contextTypes = {
 Tile.propTypes = {
     x    : PropTypes.string.isRequired,
     y    : PropTypes.string.isRequired,
+    size : PropTypes.number.isRequired,
     data : PropTypes.object.isRequired,
     node : PropTypes.object.isRequired,
     items: PropTypes.array

@@ -24,6 +24,21 @@ export default {
             return sound;
         }
     },
+    graphic: {
+        viewport: {
+            size: {
+                small : (640*480),
+                medium: (800*600)
+            }
+        },
+        tile: {
+            size: {
+                small : 32,
+                medium: 48,
+                large : 64
+            }
+        }
+    },
     player: {
         mustFaceDirectionBeforeMoving: function() {
             return rotation;
@@ -41,10 +56,17 @@ export default {
         }
     },
     debounce: {
-        keyUp       : 100,
-        windowResize: 250,
-        options     : {
-            leading: true
+        keyUp       : {
+            interval: 100,
+            options : {
+                leading: true
+            }
+        },
+        windowResize: {
+            interval: 500,
+            options : {
+                leading: false
+            }
         }
     }
 };

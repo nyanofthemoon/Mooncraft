@@ -340,12 +340,14 @@ function bindKeys() {
             default:
                 break;
         }
-    }, Config.debounce.keyUp, Config.debounce.options));
+    }, Config.debounce.keyUp.interval, Config.debounce.keyUp.options));
 }
 
 function bindWindowResizeEvent() {
     window.addEventListener('resize', _.debounce(function(e) {
         if (Config.environment.isVerbose()) { console.log('[Action   ] Run ' + types.WINDOW_RESIZE_EVENT_RECEIVED); }
-        dispatch({type: types.WINDOW_RESIZE_EVENT_RECEIVED, payload: {width: window.innerWidth, height:window.innerHeight} });
-    }, Config.debounce.windowResize, Config.debounce.options));
+        let width = window.innerWidth   || document.documentElement.clientWidth  || document.body.clientWidth;
+        let height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        dispatch({type: types.WINDOW_RESIZE_EVENT_RECEIVED, payload: {width: width, height:height} });
+    }, Config.debounce.windowResize.interval, Config.debounce.windowResize.options));
 }

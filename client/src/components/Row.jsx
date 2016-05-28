@@ -4,6 +4,7 @@ import Tile from './Tile'
 
 class Row extends Component {
     render() {
+        let that = this;
         return (
             <div className="region__row">
                 {this.props.cells.map(function(cell, index) {
@@ -11,6 +12,7 @@ class Row extends Component {
                         key   = {'tile-' + index}
                         x     = {cell.getIn(['coordinates','x'])}
                         y     = {cell.getIn(['coordinates','y'])}
+                        size = {that.props.size}
                         data  = {cell.getIn(['tile','data'])}
                         node  = {cell.getIn(['node','data'])}
                         items = {cell.getIn(['items','data'])}
@@ -22,6 +24,7 @@ class Row extends Component {
 }
 
 Row.propTypes = {
+    size : PropTypes.number.isRequired,
     cells: PropTypes.object.isRequired
 }
 
