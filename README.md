@@ -11,7 +11,7 @@ Status: Player and Region interaction is in progress.
 
 ### Demo
 
-[Play MoonCraft](https://mooncraft.protolicio.us/)
+[Play MoonCraft](https://mooncraft.herokuapp.com/)
 
 ### Action
 
